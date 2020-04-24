@@ -1,5 +1,5 @@
 {
-  "name": "universal_bot",
+  "name": "universal_bot/mm",
   "description": "Universal bot(vk, telegram, viber) or skills for Yandex.Alisa",
   "keywords": ["vk","telegram","Alisa","Yandex","PHP","Dialogs","api","viber"],
   "type": "library",
