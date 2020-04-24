@@ -1,0 +1,33 @@
+{
+  "name": "Maxim-M Universal bot",
+  "description": "Universal bot(vk, telegram) or skills for Yandex.Alisa",
+  "keywords": [
+    "vk",
+    "telegram",
+    "Alisa",
+    "Yandex",
+    "PHP",
+    "Dialogs",
+    "api"
+  ],
+  "type": "library",
+  "homepage": "https://www.maxim-m.ru",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Maxim-M",
+      "homepage": "https://github.com/max36895/"
+    }
+  ],
+  "require": {
+    "php": ">=7.2"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^6"
+  },
+  "autoload": {
+    "psr-4": {
+      "MM\\": "src/MM"
+    }
+  }
+}
