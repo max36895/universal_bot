@@ -58,6 +58,8 @@ class Card
     }
 
     /**
+     * Вставить элемент в каточку|список
+     *
      * @param string|null $image : Идентификатор или расположение картинки
      * @param string $title : Заголовок для картинки
      * @param string $desc : Описание для картинки
@@ -74,7 +76,7 @@ class Card
     /**
      * Получить все элементы типа карточка
      *
-     * @param TemplateCardTypes|null $userCard
+     * @param TemplateCardTypes|null $userCard : Пользовательский класс для отображения каточки
      * @return array
      */
     public function getCards($userCard = null): array
