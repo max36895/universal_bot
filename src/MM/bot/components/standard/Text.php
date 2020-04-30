@@ -19,14 +19,18 @@ class Text
     /**
      * Обрезает текст до необходимого количества символов
      *
-     * @param string $text : Исходный текст
+     * @param string|null $text : Исходный текст
      * @param int $size : Максимальный размер текста
      * @return string
      */
-    public static function resize(string $text, int $size = 950): string
+    public static function resize(?string $text, int $size = 950): string
     {
-        if (mb_strlen($text, 'utf-8') > $size) {
-            $text = (mb_substr($text, 0, $size) . '...');
+        if ($text !== null) {
+            if (mb_strlen($text, 'utf-8') > $size) {
+                $text = (mb_substr($text, 0, $size) . '...');
+            }
+        } else {
+            $text = '';
         }
         return $text;
     }
