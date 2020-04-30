@@ -165,9 +165,9 @@ class Bot
                     $userData->type = $type;
                 }
 
-                $sql = "`user_id`=\"{$userData->escapeString($this->botController->userId)}\"";
+                $sql = "`userId`=\"{$userData->escapeString($this->botController->userId)}\"";
                 if ($this->auth) {
-                    $sql = "`user_id`=\"{$userData->escapeString($this->botController->userToken)}\"";
+                    $sql = "`userId`=\"{$userData->escapeString($this->botController->userToken)}\"";
                 }
 
                 $isNew = true;
