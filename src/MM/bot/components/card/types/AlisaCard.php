@@ -86,7 +86,7 @@ class AlisaCard extends TemplateCardTypes
                             $item['image_id'] = $image->imageToken;
                         }
                         if ($button) {
-                            $item['button'] = $button;
+                            $item['button'] = $button[0];
                         }
                         $items[] = $item;
                     }
