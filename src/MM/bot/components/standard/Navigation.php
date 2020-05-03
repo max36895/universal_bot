@@ -210,10 +210,10 @@ class Navigation
                             }
                         }
                     } else {
-                        if (isset($elements[$i][$key])) {
-                            $r = Text::textSimilarity($elements[$i][$key], $text, 75);
+                        if (isset($this->elements[$i][$key])) {
+                            $r = Text::textSimilarity($this->elements[$i][$key], $text, 75);
                             if ($r['status'] && $r['percent'] > $maxPercent) {
-                                $selectElement = $elements[$i];
+                                $selectElement = $this->elements[$i];
                             }
                         }
                     }
