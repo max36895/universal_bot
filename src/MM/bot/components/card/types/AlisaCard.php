@@ -33,7 +33,7 @@ class AlisaCard extends TemplateCardTypes
         $this->button->type = Buttons::T_ALISA_CARD_BUTTON;
         $countImage = count($this->images);
         if ($countImage) {
-            if ($countImage === 1 || $isOne) {
+            if ($isOne) {
                 $button = $this->images[0]->button->getButtons(Buttons::T_ALISA_CARD_BUTTON);
                 if (!count($button)) {
                     $button = $this->button->getButtons();
