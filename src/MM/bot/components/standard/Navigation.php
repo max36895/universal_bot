@@ -218,7 +218,7 @@ class Navigation
                         }
                     }
                 }
-
+                $index++;
                 if ($maxPercent > 98) {
                     return $selectElement;
                 }
