@@ -21,12 +21,16 @@ class Text
      *
      * @param string|null $text : Исходный текст
      * @param int $size : Максимальный размер текста
+     * @param bool $isEllipsis : Если true, тогда в конце добавится твоеточие. Иначе текст просто обрежется
      * @return string
      */
-    public static function resize(?string $text, int $size = 950): string
+    public static function resize(?string $text, int $size = 950, bool $isEllipsis = true): string
     {
         if ($text !== null) {
             if (mb_strlen($text, 'utf-8') > $size) {
+                if ($isEllipsis) {
+                    $size -= 3;
+                }
                 $text = (mb_substr($text, 0, $size) . '...');
             }
         } else {
