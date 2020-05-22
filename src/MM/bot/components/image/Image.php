@@ -75,7 +75,7 @@ class Image
             $this->desc = $desc;
             if ($button) {
                 if (is_string($button)) {
-                    $this->button->addBtn($button, '', $button);
+                    $this->button->addBtn($button);
                 } else {
                     $title = ($button['text'] ?? ($button[0] ?? null));
                     $url = ($button['link'] ?? ($button[1] ?? null));

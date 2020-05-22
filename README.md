@@ -286,7 +286,7 @@ string $type: Тип кнопок(кнопка в Алисе, кнопка в к
 // Подключение файла с логикой
 require_once __DIR__ . '/controller/ExampleController.php';
 
-bot = new \bot\core\Bot(); // Создание класса приложения
+$bot = new \bot\core\Bot(); // Создание класса приложения
 $bot->initTypeInGet(); // Получение типа приложения через get параметр type
 $bot->initConfig([]); // Инициализация конфигурации приложения. Подключение к базе данных и прописывание путей к логам и сохраняемым данным.
 $bot->initParams([]); // Инициализация параметров приложения. Обрабатываемые команды, токены и тд.
@@ -697,7 +697,7 @@ acme.sh --install-cert -d {{domain}} --key-file {{key file}} --fullchain-file {{
 Смотри на сайте [ngroc](https://ngrok.com/download)
 ## Запуск
 ```bash
-ngrok http -host-header=rewrite <domain>:port
+ngrok http --host-header=rewrite <domain>:port
 ```
 1. domain - локальный адрес сайта. Важно сайт должен быть доступен на машине! (Прописан в hosts)
 2. port - Порт для подключения. Для бесплатного аккаунта нельзя использовать 443 порт
@@ -720,7 +720,7 @@ ngrok http -host-header=rewrite <domain>:port
 // Подключение файла с логикой
 require_once __DIR__ . '/controller/ExampleController.php';
 
-bot = new \bot\core\Bot(); // Создание класса приложения
+$bot = new \bot\core\Bot(); // Создание класса приложения
 $bot->initTypeInGet(); // Получение типа приложения через get параметр type
 $bot->initConfig([]); // Инициализация конфигурации приложения. Подключение к базе данных и прописывание путей к логам и сохраняемым данным.
 $bot->initParams([]); // Инициализация параметров приложения. Обрабатываемые команды, токены и тд.

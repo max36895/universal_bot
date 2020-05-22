@@ -39,20 +39,18 @@ class AlisaButton extends TemplateButtonTypes
         $objects = [];
         if ($this->isCard) {
             foreach ($this->buttons as $button) {
-                if ($button->payload || $button->url) {
-                    $text = Text::resize($button->title, 64);
-                    if ($text) {
-                        $object = [
-                            'text' => $text,
-                        ];
-                        if ($button->payload) {
-                            $object['payload'] = $button->payload;
-                        }
-                        if ($button->url) {
-                            $object['url'] = Text::resize($button->url, 1024);
-                        }
-                        $objects[] = $object;
+                $text = Text::resize($button->title, 64);
+                if ($text) {
+                    $object = [
+                        'text' => $text,
+                    ];
+                    if ($button->payload) {
+                        $object['payload'] = $button->payload;
                     }
+                    if ($button->url) {
+                        $object['url'] = Text::resize($button->url, 1024);
+                    }
+                    $objects[] = $object;
                 }
             }
         } else {
