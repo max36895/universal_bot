@@ -9,11 +9,12 @@
 namespace MM\bot\models;
 
 use MM\bot\components\standard\Text;
-use MM\bot\core\api\TelegramRequest;
-use MM\bot\core\api\VkRequest;
-use MM\bot\core\api\YandexSoundRequest;
+use MM\bot\api\TelegramRequest;
+use MM\bot\api\VkRequest;
+use MM\bot\api\YandexSoundRequest;
 use MM\bot\core\mmApp;
 use MM\bot\models\db\Model;
+use mysqli_result;
 
 /**
  * Class SoundTokens
@@ -53,7 +54,7 @@ class SoundTokens extends Model
     /**
      * Создание таблицы бд для хранения загруженных звуков
      *
-     * @return bool|\mysqli_result|null
+     * @return bool|mysqli_result|null
      */
     public function createTable()
     {
@@ -72,7 +73,7 @@ class SoundTokens extends Model
     /**
      * Удаление таблицы бд для хранения загруженных звуков
      *
-     * @return bool|\mysqli_result|null
+     * @return bool|mysqli_result|null
      */
     public function dropTable()
     {

@@ -6,10 +6,10 @@
  * Time: 13:47
  */
 
-namespace MM\bot\core\api;
+namespace MM\bot\api;
 
 
-use MM\bot\core\api\request\Request;
+use MM\bot\api\request\Request;
 use MM\bot\core\mmApp;
 
 /**
@@ -32,7 +32,7 @@ class YandexRequest
      * О том как получить авторизационный токен сказано тут:
      * @see (https://yandex.ru/dev/dialogs/alice/doc/resource-upload-docpage/#http-images-load__auth)
      */
-    private $oauth;
+    protected $oauth;
     protected $error;
 
     /**

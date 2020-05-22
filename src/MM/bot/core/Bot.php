@@ -45,11 +45,20 @@ class Bot
         $this->auth = null;
         $this->content = file_get_contents('php://input');
 
-        if (function_exists('getallheaders')) {
-            $header = getallheaders();
-        } else {
-            $header = [];
+        if (!function_exists('getallheaders')) {
+            function getallheaders(): array
+            {
+                $headers = [];
+                foreach ($_SERVER as $name => $value) {
+                    if (substr($name, 0, 5) == 'HTTP_') {
+                        $headers[str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))))] = $value;
+                    }
+                }
+                return $headers;
+            }
         }
+
+        $header = getallheaders();
         if (isset($header['Authorization'])) {
             $this->auth = str_replace('Bearer ', '', $header['Authorization']);
         }

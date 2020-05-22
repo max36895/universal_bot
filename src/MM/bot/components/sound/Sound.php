@@ -41,7 +41,7 @@ class Sound
      * Получить корректно поставленные звуки в текст
      *
      * @param string $text : Исходный текст
-     * @param TemplateSoundTypes|null $userSound: Пользовательский класс для обработки звуков
+     * @param TemplateSoundTypes|null $userSound : Пользовательский класс для обработки звуков
      * @return string|array
      */
     public function getSounds($text, $userSound = null)

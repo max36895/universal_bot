@@ -9,7 +9,7 @@
 namespace MM\bot\components\sound\types;
 
 use MM\bot\components\standard\Text;
-use MM\bot\core\api\ViberRequest;
+use MM\bot\api\ViberRequest;
 use MM\bot\core\mmApp;
 
 /**

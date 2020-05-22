@@ -8,13 +8,16 @@
 
 namespace MM\bot\models\db;
 
+use Exception;
 use MM\bot\core\mmApp;
+use mysqli;
+use mysqli_result;
 
 /**
  * Class DB
  * @package bot\models\db
  *
- * @property \mysqli $sql: Подключение к базе данных
+ * @property mysqli $sql: Подключение к базе данных
  * @property array $errors: Ошибки при выполнении запросов
  * @property array $params: параметры для конфигурации. имеют следующие поля:
  *  - @var string host: Местоположение базы данных
@@ -48,7 +51,7 @@ class DB
         $this->errors = [];
         if ($this->params) {
             $this->close();
-            $this->sql = new \mysqli($this->params['host'], $this->params['user'], $this->params['pass'], $this->params['database']);
+            $this->sql = new mysqli($this->params['host'], $this->params['user'], $this->params['pass'], $this->params['database']);
             if (!$this->sql->connect_errno) {
                 $this->sql->query('SET NAMES utf8mb4');
                 $this->sql->query('SET CHARACTER SET utf8mb4');
@@ -81,7 +84,7 @@ class DB
 
 if (!isset($vDB)) {
     /**
-     * @var DB $vDB : Переменная с коннектом к базе данных. Нужна для того, чтобы не было дополнительных подключений к базе
+     * Переменная с коннектом к базе данных. Нужна для того, чтобы не было дополнительных подключений к базе
      */
     $vDB = new DB();
 }
@@ -131,7 +134,7 @@ class Sql
             }
             try {
                 return $this->connect();
-            } catch (\Exception $exception) {
+            } catch (Exception $exception) {
                 echo $exception;
             }
         }
@@ -192,7 +195,7 @@ class Sql
      * Выполнение запроса к базе данных
      *
      * @param string $sql : Текст запроса
-     * @return \mysqli_result|boolean|null
+     * @return mysqli_result|boolean|null
      */
     public function query(string $sql)
     {
@@ -202,7 +205,7 @@ class Sql
             if ($status === false) {
                 try {
                     $this->saveLog($vDB->sql->error);
-                } catch (\Exception $exception) {
+                } catch (Exception $exception) {
                     return null;
                 }
             } else {

@@ -9,7 +9,7 @@
 namespace MM\bot\components\card\types;
 
 
-use MM\bot\core\api\TelegramRequest;
+use MM\bot\api\TelegramRequest;
 use MM\bot\core\mmApp;
 use MM\bot\models\ImageTokens;
 

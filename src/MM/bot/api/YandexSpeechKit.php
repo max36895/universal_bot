@@ -6,7 +6,7 @@
  * Time: 13:02
  */
 
-namespace MM\bot\core\api;
+namespace MM\bot\api;
 
 
 use MM\bot\core\mmApp;
@@ -159,7 +159,6 @@ class YandexSpeechKit extends YandexRequest
         $this->request->url = self::TTS_API_URL;
         $this->request->isConvertJson = false;
         $this->initPost();
-        $query = $this->call();
-        return $query;
+        return $this->call();
     }
 }

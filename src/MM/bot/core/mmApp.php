@@ -13,11 +13,11 @@ defined('IS_SAVE_DB') or define('IS_SAVE_DB', false); // Если true, тогд
 defined('T_ALISA') or define('T_ALISA', 'alisa');           // Используется Алиса
 defined('T_VK') or define('T_VK', 'vk');                    // Используется vk бот
 defined('T_TELEGRAM') or define('T_TELEGRAM', 'telegram');  // Используется telegram бот
-defined('T_VIBER') or define('T_VIBER', 'viber');        // Используется viber бот
-defined('T_USER_APP') or define('T_USER_APP', 'user_application');        // Используется пользовательский тип приложения
+defined('T_VIBER') or define('T_VIBER', 'viber');           // Используется viber бот
+defined('T_USER_APP') or define('T_USER_APP', 'user_application');  // Используется пользовательский тип приложения
 
 defined('WELCOME_INTENT_NAME') or define('WELCOME_INTENT_NAME', 'welcome'); // Название интенат для приветствия
-defined('HELP_INTENT_NAME') or define('HELP_INTENT_NAME', 'help'); // Название интента для помощи
+defined('HELP_INTENT_NAME') or define('HELP_INTENT_NAME', 'help');          // Название интента для помощи
 
 /**
  * Class mmApp
@@ -94,7 +94,7 @@ class mmApp
         /**
          * @var bool: Актуально для Алисы!
          * Использовать в качестве идентификатора пользователя Id в поле session->user.
-         * Если true, то для всех пользователей, которые авторизованы в Янждекс будет использоваться один токен, а не разный.
+         * Если true, то для всех пользователей, которые авторизованы в Яндекс будет использоваться один токен, а не разный.
          */
         'y_isAuthUser' => false,
 

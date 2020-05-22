@@ -9,6 +9,7 @@
 namespace MM\bot\models;
 
 use MM\bot\models\db\Model;
+use mysqli_result;
 
 /**
  * Class UsersData
@@ -50,7 +51,7 @@ class UsersData extends Model
     /**
      * Создание таблицы бд для хранения пользовательских данных
      *
-     * @return bool|\mysqli_result|null
+     * @return bool|mysqli_result|null
      */
     public function createTable()
     {
@@ -67,7 +68,7 @@ class UsersData extends Model
     /**
      * Удаление таблицы бд для хранения пользовательских данных
      *
-     * @return bool|\mysqli_result|null
+     * @return bool|mysqli_result|null
      */
     public function dropTable()
     {

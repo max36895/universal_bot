@@ -11,7 +11,7 @@ namespace MM\bot\core\types;
 
 use MM\bot\components\button\Buttons;
 use MM\bot\controller\BotController;
-use MM\bot\core\api\ViberRequest;
+use MM\bot\api\ViberRequest;
 use MM\bot\core\mmApp;
 
 /**
@@ -75,15 +75,7 @@ class Viber extends TemplateTypeModel
                         $this->controller->messageId = 0;
 
                         mmApp::$params['viber_api_version'] = $content['user']['api_version'] ?? 2;
-                        $name = explode(' ', $content['sender']['name'] ?? '');
-                        $thisUser = [
-                            'thisUser' => [
-                                'username' => $name[0] ?? null,
-                                'first_name' => $name[1] ?? null,
-                                'last_name' => $name[2] ?? null,
-                            ]
-                        ];
-                        $this->controller->nlu->setNlu($thisUser);
+                        $this->setNlu($content['sender']['name'] ?? '');
                         return true;
                         break;
                     case 'message':
@@ -95,15 +87,7 @@ class Viber extends TemplateTypeModel
 
                         mmApp::$params['viber_api_version'] = $content['sender']['api_version'] ?? 2;
 
-                        $name = explode(' ', $content['sender']['name'] ?? '');
-                        $thisUser = [
-                            'thisUser' => [
-                                'username' => $name[0] ?? null,
-                                'first_name' => $name[1] ?? null,
-                                'last_name' => $name[2] ?? null,
-                            ]
-                        ];
-                        $this->controller->nlu->setNlu($thisUser);
+                        $this->setNlu($content['sender']['name'] ?? '');
                         return true;
                         break;
                 }
@@ -112,6 +96,24 @@ class Viber extends TemplateTypeModel
             $this->error = 'Viber:init(): Отправлен пустой запрос!';
         }
         return false;
+    }
+
+    /**
+     * Заполнение nlu
+     *
+     * @param $userName - Имя пользователя
+     */
+    protected function setNlu($userName): void
+    {
+        $name = explode(' ', $userName);
+        $thisUser = [
+            'thisUser' => [
+                'username' => $name[0] ?? null,
+                'first_name' => $name[1] ?? null,
+                'last_name' => $name[2] ?? null,
+            ]
+        ];
+        $this->controller->nlu->setNlu($thisUser);
     }
 
     /**

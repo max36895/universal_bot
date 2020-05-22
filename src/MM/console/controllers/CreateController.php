@@ -6,7 +6,7 @@
  * Time: 11:02
  */
 
-namespace console\controllers;
+namespace MM\console\controllers;
 
 
 class CreateController

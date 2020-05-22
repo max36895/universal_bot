@@ -7,6 +7,6 @@
  */
 require_once __DIR__ . '/controllers/ConsoleController.php';
 
-$console = new \console\controllers\ConsoleController();
+$console = new MM\console\controllers\ConsoleController();
 MM\bot\core\mmApp::setConfig(include __DIR__ . '/config/config.php');
 $console->run($argv);

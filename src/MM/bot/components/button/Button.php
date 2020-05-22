@@ -112,7 +112,7 @@ class Button
      *
      * @param string $title : Текст на кнопке
      * @param string|null $url : Ссылка для перехода, при нажатии кнопки
-     * @param string|array|null $payload : Произвольные данные, отправляемые при нажатае кнопки
+     * @param string|array|null $payload : Произвольные данные, отправляемые при нажатии кнопки
      * @return bool
      */
     public function initBtn($title, $url = '', $payload = null): bool

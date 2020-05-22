@@ -9,11 +9,12 @@
 namespace MM\bot\models;
 
 use MM\bot\components\standard\Text;
-use MM\bot\core\api\TelegramRequest;
-use MM\bot\core\api\VkRequest;
-use MM\bot\core\api\YandexImageRequest;
+use MM\bot\api\TelegramRequest;
+use MM\bot\api\VkRequest;
+use MM\bot\api\YandexImageRequest;
 use MM\bot\core\mmApp;
 use MM\bot\models\db\Model;
+use mysqli_result;
 
 /**
  * Class ImageTokens
@@ -23,7 +24,7 @@ use MM\bot\models\db\Model;
  *
  * @property string $imageToken: Идентификатор/токен картинки
  * @property string $path: Расположение картинки (url/директория)
- * @property string $type: Тип приложения, для которого заружена картинка
+ * @property string $type: Тип приложения, для которого загружена картинка
  * @property string $caption: Описание картинки (Не обязательное поле)
  */
 class ImageTokens extends Model
@@ -53,7 +54,7 @@ class ImageTokens extends Model
     /**
      * Создание таблицы бд для хранения загруженных картинок
      *
-     * @return bool|\mysqli_result|null
+     * @return bool|mysqli_result|null
      */
     public function createTable()
     {
@@ -72,7 +73,7 @@ class ImageTokens extends Model
     /**
      * Удаление таблицы бд для хранения загруженных картинок
      *
-     * @return bool|\mysqli_result|null
+     * @return bool|mysqli_result|null
      */
     public function dropTable()
     {

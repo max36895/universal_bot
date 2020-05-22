@@ -6,15 +6,15 @@
  * Time: 13:34
  */
 
-namespace console\controllers;
+namespace MM\console\controllers;
 
-require_once __DIR__.'/../../bot/components/standard/Text.php';
-require_once __DIR__.'/../../bot/core/mmApp.php';
-require_once __DIR__.'/../../bot/models/db/Sql.php';
-require_once __DIR__.'/../../bot/models/db/Model.php';
-require_once __DIR__.'/../../bot/models/ImageTokens.php';
-require_once __DIR__.'/../../bot/models/SoundTokens.php';
-require_once __DIR__.'/../../bot/models/UsersData.php';
+require_once __DIR__ . '/../../bot/components/standard/Text.php';
+require_once __DIR__ . '/../../bot/core/mmApp.php';
+require_once __DIR__ . '/../../bot/models/db/Sql.php';
+require_once __DIR__ . '/../../bot/models/db/Model.php';
+require_once __DIR__ . '/../../bot/models/ImageTokens.php';
+require_once __DIR__ . '/../../bot/models/SoundTokens.php';
+require_once __DIR__ . '/../../bot/models/UsersData.php';
 
 class ConsoleController
 {

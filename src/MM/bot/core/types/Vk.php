@@ -11,7 +11,7 @@ namespace MM\bot\core\types;
 
 use MM\bot\components\button\Buttons;
 use MM\bot\controller\BotController;
-use MM\bot\core\api\VkRequest;
+use MM\bot\api\VkRequest;
 use MM\bot\core\mmApp;
 
 /**

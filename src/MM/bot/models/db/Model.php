@@ -11,6 +11,7 @@ namespace MM\bot\models\db;
 
 use MM\bot\components\standard\Text;
 use MM\bot\core\mmApp;
+use mysqli_result;
 
 /**
  * Class Model
@@ -39,7 +40,7 @@ abstract class Model
     public abstract function rules(): array;
 
     /**
-     * Массив с полями таблицы, где ключ это название поля, а значени краткое описание.
+     * Массив с полями таблицы, где ключ это название поля, а значение краткое описание.
      * Для уникального ключа использовать значение ID
      *
      * @return array
@@ -201,7 +202,7 @@ abstract class Model
     /**
      * Выполняет запрос с поиском по уникальному ключу
      *
-     * @return bool|\mysqli_result|array|null
+     * @return bool|mysqli_result|array|null
      */
     public function selectOne()
     {
@@ -224,7 +225,7 @@ abstract class Model
      * Если значение уже есть в базе данных, то данные обновятся. Иначе добавляется новое значение.
      *
      * @param bool $isNew : Добавить новую запись в базу данных без поиска по ключу
-     * @return bool|\mysqli_result|null
+     * @return bool|mysqli_result|null
      */
     public function save($isNew = false)
     {
@@ -242,7 +243,7 @@ abstract class Model
     /**
      * Обновление значения в таблице
      *
-     * @return bool|\mysqli_result|null
+     * @return bool|mysqli_result|null
      */
     public function update()
     {
@@ -281,7 +282,7 @@ abstract class Model
     /**
      * Добавление значения в таблицу
      *
-     * @return bool|\mysqli_result|null
+     * @return bool|mysqli_result|null
      */
     public function add()
     {
@@ -321,7 +322,7 @@ abstract class Model
     /**
      * Удаление значения из таблицы
      *
-     * @return bool|\mysqli_result|null
+     * @return bool|mysqli_result|null
      */
     public function delete()
     {
@@ -355,7 +356,7 @@ abstract class Model
      *
      * @param string $where : Запрос к таблице
      * @param bool $isOne : Вывести только 1 результат. Используется только при поиске по файлу
-     * @return bool|\mysqli_result|array|null
+     * @return bool|mysqli_result|array|null
      */
     public function where($where = '1', bool $isOne = false)
     {
@@ -440,7 +441,7 @@ abstract class Model
      * Выполнение произвольного запрос к базе данных
      *
      * @param string $sql : Непосредственно запрос к бд
-     * @return bool|\mysqli_result|null
+     * @return bool|mysqli_result|null
      */
     public function query(string $sql)
     {

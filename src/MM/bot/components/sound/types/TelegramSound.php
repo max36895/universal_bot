@@ -9,8 +9,8 @@
 namespace MM\bot\components\sound\types;
 
 use MM\bot\components\standard\Text;
-use MM\bot\core\api\TelegramRequest;
-use MM\bot\core\api\YandexSpeechKit;
+use MM\bot\api\TelegramRequest;
+use MM\bot\api\YandexSpeechKit;
 use MM\bot\core\mmApp;
 use MM\bot\models\SoundTokens;
 

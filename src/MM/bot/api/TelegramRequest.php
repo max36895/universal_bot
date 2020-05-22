@@ -6,10 +6,10 @@
  * Time: 13:47
  */
 
-namespace MM\bot\core\api;
+namespace MM\bot\api;
 
 
-use MM\bot\core\api\request\Request;
+use MM\bot\api\request\Request;
 use MM\bot\core\mmApp;
 
 /**

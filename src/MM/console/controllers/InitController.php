@@ -6,7 +6,7 @@
  * Time: 10:54
  */
 
-namespace console\controllers;
+namespace MM\console\controllers;
 
 
 use MM\bot\models\ImageTokens;

@@ -6,7 +6,7 @@
  * Time: 13:19
  */
 
-namespace MM\bot\core\api\request;
+namespace MM\bot\api\request;
 
 /**
  * Class Request

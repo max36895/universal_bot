@@ -21,7 +21,7 @@ class Text
      *
      * @param string|null $text : Исходный текст
      * @param int $size : Максимальный размер текста
-     * @param bool $isEllipsis : Если true, тогда в конце добавится твоеточие. Иначе текст просто обрежется
+     * @param bool $isEllipsis : Если true, тогда в конце добавится троеточие. Иначе текст просто обрежется
      * @return string
      */
     public static function resize(?string $text, int $size = 950, bool $isEllipsis = true): string
@@ -133,7 +133,7 @@ class Text
      *
      * @return mixed
      */
-    public static function getEnding(int $num, array $titles, ?int $index = null): string
+    public static function getEnding(int $num, array $titles, ?int $index = null): ?string
     {
         if ($index !== null) {
             if (isset($titles[$index])) {
