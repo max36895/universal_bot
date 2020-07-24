@@ -27,6 +27,7 @@ require_once __DIR__ . '/components/button/Buttons.php';
 
 require_once __DIR__ . '/components/card/types/TemplateCardTypes.php';
 require_once __DIR__ . '/components/card/types/TelegramCard.php';
+require_once __DIR__ . '/components/card/types/MarusiaCard.php';
 require_once __DIR__ . '/components/card/types/AlisaCard.php';
 require_once __DIR__ . '/components/card/types/VkCard.php';
 require_once __DIR__ . '/components/card/types/ViberCard.php';
@@ -48,6 +49,7 @@ require_once __DIR__ . '/core/mmApp.php';
 require_once __DIR__ . '/core/Bot.php';
 require_once __DIR__ . '/core/types/TemplateTypeModel.php';
 require_once __DIR__ . '/core/types/Telegram.php';
+require_once __DIR__ . '/core/types/Marusia.php';
 require_once __DIR__ . '/core/types/Alisa.php';
 require_once __DIR__ . '/core/types/Viber.php';
 require_once __DIR__ . '/core/types/Vk.php';

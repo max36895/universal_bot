@@ -14,6 +14,7 @@ defined('T_ALISA') or define('T_ALISA', 'alisa');           // Использу�
 defined('T_VK') or define('T_VK', 'vk');                    // Используется vk бот
 defined('T_TELEGRAM') or define('T_TELEGRAM', 'telegram');  // Используется telegram бот
 defined('T_VIBER') or define('T_VIBER', 'viber');           // Используется viber бот
+defined('T_MARUSIA') or define('T_MARUSIA', 'marusia');     // Используется Маруся бот
 defined('T_USER_APP') or define('T_USER_APP', 'user_application');  // Используется пользовательский тип приложения
 
 defined('WELCOME_INTENT_NAME') or define('WELCOME_INTENT_NAME', 'welcome'); // Название интенат для приветствия

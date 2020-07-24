@@ -1,6 +1,6 @@
 {
   "name": "maxim-m.universal_bot",
-  "description": "Universal bot(vk, telegram) or skills for Yandex.Alisa",
+  "description": "Universal bot(vk, telegram) or skills for Yandex.Alisa, Маруся",
   "keywords": [
     "vk",
     "telegram",
@@ -8,7 +8,8 @@
     "Yandex",
     "PHP",
     "Dialogs",
-    "api"
+    "api",
+    "Маруся"
   ],
   "type": "library",
   "homepage": "https://www.maxim-m.ru",

@@ -1,7 +1,7 @@
 {
   "name": "universal_bot/mm",
-  "description": "Universal bot(vk, telegram, viber) or skills for Yandex.Alisa",
-  "keywords": ["vk","telegram","Alisa","Yandex","PHP","Dialogs","api","viber"],
+  "description": "Universal bot(vk, telegram, viber) or skills for Yandex.Alisa, Маруся",
+  "keywords": ["vk","telegram","Alisa","Yandex","PHP","Dialogs","api","viber", "Маруся"],
   "type": "library",
   "homepage": "https://www.maxim-m.ru",
   "license": "MIT",
