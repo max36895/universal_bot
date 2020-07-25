@@ -52,6 +52,7 @@ require_once __DIR__ . '/core/types/Alisa.php';
 require_once __DIR__ . '/core/types/Viber.php';
 require_once __DIR__ . '/core/types/Vk.php';
 
+require_once __DIR__ . '/models/db/DB.php';
 require_once __DIR__ . '/models/db/Sql.php';
 require_once __DIR__ . '/models/db/Model.php';
 require_once __DIR__ . '/models/ImageTokens.php';
