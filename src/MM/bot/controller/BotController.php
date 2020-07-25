@@ -171,7 +171,7 @@ abstract class BotController
         }
 
         $this->action($intent);
-        if ($this->tts === null && mmApp::$appType === T_ALISA) {
+        if ($this->tts === null && (mmApp::$appType === T_ALISA || mmApp::$appType === T_MARUSIA)) {
             $this->tts = $this->text;
         }
     }

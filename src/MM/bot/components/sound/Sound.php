@@ -65,6 +65,10 @@ class Sound
                 $sound = new ViberSound();
                 break;
 
+            case T_MARUSIA:
+                $sound = null;
+                break;
+
             case T_USER_APP:
                 $sound = $userSound;
                 break;

@@ -11,6 +11,7 @@ namespace MM\bot\core;
 
 use MM\bot\controller\BotController;
 use MM\bot\core\types\Alisa;
+use MM\bot\core\types\Marusia;
 use MM\bot\core\types\Telegram;
 use MM\bot\core\types\TemplateTypeModel;
 use MM\bot\core\types\Viber;
@@ -83,7 +84,9 @@ class Bot
             if ($_GET['type'] == T_TELEGRAM ||
                 $_GET['type'] == T_ALISA ||
                 $_GET['type'] == T_VIBER ||
-                $_GET['type'] == T_VK) {
+                $_GET['type'] == T_VK ||
+                $_GET['type'] == T_MARUSIA
+            ) {
                 mmApp::$appType = $_GET['type'];
                 return true;
             }
@@ -154,6 +157,12 @@ class Bot
             case T_VIBER:
                 $botClass = new Viber();
                 $type = UsersData::T_VIBER;
+                break;
+
+            case T_MARUSIA:
+                @header('Content-Type: application/json');
+                $botClass = new Marusia();
+                $type = UsersData::T_MARUSIA;
                 break;
 
             case T_USER_APP:
@@ -265,6 +274,7 @@ class Bot
                             'version' => '1.0'
                         ];
                         break;
+
                     case T_VK:
                         $this->botController->isSend = false;
                         $content = [
@@ -278,6 +288,7 @@ class Bot
                             ]
                         ];
                         break;
+
                     case T_TELEGRAM:
                         $content = [
                             'message' => [
@@ -291,6 +302,7 @@ class Bot
                             ]
                         ];
                         break;
+
                     case T_VIBER:
                         $content = [
                             'event' => 'message',
@@ -304,6 +316,34 @@ class Bot
                                 'name' => 'local_name',
                                 'api_version' => 8
                             ]
+                        ];
+                        break;
+
+                    case T_MARUSIA:
+                        $content = [
+                            'meta' => [
+                                'location' => 'ru-Ru',
+                                'timezone' => 'UTC',
+                                'client_id' => 'local',
+                                'interfaces' => [
+                                    'payments' => null,
+                                    'account_linking' => null
+                                ]
+                            ],
+                            'session' => [
+                                'message_id' => $count,
+                                'session_id' => 'local',
+                                'skill_id' => 'local_test',
+                                'user_id' => $userId,
+                                'new' => ($count == 0)
+                            ],
+                            'request' => [
+                                'command' => strtolower($query),
+                                'original_utterance' => $query,
+                                'nlu' => [],
+                                'type' => 'SimpleUtterance'
+                            ],
+                            'version' => '1.0'
                         ];
                         break;
                 }

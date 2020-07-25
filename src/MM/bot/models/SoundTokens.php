@@ -33,6 +33,7 @@ class SoundTokens extends Model
     const T_ALISA = 0;
     const T_VK = 1;
     const T_TELEGRAM = 2;
+    const T_MARUSIA = 3;
 
     public $soundToken;
     public $path;
@@ -148,6 +149,7 @@ class SoundTokens extends Model
                     }
                 }
                 break;
+
             case self::T_VK:
                 if ($this->whereOne("`path`=\"{$this->path}\" AND `type`=" . self::T_VK)) {
                     return $this->soundToken;
@@ -169,6 +171,7 @@ class SoundTokens extends Model
                     }
                 }
                 break;
+
             case self::T_TELEGRAM:
                 $telegramApi = new TelegramRequest();
                 if ($this->whereOne("`path`=\"{$this->path}\" AND `type`=" . self::T_TELEGRAM)) {
@@ -187,6 +190,10 @@ class SoundTokens extends Model
                     }
 
                 }
+                break;
+
+            case T_MARUSIA:
+                return null;
                 break;
         }
         return null;

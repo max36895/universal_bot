@@ -33,6 +33,7 @@ class ImageTokens extends Model
     const T_ALISA = 0;
     const T_VK = 1;
     const T_TELEGRAM = 2;
+    const T_MARUSIA = 3;
 
     public $imageToken;
     public $path;
@@ -147,7 +148,9 @@ class ImageTokens extends Model
                     }
                 }
                 break;
+
             case self::T_VK:
+            case self::T_MARUSIA: // TODO не понятно как получить токен, возможно также и в вк
                 if ($this->whereOne("`path`=\"{$this->path}\" AND `type`=" . self::T_VK)) {
                     return $this->imageToken;
                 } else {
@@ -168,6 +171,7 @@ class ImageTokens extends Model
                     }
                 }
                 break;
+
             case self::T_TELEGRAM:
                 $telegramApi = new TelegramRequest();
                 if ($this->whereOne("`path`=\"{$this->path}\" AND `type`=" . self::T_TELEGRAM)) {

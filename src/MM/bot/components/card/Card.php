@@ -99,6 +99,10 @@ class Card
                 $card = new ViberCard();
                 break;
 
+            case T_MARUSIA:
+                $card = null;
+                break;
+
             case T_USER_APP:
                 $card = $userCard;
                 break;
