@@ -165,7 +165,7 @@ class CreateController
     {
         if ($name) {
             if (is_dir($name)) {
-                printf("Не удалось создать директорию:\n\t\s\nПроверьте права...\n", $name);
+                printf("Не удалось создать директорию:\n\t%s\nПроверьте права...\n", $name);
                 return;
             }
             $this->name = $name;

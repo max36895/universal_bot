@@ -48,19 +48,19 @@ class InitController
     public function init()
     {
         if ($this->createImageTokensTable()) {
-            printf("Таблица \"\s\" успешно создана!\n", ImageTokens::TABLE_NAME);
+            printf("Таблица \"%s\" успешно создана!\n", ImageTokens::TABLE_NAME);
         } else {
-            printf("Не удалось создать таблицу \"\s\"!\n", ImageTokens::TABLE_NAME);
+            printf("Не удалось создать таблицу \"%s\"!\n", ImageTokens::TABLE_NAME);
         }
         if ($this->createSoundTokensTable()) {
-            printf("Таблица \"\s\" успешно создана!\n", SoundTokens::TABLE_NAME);
+            printf("Таблица \"%s\" успешно создана!\n", SoundTokens::TABLE_NAME);
         } else {
-            printf("Не удалось создать таблицу \"\s\"!\n", SoundTokens::TABLE_NAME);
+            printf("Не удалось создать таблицу \"%s\"!\n", SoundTokens::TABLE_NAME);
         }
         if ($this->createUserDataTable()) {
-            printf("Таблица \"\s\" успешно создана!\n", UsersData::TABLE_NAME);
+            printf("Таблица \"%s\" успешно создана!\n", UsersData::TABLE_NAME);
         } else {
-            printf("Не удалось создать таблицу \"\s\"!\n", UsersData::TABLE_NAME);
+            printf("Не удалось создать таблицу \"%s\"!\n", UsersData::TABLE_NAME);
         }
     }
 }
