@@ -33,10 +33,19 @@ class ViberRequest
      * @see Request
      */
     protected $request;
+    /**
+     * @var string: Ошибки при выполнении
+     */
     protected $error;
 
+    /**
+     * @var string: Авторизационный токен бота, необходим для отправки данных.
+     */
     public $token;
 
+    /**
+     * ViberRequest constructor.
+     */
     public function __construct()
     {
         $this->request = new Request();
@@ -233,6 +242,8 @@ class ViberRequest
     }
 
     /**
+     * Отправить файл на сервер
+     *
      * @param string $receiver : Уникальный идентификатор пользователя Viber
      * @param string $file : Ссылка на файл
      * @param array $params Дополнительные параметры
