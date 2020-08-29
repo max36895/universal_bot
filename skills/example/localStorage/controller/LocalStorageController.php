@@ -2,11 +2,11 @@
 /**
  * Created by PhpStorm.
  * User: max18
- * Date: 10.03.2020
- * Time: 13:33
+ * Date: 29.08.2020
+ * Time: 11:35
  */
 
-class ExampleController extends MM\bot\controller\BotController
+class LocalStorageController extends MM\bot\controller\BotController
 {
     public function action($intentName): void
     {
@@ -33,6 +33,14 @@ class ExampleController extends MM\bot\controller\BotController
                 $this->card->add('565656/78878', 'Элемент с картинкой"', 'Описание картинки');
                 $this->card->add(null, 'Элемент без картинки', 'Описание картинки');
                 $this->card->button->addBtn('Текст в footer');
+                break;
+
+            case 'save':
+                $this->text = 'Сохранено!';
+                $this->userData = [
+                    'userId' => $this->userId,
+                    'saved' => $this->userCommand
+                ];
                 break;
 
             case 'by':

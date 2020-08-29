@@ -8,6 +8,8 @@
 
 namespace MM\bot\api\request;
 
+use CURLFile;
+
 /**
  * Class Request
  *
@@ -104,7 +106,7 @@ class Request
             if ($this->attach) {
                 if (is_file($this->attach)) {
                     $post = array_merge($post, [$this->attachName => (class_exists('CURLFile', false)) ?
-                        new \CURLFile($this->attach) : '@' . $this->attach]);
+                        new CURLFile($this->attach) : '@' . $this->attach]);
                 } else {
                     $this->error = 'Не удалось найти файл: ' . $this->attach;
                     return null;

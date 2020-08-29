@@ -183,29 +183,38 @@ class Bot
                     $userData->type = $type;
                 }
 
-                $sql = "`userId`=\"{$userData->escapeString($this->botController->userId)}\"";
-                if ($this->auth) {
-                    $sql = "`userId`=\"{$userData->escapeString($this->botController->userToken)}\"";
-                }
+                $isLocalStorage = (mmApp::$config['isLocalStorage'] && $botClass->isLocalStorage());
 
-                $isNew = true;
-                if ($userData->whereOne($sql)) {
-                    $this->botController->userData = $userData->data;
-                    $isNew = false;
+                if ($isLocalStorage) {
+                    $botClass->isUsedLocalStorage = $isLocalStorage;
+                    $this->botController->userData = $botClass->getLocalStorage();
                 } else {
-                    $this->botController->userData = null;
-                    $userData->userId = $this->botController->userId;
-                    $userData->meta = $this->botController->userMeta;
+                    $sql = "`userId`=\"{$userData->escapeString($this->botController->userId)}\"";
+                    if ($this->auth) {
+                        $sql = "`userId`=\"{$userData->escapeString($this->botController->userToken)}\"";
+                    }
+
+                    $isNew = true;
+                    if ($userData->whereOne($sql)) {
+                        $this->botController->userData = $userData->data;
+                        $isNew = false;
+                    } else {
+                        $this->botController->userData = null;
+                        $userData->userId = $this->botController->userId;
+                        $userData->meta = $this->botController->userMeta;
+                    }
                 }
 
                 $this->botController->run();
                 $content = $botClass->getContext();
-                $userData->data = $this->botController->userData;
+                if (!$isLocalStorage) {
+                    $userData->data = $this->botController->userData;
 
-                if ($isNew) {
-                    $userData->save(true);
-                } else {
-                    $userData->update();
+                    if ($isNew) {
+                        $userData->save(true);
+                    } else {
+                        $userData->update();
+                    }
                 }
 
                 if ($botClass->getError()) {
@@ -229,10 +238,15 @@ class Bot
      * Никакой прочей информации (картинки, звуки, кнопки и тд) не отображаются!
      *
      * Для корректной работы, внутри логики навыка не должно быть пользовательских вызовов к серверу бота.
+     *
+     * @param bool $isShowResult : Отображать полный навыка
+     * @param bool $isShowStorage : Отображать данные из хранилища
+     * @param bool $isShowTime : Отображать время выполнения запроса
      */
-    public function test()
+    public function test(bool $isShowResult = false, bool $isShowStorage = false, bool $isShowTime = true)
     {
         $count = 0;
+        $state = [];
         do {
             if ($count == 0) {
                 echo "Для выхода напишите exit\n";
@@ -244,116 +258,22 @@ class Bot
                 }
             }
             if (!$this->content) {
-                $content = [];
-                $userId = 'user_local_test';
-                switch (mmApp::$appType) {
-                    case T_ALISA:
-                        $content = [
-                            'meta' => [
-                                'location' => 'ru-Ru',
-                                'timezone' => 'UTC',
-                                'client_id' => 'local',
-                                'interfaces' => [
-                                    'payments' => null,
-                                    'account_linking' => null
-                                ]
-                            ],
-                            'session' => [
-                                'message_id' => $count,
-                                'session_id' => 'local',
-                                'skill_id' => 'local_test',
-                                'user_id' => $userId,
-                                'new' => ($count == 0)
-                            ],
-                            'request' => [
-                                'command' => strtolower($query),
-                                'original_utterance' => $query,
-                                'nlu' => [],
-                                'type' => 'SimpleUtterance'
-                            ],
-                            'version' => '1.0'
-                        ];
-                        break;
-
-                    case T_VK:
-                        $this->botController->isSend = false;
-                        $content = [
-                            'type' => 'message_new',
-                            'object' => [
-                                'message' => [
-                                    'from_id' => $userId,
-                                    'text' => $query,
-                                    'id' => $count
-                                ]
-                            ]
-                        ];
-                        break;
-
-                    case T_TELEGRAM:
-                        $content = [
-                            'message' => [
-                                'chat' => [
-                                    'id' => $userId,
-                                ],
-                                'message' => [
-                                    'text' => $query,
-                                    'message_id' => $count
-                                ]
-                            ]
-                        ];
-                        break;
-
-                    case T_VIBER:
-                        $content = [
-                            'event' => 'message',
-                            'message' => [
-                                'text' => $query,
-                                'type' => 'text'
-                            ],
-                            'message_token' => time(),
-                            'sender' => [
-                                'id' => $userId,
-                                'name' => 'local_name',
-                                'api_version' => 8
-                            ]
-                        ];
-                        break;
-
-                    case T_MARUSIA:
-                        $content = [
-                            'meta' => [
-                                'location' => 'ru-Ru',
-                                'timezone' => 'UTC',
-                                'client_id' => 'local',
-                                'interfaces' => [
-                                    'payments' => null,
-                                    'account_linking' => null
-                                ]
-                            ],
-                            'session' => [
-                                'message_id' => $count,
-                                'session_id' => 'local',
-                                'skill_id' => 'local_test',
-                                'user_id' => $userId,
-                                'new' => ($count == 0)
-                            ],
-                            'request' => [
-                                'command' => strtolower($query),
-                                'original_utterance' => $query,
-                                'nlu' => [],
-                                'type' => 'SimpleUtterance'
-                            ],
-                            'version' => '1.0'
-                        ];
-                        break;
-                }
-                $this->content = json_encode($content);
+                $this->content = json_encode($this->getSkillContent($query, $count, $state));
             }
             $timeStart = microtime(true);
             if (is_array($this->content)) {
                 $this->content = json_encode($this->content);
             }
-            $result = json_decode($this->run(), true);
+
+            $result = $this->run();
+            if ($isShowResult) {
+                printf("Результат работы: > \n%s\n\n", $result);
+            }
+            if ($isShowStorage) {
+                printf("Данные в хранилище > \n%s\n\n", json_encode($this->botController->userData, JSON_UNESCAPED_UNICODE));
+            }
+
+            $result = json_decode($result, true);
             switch (mmApp::$appType) {
                 case T_ALISA:
                     $result = $result['response']['text'];
@@ -363,15 +283,60 @@ class Bot
                     break;
             }
             printf("Бот: > %s\n", $result);
-            $endTime = microtime(true) - $timeStart;
-            echo "time: {$endTime}\n";
+            if ($isShowTime) {
+                $endTime = microtime(true) - $timeStart;
+                echo "Время выполнения: {$endTime}\n";
+            }
             if ($this->botController->isEnd) {
                 break;
             }
             echo "Вы: > ";
             $this->content = null;
             $this->botController->text = $this->botController->tts = '';
+            $state = $this->botController->userData;
             $count++;
         } while (1);
+    }
+
+    /**
+     * Возвращает корректную конфигурацию для конкретного типа приложения.
+     *
+     * @param string $query : Пользовательский запрос
+     * @param int $count : Номер сообщения
+     * @param array|null $state : Данные из хранилища
+     * @return array|mixed
+     */
+    protected function getSkillContent(string $query, int $count, ?array $state): array
+    {
+        /**
+         * Все переменные используются внутри шаблонов
+         */
+        $content = [];
+        $userId = 'user_local_test';
+        switch (mmApp::$appType) {
+            case T_ALISA:
+                $content = include __DIR__ . '/skillsTemplateConfig/alisaConfig.php';
+                break;
+
+            case T_MARUSIA:
+                $content = include __DIR__ . '/skillsTemplateConfig/marusiaConfig.php';
+                break;
+
+            case T_VK:
+                $this->botController->isSend = false;
+                $content = include __DIR__ . '/skillsTemplateConfig/vkConfig.php';
+                break;
+
+            case T_TELEGRAM:
+                $this->botController->isSend = false;
+                $content = include __DIR__ . '/skillsTemplateConfig/telegramConfig.php';
+                break;
+
+            case T_VIBER:
+                $this->botController->isSend = false;
+                $content = include __DIR__ . '/skillsTemplateConfig/viberConfig.php';
+                break;
+        }
+        return $content;
     }
 }

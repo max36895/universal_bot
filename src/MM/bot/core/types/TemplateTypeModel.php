@@ -19,18 +19,21 @@ use MM\bot\controller\BotController;
  *
  * @property BotController $controller: Класс с логикой приложения
  * @property string $error: Строка с ошибками работы приложения
+ * @property bool $isUsedLocalStorage: Использование локального хранилища как БД
  */
 abstract class TemplateTypeModel
 {
     protected $controller;
     protected $error;
     protected $timeStart;
+    public $isUsedLocalStorage;
 
     public function __construct()
     {
         $this->controller = null;
         $this->error = null;
         $this->initProcessingTime();
+        $this->isUsedLocalStorage = false;
     }
 
     /**
@@ -75,4 +78,26 @@ abstract class TemplateTypeModel
      * @return string
      */
     public abstract function getContext(): string;
+
+    /**
+     * Доступно ли использование локального хранилища.
+     * Если доступно, и используется опция для сохранения данных в хранилище,
+     * тогда пользовательские данные не будут сохраняться в БД
+     *
+     * @return bool
+     */
+    public function isLocalStorage(): bool
+    {
+        return false;
+    }
+
+    /**
+     * Возвращает данные из хранилища
+     *
+     * @return array|null
+     */
+    public function getLocalStorage(): ?array
+    {
+        return null;
+    }
 }

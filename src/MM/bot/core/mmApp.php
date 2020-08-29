@@ -52,7 +52,12 @@ class mmApp
             'user' => null, // Имя пользователя
             'pass' => null, // Пароль пользователя
             'database' => null, // Название базы данных
-        ]
+        ],
+        /**
+         * @var bool: Использование локального хранилища вместо БД. Актуально для Алисы.
+         * Важно! Чтобы опция работала, нужно поставить галку "Использовать хранилище данных в навыке" в кабинете разработчика.
+         */
+        'isLocalStorage' => false,
     ];
     /**
      * @var array $params :
@@ -165,7 +170,8 @@ class mmApp
      * @param array|null $array2 : Массив для объединения
      * @return array
      */
-    public static function arrayMerge(array $array1, ?array $array2): array {
+    public static function arrayMerge(array $array1, ?array $array2): array
+    {
         $nArray = $array1;
         if ($array2) {
             array_walk($array2, function ($val, $key) use (&$nArray) {
@@ -184,7 +190,8 @@ class mmApp
      *
      * @param array $config : Пользовательская конфигурация
      */
-    public static function setConfig(array $config): void {
+    public static function setConfig(array $config): void
+    {
         static::$config = self::arrayMerge(static::$config, $config);
     }
 
@@ -193,7 +200,8 @@ class mmApp
      *
      * @param array $params : Пользовательские параметры
      */
-    public static function setParams(array $params): void {
+    public static function setParams(array $params): void
+    {
         static::$params = self::arrayMerge(static::$params, $params);
     }
 
@@ -204,7 +212,8 @@ class mmApp
      * @param array|null $data : Сохраняемые данные
      * @return bool
      */
-    public static function saveJson(string $fileName, ?array $data): bool {
+    public static function saveJson(string $fileName, ?array $data): bool
+    {
         $path = static::$config['json'] ?? __DIR__ . '/../../json';
         if (!is_dir($path)) {
             mkdir($path);
@@ -228,7 +237,8 @@ class mmApp
      * @param string $errorText : Текст ошибки
      * @return bool
      */
-    public static function saveLog(string $fileName, string $errorText): bool {
+    public static function saveLog(string $fileName, string $errorText): bool
+    {
         $path = static::$config['error_log'] ?? __DIR__ . '/../../logs';
         if (!is_dir($path)) {
             mkdir($path);

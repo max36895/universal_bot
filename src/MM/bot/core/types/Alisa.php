@@ -143,11 +143,11 @@ class Alisa extends TemplateTypeModel
             $this->controller->messageId = $this->session['message_id'];
 
             if (isset($content['state'])) {
-                if (isset($content['state']['user']) && $content['state']['user']) {
+                if (isset($content['state']['user'])) {
                     $this->controller->state = $content['state']['user'];
                     $this->stateName = 'user_state_update';
-                } elseif (isset($content['state']['session']) && $content['state']['session']) {
-                    $this->controller->state = $content['state']['user'];
+                } elseif (isset($content['state']['session'])) {
+                    $this->controller->state = $content['state']['session'];
                     $this->stateName = 'session_state';
                 }
             }
@@ -193,8 +193,10 @@ class Alisa extends TemplateTypeModel
             $result['response'] = $this->getResponse();
         }
         //$result['session'] = $this->getSession(); Не используется
-        if ($this->isState) {
-            if ($this->controller->state) {
+        if ($this->isState || $this->isUsedLocalStorage) {
+            if ($this->isUsedLocalStorage && $this->controller->userData) {
+                $result[$this->stateName] = $this->controller->userData;
+            } elseif ($this->controller->state) {
                 $result[$this->stateName] = $this->controller->state;
             }
         }
@@ -204,5 +206,15 @@ class Alisa extends TemplateTypeModel
             $this->error = "Alisa:getContext(): Превышено ограничение на отправку ответа. Время ответа составило: {$timeEnd} сек.";
         }
         return json_encode($result);
+    }
+
+    public function getLocalStorage(): ?array
+    {
+        return $this->controller->state;
+    }
+
+    public function isLocalStorage(): bool
+    {
+        return $this->controller->state !== null;
     }
 }

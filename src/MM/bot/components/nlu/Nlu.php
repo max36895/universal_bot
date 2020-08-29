@@ -8,6 +8,8 @@
 
 namespace MM\bot\components\nlu;
 
+use MM\bot\components\standard\Text;
+
 /**
  * Класс для обработки естественной речи. Осуществляет поиск различных сущностей в тексте
  * Class Nlu
@@ -267,21 +269,31 @@ class Nlu
     /**
      * Вернет true, если пользователь согласен
      *
+     * @param string $userCommand : Фраза пользователя. Если нет совпадения по интенту, то поиск согласия идет по тексту
      * @return bool
      */
-    public function isIntentConfirm(): bool
+    public function isIntentConfirm(string $userCommand = ''): bool
     {
-        return ($this->getIntent(self::T_INTENT_CONFIRM) !== null);
+        $result = ($this->getIntent(self::T_INTENT_CONFIRM) !== null);
+        if (!$result && $userCommand) {
+            return Text::isSayTrue($userCommand);
+        }
+        return $result;
     }
 
     /**
      * Вернет true, если пользователь не согласен
      *
+     * @param string $userCommand : Фраза пользователя. Если нет совпадения по интенту, то поиск не согласия идет по тексту
      * @return bool
      */
-    public function isIntentReject(): bool
+    public function isIntentReject(string $userCommand = ''): bool
     {
-        return ($this->getIntent(self::T_INTENT_REJECT) !== null);
+        $result = ($this->getIntent(self::T_INTENT_REJECT) !== null);
+        if (!$result && $userCommand) {
+            return Text::isSayFalse($userCommand);
+        }
+        return $result;
     }
 
     /**
