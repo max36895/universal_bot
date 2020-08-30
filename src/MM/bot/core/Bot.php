@@ -1,9 +1,8 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Максим
- * Date: 07.03.2020
- * Time: 16:47
+ * Универсальное приложение по созданию навыков и ботов.
+ * @version 1.0
+ * @author Maxim-M maximco36895@yandex.ru
  */
 
 namespace MM\bot\core;
@@ -21,27 +20,31 @@ use MM\bot\models\UsersData;
 /**
  * Class Bot
  * @package bot\core
- *
- * @property string|array $content: Тело запроса
- * @see BotController
- * @property BotController $botController: Логика приложения
- * @property string $auth: Авторизационный токен если есть (Актуально для Алисы). Передастся в том случае, если пользователь произвел авторизацию в навыке.
  */
 class Bot
 {
     /**
-     * @var bool|string Полученный запрос. В основном JSON
+     * Полученный запрос. В основном JSON.
+     * @var bool|string|null $content Полученный запрос. В основном JSON.
      */
     private $content;
-
+    /**
+     * Логика приложения.
+     * @var BotController|null $botController Логика приложения.
+     * @see BotController Смотри тут
+     */
     protected $botController;
+    /**
+     * Авторизационный токен если есть (Актуально для Алисы). Передастся в том случае, если пользователь произвел авторизацию в навыке.
+     * @var string|null $auth Авторизационный токен если есть (Актуально для Алисы). Передастся в том случае, если пользователь произвел авторизацию в навыке.
+     */
     private $auth;
 
     /**
      * Bot constructor.
-     * @param string|null $type : Тип приложения (alisa, vk, telegram)
+     * @param string|null $type Тип приложения (alisa, vk, telegram).
      */
-    public function __construct($type = null)
+    public function __construct(?string $type = null)
     {
         $this->auth = null;
         $this->content = file_get_contents('php://input');
@@ -74,9 +77,10 @@ class Bot
 
     /**
      * Инициализация типа бота через GET параметры.
-     * Если присутствует get['type'], и он корректен(Равен одному из типов бота), тогда инициализация пройдет успешно
+     * Если присутствует get['type'], и он корректен(Равен одному из типов бота), тогда инициализация пройдет успешно.
      *
      * @return bool
+     * @api
      */
     public function initTypeInGet(): bool
     {
@@ -97,7 +101,8 @@ class Bot
     /**
      * Инициализация конфигурации приложения.
      *
-     * @param array|null $config : Конфигурация приложения
+     * @param array|null $config Конфигурация приложения.
+     * @api
      */
     public function initConfig(?array $config): void
     {
@@ -109,7 +114,8 @@ class Bot
     /**
      * Инициализация параметров приложения.
      *
-     * @param array|null $params : Параметры приложения
+     * @param array|null $params Параметры приложения.
+     * @api
      */
     public function initParams(?array $params): void
     {
@@ -119,9 +125,10 @@ class Bot
     }
 
     /**
-     * Подключение логики приложения
+     * Подключение логики приложения.
      *
-     * @param BotController $fn : Контроллер с логикой приложения
+     * @param BotController $fn Контроллер с логикой приложения.
+     * @api
      */
     public function initBotController(BotController $fn): void
     {
@@ -129,10 +136,11 @@ class Bot
     }
 
     /**
-     * Запуск приложения
+     * Запуск приложения.
      *
-     * @param TemplateTypeModel|null $userBotClass : Пользовательский класс для обработки команд
+     * @param TemplateTypeModel|null $userBotClass Пользовательский класс для обработки команд.
      * @return string
+     * @api
      */
     public function run($userBotClass = null): string
     {
@@ -239,9 +247,10 @@ class Bot
      *
      * Для корректной работы, внутри логики навыка не должно быть пользовательских вызовов к серверу бота.
      *
-     * @param bool $isShowResult : Отображать полный навыка
-     * @param bool $isShowStorage : Отображать данные из хранилища
-     * @param bool $isShowTime : Отображать время выполнения запроса
+     * @param bool $isShowResult Отображать полный навыка.
+     * @param bool $isShowStorage Отображать данные из хранилища.
+     * @param bool $isShowTime Отображать время выполнения запроса.
+     * @api
      */
     public function test(bool $isShowResult = false, bool $isShowStorage = false, bool $isShowTime = true)
     {
@@ -266,14 +275,14 @@ class Bot
             }
 
             $result = $this->run();
+            $result = json_decode($result, true);
             if ($isShowResult) {
-                printf("Результат работы: > \n%s\n\n", $result);
+                printf("Результат работы: > \n%s\n\n", json_encode($result, JSON_UNESCAPED_UNICODE));
             }
             if ($isShowStorage) {
                 printf("Данные в хранилище > \n%s\n\n", json_encode($this->botController->userData, JSON_UNESCAPED_UNICODE));
             }
 
-            $result = json_decode($result, true);
             switch (mmApp::$appType) {
                 case T_ALISA:
                     $result = $result['response']['text'];
@@ -301,9 +310,9 @@ class Bot
     /**
      * Возвращает корректную конфигурацию для конкретного типа приложения.
      *
-     * @param string $query : Пользовательский запрос
-     * @param int $count : Номер сообщения
-     * @param array|null $state : Данные из хранилища
+     * @param string $query Пользовательский запрос.
+     * @param int $count Номер сообщения.
+     * @param array|null $state Данные из хранилища.
      * @return array|mixed
      */
     protected function getSkillContent(string $query, int $count, ?array $state): array

@@ -1,9 +1,8 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: max18
- * Date: 29.08.2020
- * Time: 11:31
+ * Универсальное приложение по созданию навыков и ботов.
+ * @version 1.0
+ * @author Maxim-M maximco36895@yandex.ru
  */
 return [
     'json' => __DIR__ . '/../json',

@@ -1,9 +1,8 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: max18
- * Date: 06.03.2020
- * Time: 13:47
+ * Универсальное приложение по созданию навыков и ботов.
+ * @version 1.0
+ * @author Maxim-M maximco36895@yandex.ru
  */
 
 namespace MM\bot\api;
@@ -13,28 +12,30 @@ use MM\bot\api\request\Request;
 use MM\bot\core\mmApp;
 
 /**
- * Загрузка звуков для навыка
- * @see (https://yandex.ru/dev/dialogs/alice/doc/resource-sounds-upload-docpage/)
+ * Загрузка звуков для навыка.
+ * @see (https://yandex.ru/dev/dialogs/alice/doc/resource-sounds-upload-docpage/) Смотри тут
  *
  * Class YandexSoundRequest
- * @package bot\core\api
- *
- * @property string $skillId: Идентификатор навыка,  необходим для корректного сохранения изображения(Обязательный параметр)
- * @see YandexRequest
+ * @package bot\api
  */
 class YandexSoundRequest extends YandexRequest
 {
     /**
-     * @const string Адрес, на который будет отправляться запрос
+     * @const string Адрес, на который будет отправляться запрос.
      */
     private const STANDARD_URL = 'https://dialogs.yandex.net/api/v1/';
+    /**
+     * Идентификатор навыка, необходим для корректного сохранения изображения(Обязательный параметр).
+     * @var string|null $skillId Идентификатор навыка, необходим для корректного сохранения изображения(Обязательный параметр).
+     * @see YandexRequest Смотри тут
+     */
     public $skillId;
 
     /**
      * YandexSoundRequest constructor.
      *
-     * @param string|null $oauth : Авторизационный токен для загрузки изображений
-     * @param string|null $skillId : Идентификатор навыка
+     * @param string|null $oauth Авторизационный токен для загрузки изображений.
+     * @param string|null $skillId Идентификатор навыка.
      * @see (https://tech.yandex.ru/dialogs/alice/doc/resource-upload-docpage/) - Документация
      * @see (https://oauth.yandex.ru/verification_code) - Получение токена
      */
@@ -52,9 +53,10 @@ class YandexSoundRequest extends YandexRequest
     }
 
     /**
-     * Получить адрес для загрузки звуков
+     * Получить адрес для загрузки звуков.
      *
      * @return string
+     * @api
      */
     private function getSoundsUrl(): string
     {
@@ -62,17 +64,20 @@ class YandexSoundRequest extends YandexRequest
     }
 
     /**
-     * Проверить занятое место
+     * Проверить занятое место.
      *
      * Для каждого аккаунта на Яндексе действует лимит на загрузку аудиофайлов — вы можете хранить на Диалогах не больше 1 ГБ файлов. Обратите внимание, лимит учитывает размер сжатых аудиофайлов, а не размер оригиналов. Диалоги конвертируют загруженные аудиофайлы в формат OPUS и обрезают их до 120 секунд — размер этих файлов и будет учитываться в лимите.
      *
      * Вернет массив
-     * - total - Все доступное место
-     * - used - Занятое место
+     * - total - Все доступное место.
+     * - used - Занятое место.
      *
      * @return array|null
-     * - @var int total: Все доступное место
-     * - @var int used: Занятое место
+     * [
+     * - int total: Все доступное место.
+     * - int used: Занятое место.
+     * ]
+     * @api
      */
     public function checkOutPlace(): ?array
     {
@@ -87,22 +92,21 @@ class YandexSoundRequest extends YandexRequest
     }
 
     /**
-     * Загрузить аудиофайл
+     * Загрузить аудиофайл.
      *
-     * Возвращает массив
-     * - id - Идентификатор изображения
-     * - origUrl - Адрес изображения.
-     *
-     * @param $soundDir - Расположение картинки на сервере
+     * @param string $soundDir Расположение картинки на сервере.
      *
      * @return array|null
-     *  - @var string id: Идентификатор аудиофайла
-     *  - @var string skillId: Идентификатор навыка
-     *  - @var int|null size: Размер файла
-     *  - @var string originalName: Название загружаемого файла
-     *  - @var string createdAt: Дата создания файла
-     *  - @var bool isProcessed: Флаг готовности файла
-     *  - @var string|null error: Текст ошибки
+     * [
+     *  - string id: Идентификатор аудиофайла.
+     *  - string skillId: Идентификатор навыка.
+     *  - int|null size: Размер файла.
+     *  - string originalName: Название загружаемого файла.
+     *  - string createdAt: Дата создания файла.
+     *  - bool isProcessed: Флаг готовности файла.
+     *  - string|null error: Текст ошибки.
+     * ]
+     * @api
      */
     public function downloadSoundFile(string $soundDir): ?array
     {
@@ -123,21 +127,21 @@ class YandexSoundRequest extends YandexRequest
     }
 
     /**
-     * Просмотр всех загруженных изображений
-     *
-     * Вернет массив из массива изображений
-     * - id - Идентификатор изображения
-     * - origUrl - Адрес изображения.
+     * Просмотр всех загруженных изображений.
      *
      * @return array|null
-     *  - @var array
-     *      - @var string id: Идентификатор аудиофайла
-     *      - @var string skillId: Идентификатор навыка
-     *      - @var int|null size: Размер файла
-     *      - @var string originalName: Название загружаемого файла
-     *      - @var string createdAt: Дата создания файла
-     *      - @var bool isProcessed: Флаг готовности файла
-     *      - @var string|null error: Текст ошибки
+     * [
+     *  [
+     *      - string id: Идентификатор аудиофайла.
+     *      - string skillId: Идентификатор навыка.
+     *      - int|null size: Размер файла.
+     *      - string originalName: Название загружаемого файла.
+     *      - string createdAt: Дата создания файла.
+     *      - bool isProcessed: Флаг готовности файла.
+     *      - string|null error: Текст ошибки.
+     *  ]
+     * ]
+     * @api
      */
     public function getLoadedSounds(): ?array
     {
@@ -152,12 +156,13 @@ class YandexSoundRequest extends YandexRequest
     }
 
     /**
-     * Удаление выбранной картинки
-     * В случае успеха вернет 'ok'
+     * Удаление выбранного звука.
+     * В случае успеха вернет 'ok'.
      *
-     * @param $soundId - Идентификатор звука, который необходимо удалить.
+     * @param string $soundId Идентификатор звука, который необходимо удалить.
      *
      * @return string|null
+     * @api
      */
     public function deleteSound(string $soundId): ?string
     {
@@ -181,15 +186,12 @@ class YandexSoundRequest extends YandexRequest
     }
 
     /**
-     * Удаление всех звуков
+     * Удаление всех звуков.
      * Если при удалении произошел сбой, то картинка останется.
-     * Чтобы точно удалить все картинки лучше использовать грубое удаление
-     *
-     * Возвращает массив
-     * - success - Количество успешно удаленных картинок
-     * - fail - Количество неудаленных картинок
+     * Чтобы точно удалить все картинки лучше использовать грубое удаление.
      *
      * @return bool
+     * @api
      */
     public function deleteSounds(): bool
     {

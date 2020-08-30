@@ -1,9 +1,8 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: max18
- * Date: 06.03.2020
- * Time: 13:19
+ * Универсальное приложение по созданию навыков и ботов.
+ * @version 1.0
+ * @author Maxim-M maximco36895@yandex.ru
  */
 
 namespace MM\bot\api\request;
@@ -14,19 +13,9 @@ use CURLFile;
  * Class Request
  *
  * Класс для отправки curl запросов на необходимый url.
+ * Поддерживаются различные заголовки, а также есть возможность отправки файлов.
  *
- * @package bot\core\api\request
- *
- * @property string $url: Адрес, на который отправляется запрос
- * @property string|array $get: Get параметры запроса
- * @property string|array $post: Post параметры запроса
- * @property string|array $header: Отправляемые заголовки
- * @property string $attach: Прикрепленные файла (url, путь к файлу на сервере либо содержимое файла)
- * @property bool $isAttachContent: True если передается содержимое файла. По умолчанию: false
- * @property string $attachName: Название параметра при отправке файла (По умолчанию file)
- * @property string $customRequest: Кастомный(Пользовательский) заголовок (DELETE и тд.)
- * @property string $maxTimeQuery: Максимально время ответа в мсек.
- * @property bool $isConvertJson: True, если полученный ответ нужно преобразовать как json.
+ * @package bot\api\request
  */
 class Request
 {
@@ -36,19 +25,60 @@ class Request
     public const HEADER_AP_XML = 'Content-Type: application/xml';
     public const HEADER_FORM_DATA = 'Content-Type: multipart/form-data';
 
+    /**
+     * Адрес, на который будет отправляться запрос.
+     * @var string $url Адрес, на который будет отправляться запрос.
+     */
     public $url;
+    /**
+     * Get параметры запроса.
+     * @var string|array $get Get параметры запроса.
+     */
     public $get;
+    /**
+     * Post параметры запроса.
+     * @var string|array $post Post параметры запроса.
+     */
     public $post;
+    /**
+     * Отправляемые заголовки.
+     * @var string|array $header Отправляемые заголовки.
+     */
     public $header;
+    /**
+     * Прикрепленные файла (url, путь к файлу на сервере либо содержимое файла).
+     * @var string $attach Прикрепленные файла (url, путь к файлу на сервере либо содержимое файла).
+     */
     public $attach;
+    /**
+     * True если передается содержимое файла. По умолчанию: false.
+     * @var bool $isAttachContent True если передается содержимое файла. По умолчанию: false.
+     */
     public $isAttachContent;
+    /**
+     * Название параметра при отправке файла (По умолчанию file).
+     * @var string $attachName Название параметра при отправке файла (По умолчанию file).
+     */
     public $attachName;
+    /**
+     * Кастомный (Пользовательский) заголовок (DELETE и тд.).
+     * @var string $customRequest Кастомный (Пользовательский) заголовок (DELETE и тд.).
+     */
     public $customRequest;
+    /**
+     * Максимально время, за которое должен быть получен ответ. В мсек.
+     * @var int|null $maxTimeQuery Максимально время, за которое должен быть получен ответ. В мсек.
+     */
     public $maxTimeQuery;
+    /**
+     * True, если полученный ответ нужно преобразовать как json. По умолчанию true.
+     * @var bool $isConvertJson True, если полученный ответ нужно преобразовать как json. По умолчанию true.
+     */
     public $isConvertJson;
 
     /**
-     * @var string $error : Ошибки при выполнении запроса.
+     * Ошибки при выполнении запросов.
+     * @var string $error Ошибки при выполнении запросов.
      */
     private $error;
 
@@ -71,9 +101,10 @@ class Request
     }
 
     /**
-     * Получить текст ошибки.
+     * Возвращает текст с ошибкой, которая произошла при выполнении запроса.
      *
      * @return string
+     * @api
      */
     public function getError(): string
     {
@@ -81,8 +112,8 @@ class Request
     }
 
     /**
-     * Отправка curl запроса.
-     * В случае успеха возвращает массив или содержимое запроса, в противном случае null
+     * Запуск отправки curl запроса.
+     * В случае успеха возвращает содержимое запроса, в противном случае null.
      *
      * @return mixed
      */
@@ -137,7 +168,7 @@ class Request
 
             $data = curl_exec($curl);
             curl_close($curl);
-            if ($data ?? $this->isConvertJson) {
+            if ($data && $this->isConvertJson) {
                 return json_decode($data, true);
             }
             return $data;
@@ -148,11 +179,16 @@ class Request
     }
 
     /**
-     * Отправляет запрос.
-     * Возвращает массив. В случае успеха свойство 'status' = true
+     * Отправка запрос.
+     * Возвращает массив. В случае успеха свойство 'status' = true.
      *
-     * @param string|null $url : Адрес, на который отправляется запрос
+     * @param string|null $url Адрес, на который отправляется запрос.
      * @return array
+     * [
+     *  - bool status Статус выполнения запроса.
+     *  - mixed data Данные полученные при выполнении запроса.
+     * ]
+     * @api
      */
     public function send(?string $url = null): array
     {

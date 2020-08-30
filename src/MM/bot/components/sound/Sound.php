@@ -1,9 +1,8 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Максим
- * Date: 08.03.2020
- * Time: 12:24
+ * Универсальное приложение по созданию навыков и ботов.
+ * @version 1.0
+ * @author Maxim-M maximco36895@yandex.ru
  */
 
 namespace MM\bot\components\sound;
@@ -17,15 +16,21 @@ use MM\bot\components\sound\types\VkSound;
 use MM\bot\core\mmApp;
 
 /**
+ * Класс отвечает за обработку и корректное воспроизведение звуков, в зависимости от типа приложения.
  * Class Sound
  * @package bot\components\sound
- *
- * @property array $sounds: Массив звуков
- * @property bool $isUsedStandardSound: True, если использовать стандартные звуки. Актуально для Алисы
  */
 class Sound
 {
+    /**
+     * Массив звуков.
+     * @var array $sounds Массив звуков.
+     */
     public $sounds;
+    /**
+     * True, если использовать стандартные звуки. Актуально для Алисы. По умолчанию true.
+     * @var bool $isUsedStandardSound True, если использовать стандартные звуки. Актуально для Алисы. По умолчанию true.
+     */
     public $isUsedStandardSound;
 
     /**
@@ -38,11 +43,12 @@ class Sound
     }
 
     /**
-     * Получить корректно поставленные звуки в текст
+     * Получить корректно поставленные звуки в текст.
      *
-     * @param string $text : Исходный текст
-     * @param TemplateSoundTypes|null $userSound : Пользовательский класс для обработки звуков
+     * @param string $text Исходный текст.
+     * @param TemplateSoundTypes|null $userSound Пользовательский класс для обработки звуков.
      * @return string|array
+     * @api
      */
     public function getSounds($text, $userSound = null)
     {

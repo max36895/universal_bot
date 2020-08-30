@@ -1,9 +1,8 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Максим
- * Date: 07.03.2020
- * Time: 19:32
+ * Универсальное приложение по созданию навыков и ботов.
+ * @version 1.0
+ * @author Maxim-M maximco36895@yandex.ru
  */
 
 namespace MM\bot\components\nlu;
@@ -11,49 +10,52 @@ namespace MM\bot\components\nlu;
 use MM\bot\components\standard\Text;
 
 /**
- * Класс для обработки естественной речи. Осуществляет поиск различных сущностей в тексте
+ * Класс для обработки естественной речи. Осуществляет поиск различных сущностей в тексте.
  * Class Nlu
  * @package bot\components\nlu
  */
 class Nlu
 {
     /**
-     * @var array $nlu
+     * Массив с обработанными данными.
+     * @var array $nlu Массив с обработанными данными.
      */
     private $nlu;
     /**
-     * @const string T_FIO В запросе пользователя присутствует имя
+     * @const string T_FIO В запросе пользователя присутствует имя.
      */
     public const T_FIO = 'YANDEX.FIO';
     /**
-     * @const string T_GEO В запросе пользователя присутствуют координаты(Адрес, город и тд)
+     * @const string T_GEO В запросе пользователя присутствуют координаты(Адрес, город и тд).
      */
     public const T_GEO = 'YANDEX.GEO';
     /**
-     * @const string T_DATETIME В запросе пользователя присутствует дата
+     * @const string T_DATETIME В запросе пользователя присутствует дата.
      */
     public const T_DATETIME = 'YANDEX.DATETIME';
     /**
-     * @const string T_NUMBER В запросе пользователя есть числа
+     * @const string T_NUMBER В запросе пользователя есть числа.
      */
     public const T_NUMBER = 'YANDEX.NUMBER';
 
-    // ========== Встроенные интенты =========================
-    // Если в навыке есть хотя бы один интент, Яндекс.Диалоги дополнительно отправляют интенты, универсальные для большинства навыков
     /**
-     * @const string T_INTENT_CONFIRM: Согласие
+     * ========== Встроенные интенты =========================
+     * Если в навыке есть хотя бы один интент, Яндекс.Диалоги дополнительно отправляют интенты, универсальные для большинства навыков
+     */
+    /**
+     * @const string T_INTENT_CONFIRM: Согласие.
      */
     public const T_INTENT_CONFIRM = 'YANDEX.CONFIRM';
     /**
-     * @const string T_INTENT_REJECT: Отказ
+     * @const string T_INTENT_REJECT: Отказ.
      */
     public const T_INTENT_REJECT = 'YANDEX.REJECT';
     /**
-     * @const string T_INTENT_HELP: Запрос подсказки
+     * @const string T_INTENT_HELP: Запрос подсказки.
      */
     public const T_INTENT_HELP = 'YANDEX.HELP';
     /**
-     * @const string T_INTENT_REPEAT: Просьба повторить последний ответ навыка
+     * @const string T_INTENT_REPEAT: Просьба повторить последний ответ навыка.
      */
     public const T_INTENT_REPEAT = 'YANDEX.REPEAT';
     // =======================================================
@@ -67,22 +69,24 @@ class Nlu
     }
 
     /**
-     * Инициализация массива с nlu
+     * Инициализация массива с nlu.
      *
-     * @param $nlu : Значение для nlu. В случае с Алисой передается в запросе. Для других типов инициируется самостоятельно.
+     * @param array|null $nlu Значение для nlu. В случае с Алисой передается в запросе. Для других типов инициируется самостоятельно.
+     * @api
      */
-    public function setNlu($nlu): void
+    public function setNlu(?array $nlu): void
     {
         $this->nlu = $nlu;
     }
 
     /**
-     * Получить обработанный nlu для определенного типа
+     * Получить обработанный nlu для определенного типа.
      *
-     * @param string $type : Тип данных
+     * @param string $type Тип данных.
      * @return array|null
+     * @api
      */
-    private function getData($type): ?array
+    private function getData(string $type): ?array
     {
         $data = null;
         foreach ($this->nlu['entities'] as $entity) {
@@ -97,13 +101,17 @@ class Nlu
     }
 
     /**
-     * Получение имени текущего пользователя
+     * Получение имени текущего пользователя.
      *
      * @return array|null
-     *  - @var array
-     *      - @var string username: Логин пользователя
-     *      - @var string first_name: Имя пользователя
-     *      - @var string last_name: Фамилия пользователя
+     * [
+     *  [
+     *      - string username: Логин пользователя.
+     *      - string first_name: Имя пользователя.
+     *      - string last_name: Фамилия пользователя.
+     *  ]
+     * ]
+     * @api
      */
     public function getUserName(): ?array
     {
@@ -114,7 +122,7 @@ class Nlu
     }
 
     /**
-     * Получение ФИО из текста, как правило его сгенерировал Яндекс
+     * Получение ФИО из текста, как правило его сгенерировал Яндекс.
      *
      * Возвращается массив типа:
      * ['status'=>bool, 'result'=>array]
@@ -130,12 +138,16 @@ class Nlu
      * ]
      *
      * @return array
-     *  - @var bool status
-     *  - @var array result
-     *      - @var array
-     *          - @var string first_name
-     *          - @var string patronymic_name
-     *          - @var string last_name
+     * [
+     *  - bool status
+     *  - array result
+     *      [
+     *          - string first_name
+     *          - string patronymic_name
+     *          - string last_name
+     *      ]
+     * ]
+     * @api
      */
     public function getFio(): array
     {
@@ -148,7 +160,7 @@ class Nlu
     }
 
     /**
-     * Получение местоположение из текста, как правило его сгенерировал Яндекс
+     * Получение местоположение из текста, как правило его сгенерировал Яндекс.
      *
      * Возвращается массив типа:
      * ['status'=>bool, 'result'=>array]
@@ -166,14 +178,18 @@ class Nlu
      * ]
      *
      * @return array
-     *  - @var bool status
-     *  - @var array result
-     *      - @var array
-     *          - @var string country
-     *          - @var string city
-     *          - @var string street
-     *          - @var int house_number
-     *          - @var string airport
+     * [
+     *  - bool status
+     *  - array result
+     *      [
+     *          - string country
+     *          - string city
+     *          - string street
+     *          - int house_number
+     *          - string airport
+     *      ]
+     * ]
+     * @api
      */
     public function getGeo(): array
     {
@@ -186,7 +202,7 @@ class Nlu
     }
 
     /**
-     * Получение даты и времени из текста, как правило его сгенерировал Яндекс
+     * Получение даты и времени из текста, как правило его сгенерировал Яндекс.
      *
      * Возвращается массив типа:
      * ['status'=>bool, 'result'=>array]
@@ -209,19 +225,23 @@ class Nlu
      * ]
      *
      * @return array
-     *  - @var bool status
-     *  - @var array result
-     *      - @var array
-     *          - @var int year
-     *          - @var bool year_is_relative
-     *          - @var int month
-     *          - @var bool month_is_relative
-     *          - @var int day
-     *          - @var bool day_is_relative
-     *          - @var int hour
-     *          - @var bool hour_is_relative
-     *          - @var int minute
-     *          - @var bool minute_is_relative
+     * [
+     *  - bool status
+     *  - array result
+     *      [
+     *          - int year
+     *          - bool year_is_relative
+     *          - int month
+     *          - bool month_is_relative
+     *          - int day
+     *          - bool day_is_relative
+     *          - int hour
+     *          - bool hour_is_relative
+     *          - int minute
+     *          - bool minute_is_relative
+     *      ]
+     * ]
+     * @api
      */
     public function getDateTime(): array
     {
@@ -234,7 +254,7 @@ class Nlu
     }
 
     /**
-     * Получение числа в текста, как правило его сгенерировал Яндекс
+     * Получение числа в текста, как правило его сгенерировал Яндекс.
      *
      * Возвращается массив типа:
      * ['status'=>bool,'result'=>array]
@@ -249,12 +269,16 @@ class Nlu
      * ]
      *
      * @return array
-     *  - @var bool status
-     *  - @var array result
-     *      - @var array
-     *          - @var int integer
+     * [
+     *  - bool status
+     *  - array result
+     *      [
+     *          - int integer
      *          or
-     *          - @var float float
+     *          - float float
+     *      ]
+     * ]
+     * @api
      */
     public function getNumber(): array
     {
@@ -267,10 +291,11 @@ class Nlu
     }
 
     /**
-     * Вернет true, если пользователь согласен
+     * Вернет true, если пользователь согласен.
      *
-     * @param string $userCommand : Фраза пользователя. Если нет совпадения по интенту, то поиск согласия идет по тексту
+     * @param string $userCommand Фраза пользователя. Если нет совпадения по интенту, то поиск согласия идет по тексту.
      * @return bool
+     * @api
      */
     public function isIntentConfirm(string $userCommand = ''): bool
     {
@@ -282,10 +307,11 @@ class Nlu
     }
 
     /**
-     * Вернет true, если пользователь не согласен
+     * Вернет true, если пользователь не согласен.
      *
-     * @param string $userCommand : Фраза пользователя. Если нет совпадения по интенту, то поиск не согласия идет по тексту
+     * @param string $userCommand Фраза пользователя. Если нет совпадения по интенту, то поиск не согласия идет по тексту.
      * @return bool
+     * @api
      */
     public function isIntentReject(string $userCommand = ''): bool
     {
@@ -297,9 +323,10 @@ class Nlu
     }
 
     /**
-     * Вернет true, если пользователь просит помощи
+     * Вернет true, если пользователь просит помощи.
      *
      * @return bool
+     * @api
      */
     public function isIntentHelp(): bool
     {
@@ -307,9 +334,10 @@ class Nlu
     }
 
     /**
-     * Вернет true, если пользователь просит повторить последний ответ навыка
+     * Вернет true, если пользователь просит повторить последний ответ навыка.
      *
      * @return bool
+     * @api
      */
     public function isIntentRepeat(): bool
     {
@@ -317,11 +345,12 @@ class Nlu
     }
 
     /**
-     * Получение всех intents, как правило получены от Алисы. Все интенты сгенерированы в консоли разработчика
+     * Получение всех intents, как правило получены от Алисы. Все интенты сгенерированы в консоли разработчика.
      *
      * @return array|null
+     * @api
      */
-    public function getIntents()
+    public function getIntents(): ?array
     {
         return $this->nlu['intents'] ?? null;
     }
@@ -335,39 +364,38 @@ class Nlu
      *  - type: Тип (YANDEX.STRING)
      *  - value: Значение
      *
-     * @param string $intentName : Название intent`а
+     * @param string $intentName Название intent`а
      * @return array|null
-     *  - @var array
-     *      - @var array slots
-     *          - @var string type
-     *          - @var array value
+     * [
+     *  - array slots
+     *  [
+     *      - string type
+     *      - array value
+     *  ]
+     * ]
+     * @api
      */
     public function getIntent($intentName): ?array
     {
         $intents = $this->getIntents();
         if ($intents) {
             return $intents[$intentName] ?? null;
-            /*foreach ($intents as $name => $intent) {
-                if ($intentName == $name) {
-                    if ($data === null) {
-                        $data = [];
-                    }
-                    $data[] = $intent;
-                }
-            }*/
         }
         return null;
     }
 
     /**
-     * Получение всех ссылок в тексте
+     * Получение всех ссылок в тексте.
      * Возвращает массив типа:
      * ['status' => bool, 'result' => array]
      *
-     * @param string $query : Пользовательский запрос
+     * @param string $query Пользовательский запрос.
      * @return array
-     *  - @var bool status
-     *  - @var array result
+     * [
+     *  - bool status
+     *  - array result
+     * ]
+     * @api
      */
     public function getLink(string $query): array
     {
@@ -380,14 +408,17 @@ class Nlu
     }
 
     /**
-     * Получение всех номеров телефона в тексте
+     * Получение всех номеров телефона в тексте.
      * Возвращает массив типа:
      * ['status' => bool, 'result' => array]
      *
-     * @param string $query : Пользовательский запрос
+     * @param string $query Пользовательский запрос.
      * @return array
-     *  - @var bool status
-     *  - @var array result
+     * [
+     *  - bool status
+     *  - array result
+     * ]
+     * @api
      */
     public function getPhone(string $query): array
     {
@@ -400,14 +431,17 @@ class Nlu
     }
 
     /**
-     * Получение всех e-mails в тексте
+     * Получение всех e-mails в тексте.
      * Возвращает массив типа:
      * ['status' => bool, 'result' => array]
      *
-     * @param string $query : Пользовательский запрос
+     * @param string $query Пользовательский запрос.
      * @return array
-     *  - @var bool status
-     *  - @var array result
+     * [
+     *  - bool status
+     *  - array result
+     * ]
+     * @api
      */
     public function getEMail(string $query): array
     {

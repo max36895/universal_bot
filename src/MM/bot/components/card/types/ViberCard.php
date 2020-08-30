@@ -1,9 +1,8 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: max18
- * Date: 25.03.2020
- * Time: 15:50
+ * Универсальное приложение по созданию навыков и ботов.
+ * @version 1.0
+ * @author Maxim-M maximco36895@yandex.ru
  */
 
 namespace MM\bot\components\card\types;
@@ -12,14 +11,18 @@ namespace MM\bot\components\card\types;
 use MM\bot\components\button\Buttons;
 
 /**
+ * Класс отвечающий за отображение карточки в Viber.
  * Class ViberCard
  * @package bot\components\card\types
  */
 class ViberCard extends TemplateCardTypes
 {
     /**
-     * @param bool $isOne : True, если отобразить только 1 картинку.
+     * Получить карточку для отображения пользователю.
+     *
+     * @param bool $isOne True, если в любом случае использовать 1 картинку.
      * @return array
+     * @api
      */
     public function getCard(bool $isOne): array
     {

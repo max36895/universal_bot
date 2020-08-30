@@ -1,9 +1,8 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: max18
- * Date: 10.03.2020
- * Time: 13:43
+ * Универсальное приложение по созданию навыков и ботов.
+ * @version 1.0
+ * @author Maxim-M maximco36895@yandex.ru
  */
 
 require_once __DIR__ . '/components/standard/Text.php';

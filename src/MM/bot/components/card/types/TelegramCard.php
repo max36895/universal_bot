@@ -1,9 +1,8 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: max18
- * Date: 25.03.2020
- * Time: 15:50
+ * Универсальное приложение по созданию навыков и ботов.
+ * @version 1.0
+ * @author Maxim-M maximco36895@yandex.ru
  */
 
 namespace MM\bot\components\card\types;
@@ -14,15 +13,19 @@ use MM\bot\core\mmApp;
 use MM\bot\models\ImageTokens;
 
 /**
+ * Класс отвечающий за отображение карточки в Телеграме.
  * Class TelegramCard
  * @package bot\components\card\types
  */
 class TelegramCard extends TemplateCardTypes
 {
     /**
+     * Получить карточку для отображения пользователю.
+     *
      * todo подумать над корректным отображением.
-     * @param bool $isOne : True, если отобразить только 1 картинку. Не используется.
+     * @param bool $isOne True, если отобразить только 1 картинку. Не используется.
      * @return array
+     * @api
      */
     public function getCard(bool $isOne): array
     {

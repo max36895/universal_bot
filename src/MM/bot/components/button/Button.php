@@ -1,9 +1,8 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: max18
- * Date: 05.03.2020
- * Time: 9:29
+ * Универсальное приложение по созданию навыков и ботов.
+ * @version 1.0
+ * @author Maxim-M maximco36895@yandex.ru
  */
 
 namespace MM\bot\components\button;
@@ -17,13 +16,6 @@ use MM\bot\components\standard\Text;
  * Отображаемые кнопки при отправке сообщения пользователю
  * Тип кнопок(кнопка и сайджест) влияют только при отображении в Алисе.
  * В Vk и Telegram кнопки инициируются автоматически. Так как все кнопки с ссылками должны быть в виде сайджест кнопки.
- *
- * @property string $type: Тип кнопки
- * @property string $title: Текст на кнопке
- * @property string $url: Ссылка для перехода при нажатии кнопки
- * @property string|array $payload: Произвольные данные, отправляемые при нажатии кнопки
- * @property bool $hide: True, чтобы отображать кнопку как сайджест
- * @property array $options: Дополнительные параметры кнопки
  */
 class Button
 {
@@ -41,11 +33,35 @@ class Button
     public const VK_TYPE_PAY = 'vkpay';
     public const VK_TYPE_APPS = 'open_app';
 
+    /**
+     * Тип кнопки.
+     * @var string|null $type Тип кнопки.
+     */
     public $type;
+    /**
+     * Текст на кнопке.
+     * @var string|null $title Текст на кнопке.
+     */
     public $title;
+    /**
+     * Ссылка для перехода при нажатии кнопки.
+     * @var string|null $url Ссылка для перехода при нажатии кнопки.
+     */
     public $url;
+    /**
+     * Произвольные данные, отправляемые при нажатии кнопки.
+     * @var string|array $payload Произвольные данные, отправляемые при нажатии кнопки.
+     */
     public $payload;
+    /**
+     * True, чтобы отображать кнопку как сайджест.
+     * @var bool $hide True, чтобы отображать кнопку как сайджест.
+     */
     public $hide;
+    /**
+     * Дополнительные параметры кнопки.
+     * @var array $options Дополнительные параметры кнопки.
+     */
     public $options;
 
     /**
@@ -62,12 +78,12 @@ class Button
     }
 
     /**
-     * Инициализация кнопки
+     * Инициализация кнопки.
      *
-     * @param string $title : Текст на кнопке
-     * @param string|null $url : Ссылка для перехода, при нажатии кнопки
-     * @param string|array|null $payload : Произвольные данные, отправляемые при нажатии кнопки
-     * @param bool|null $hide : True, чтобы отображать кнопку как сайджест
+     * @param string $title Текст на кнопке.
+     * @param string|null $url Ссылка для перехода, при нажатии кнопки.
+     * @param string|array|null $payload Произвольные данные, отправляемые при нажатии кнопки.
+     * @param bool|null $hide True, чтобы отображать кнопку как сайджест.
      * @return bool
      */
     private function init(string $title, ?string $url, $payload, $hide): bool
@@ -95,27 +111,29 @@ class Button
     }
 
     /**
-     * Инициализация кнопки в виде сайджеста(ссылки под текстом)
+     * Инициализация кнопки в виде сайджеста(ссылки под текстом).
      *
-     * @param string $title : Текст на кнопке
-     * @param string|null $url : Ссылка для перехода, при нажатии кнопки
-     * @param string|array|null $payload : Произвольные данные, отправляемые при нажатии кнопки
+     * @param string $title Текст на кнопке.
+     * @param string|null $url Ссылка для перехода, при нажатии кнопки.
+     * @param string|array|null $payload Произвольные данные, отправляемые при нажатии кнопки.
      * @return bool
+     * @api
      */
-    public function initLink($title, $url = '', $payload = null): bool
+    public function initLink($title, ?string $url = '', $payload = null): bool
     {
         return $this->init($title, $url, $payload, self::B_LINK);
     }
 
     /**
-     * Инициализация кнопки в виде кнопки
+     * Инициализация кнопки в виде кнопки.
      *
-     * @param string $title : Текст на кнопке
-     * @param string|null $url : Ссылка для перехода, при нажатии кнопки
-     * @param string|array|null $payload : Произвольные данные, отправляемые при нажатии кнопки
+     * @param string $title Текст на кнопке.
+     * @param string|null $url Ссылка для перехода, при нажатии кнопки.
+     * @param string|array|null $payload Произвольные данные, отправляемые при нажатии кнопки.
      * @return bool
+     * @api
      */
-    public function initBtn($title, $url = '', $payload = null): bool
+    public function initBtn($title, ?string $url = '', $payload = null): bool
     {
         return $this->init($title, $url, $payload, self::B_BTN);
     }

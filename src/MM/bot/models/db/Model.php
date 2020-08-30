@@ -1,9 +1,8 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: max18
- * Date: 06.03.2020
- * Time: 15:44
+ * Универсальное приложение по созданию навыков и ботов.
+ * @version 1.0
+ * @author Maxim-M maximco36895@yandex.ru
  */
 
 namespace MM\bot\models\db;
@@ -18,37 +17,42 @@ use mysqli_result;
  * @package bot\models\db
  *
  * Абстрактный класс для моделей. Все Модели, взаимодействующие с бд наследуют его.
- *
- * @property int $startIndex: Стартовое значение для индекса.
  */
 abstract class Model
 {
+    /**
+     * Стартовое значение для индекса.
+     * @var int $startIndex Стартовое значение для индекса.
+     */
     public $startIndex = 0;
     /**
-     * @var Sql: Подключение к базе данных
+     * Подключение к базе данных.
+     * @var Sql|null $db Подключение к базе данных.
      */
     private $db;
 
     /**
-     * Правила для обработки полей. Где 1 - Элемент это название поля, 2 - Элемент тип поля, max - Максимальная длина
+     * Правила для обработки полей. Где 1 - Элемент это название поля, 2 - Элемент тип поля, max - Максимальная длина.
      *
      * @return array
-     *  - @var string|array 0: Название поля
-     *  - @var string 1: Тип поля (text, string, integer, ...)
-     *  - @var int max: Максимальная длина строки
+     * [
+     *  - string|array 0: Название поля.
+     *  - string 1: Тип поля (text, string, integer, ...).
+     *  - int max: Максимальная длина строки.
+     * ]
      */
     public abstract function rules(): array;
 
     /**
      * Массив с полями таблицы, где ключ это название поля, а значение краткое описание.
-     * Для уникального ключа использовать значение ID
+     * Для уникального ключа использовать значение ID.
      *
      * @return array
      */
     public abstract function attributeLabels(): array;
 
     /**
-     * Название таблицы/файла с данными
+     * Название таблицы/файла с данными.
      *
      * @return string
      */
@@ -67,10 +71,11 @@ abstract class Model
     }
 
     /**
-     * Декодирование текста(Текст становится приемлемым и безопасным для sql запроса)
+     * Декодирование текста(Текст становится приемлемым и безопасным для sql запроса).
      *
-     * @param string $text : Исходный текст
+     * @param string $text Исходный текст.
      * @return string
+     * @api
      */
     public final function escapeString(string $text): string
     {
@@ -81,7 +86,8 @@ abstract class Model
     }
 
     /**
-     * Валидация значений полей для таблицы
+     * Валидация значений полей для таблицы.
+     * @api
      */
     public function validate(): void
     {
@@ -120,9 +126,9 @@ abstract class Model
     }
 
     /**
-     * Возвращает тип поля таблицы
+     * Возвращает тип поля таблицы.
      *
-     * @param string|int $index : Название поля таблицы
+     * @param string|int $index Название поля таблицы.
      * @return string|null
      */
     protected function isAttribute($index): ?string
@@ -144,10 +150,10 @@ abstract class Model
     }
 
     /**
-     * Получить обработанное значение для сохранения, где строка оборачивается в двойные кавычки
+     * Получить обработанное значение для сохранения, где строка оборачивается в двойные кавычки.
      *
-     * @param string|int|double $val : Значение поля
-     * @param string $type : Тип поля
+     * @param string|int|double $val Значение поля.
+     * @param string $type Тип поля.
      * @return string|null
      */
     protected function getVal($val, $type): ?string
@@ -167,7 +173,7 @@ abstract class Model
     }
 
     /**
-     * Возвращает название уникального ключа таблицы
+     * Возвращает название уникального ключа таблицы.
      *
      * @return int|string|null
      */
@@ -182,9 +188,10 @@ abstract class Model
     }
 
     /**
-     * Инициализация данных для модели
+     * Инициализация данных для модели.
      *
-     * @param array $data : Массив с данными
+     * @param array $data Массив с данными.
+     * @api
      */
     public function init(array $data): void
     {
@@ -200,9 +207,10 @@ abstract class Model
     }
 
     /**
-     * Выполняет запрос с поиском по уникальному ключу
+     * Выполняет запрос с поиском по уникальному ключу.
      *
      * @return bool|mysqli_result|array|null
+     * @api
      */
     public function selectOne()
     {
@@ -224,8 +232,9 @@ abstract class Model
      * Сохранение значения в базу данных.
      * Если значение уже есть в базе данных, то данные обновятся. Иначе добавляется новое значение.
      *
-     * @param bool $isNew : Добавить новую запись в базу данных без поиска по ключу
+     * @param bool $isNew Добавить новую запись в базу данных без поиска по ключу.
      * @return bool|mysqli_result|null
+     * @api
      */
     public function save($isNew = false)
     {
@@ -241,9 +250,10 @@ abstract class Model
     }
 
     /**
-     * Обновление значения в таблице
+     * Обновление значения в таблице.
      *
      * @return bool|mysqli_result|null
+     * @api
      */
     public function update()
     {
@@ -280,9 +290,10 @@ abstract class Model
     }
 
     /**
-     * Добавление значения в таблицу
+     * Добавление значения в таблицу.
      *
      * @return bool|mysqli_result|null
+     * @api
      */
     public function add()
     {
@@ -320,9 +331,10 @@ abstract class Model
     }
 
     /**
-     * Удаление значения из таблицы
+     * Удаление значения из таблицы.
      *
      * @return bool|mysqli_result|null
+     * @api
      */
     public function delete()
     {
@@ -352,11 +364,12 @@ abstract class Model
     }
 
     /**
-     * Выполнение запроса к данным
+     * Выполнение запроса к данным.
      *
-     * @param string $where : Запрос к таблице
-     * @param bool $isOne : Вывести только 1 результат. Используется только при поиске по файлу
+     * @param string $where Запрос к таблице.
+     * @param bool $isOne Вывести только 1 результат. Используется только при поиске по файлу.
      * @return bool|mysqli_result|array|null
+     * @api
      */
     public function where($where = '1', bool $isOne = false)
     {
@@ -396,10 +409,11 @@ abstract class Model
     }
 
     /**
-     * Выполнение запроса и инициализация переменных в случае успешного запроса
+     * Выполнение запроса и инициализация переменных в случае успешного запроса.
      *
-     * @param string $where : Запрос к таблице
+     * @param string $where Запрос к таблице.
      * @return bool
+     * @api
      */
     public function whereOne($where = '1'): bool
     {
@@ -421,9 +435,10 @@ abstract class Model
     }
 
     /**
-     * Получение всех значений из файла. Актуально если глобальная константа IS_SAVE_DB равна false
+     * Получение всех значений из файла. Актуально если глобальная константа IS_SAVE_DB равна false.
      *
      * @return array|mixed
+     * @api
      */
     public function getFileData()
     {
@@ -438,10 +453,11 @@ abstract class Model
     }
 
     /**
-     * Выполнение произвольного запрос к базе данных
+     * Выполнение произвольного запрос к базе данных.
      *
-     * @param string $sql : Непосредственно запрос к бд
+     * @param string $sql Непосредственно запрос к бд.
      * @return bool|mysqli_result|null
+     * @api
      */
     public function query(string $sql)
     {

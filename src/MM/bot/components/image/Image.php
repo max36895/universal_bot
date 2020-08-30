@@ -1,9 +1,8 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: max18
- * Date: 06.03.2020
- * Time: 8:59
+ * Универсальное приложение по созданию навыков и ботов.
+ * @version 1.0
+ * @author Maxim-M maximco36895@yandex.ru
  */
 
 namespace MM\bot\components\image;
@@ -13,24 +12,42 @@ use MM\bot\components\button\Buttons;
 use MM\bot\components\standard\Text;
 
 /**
+ * Класс отвечает за обработку и корректное отображение изображения, в зависимости от типа приложения.
  * Class Image
  * @package bot\components\image
- *
- * @see Buttons
- * @property Buttons $button: Кнопки, обрабатывающие действия на нажатие изображения или непосредственно кнопок.
- * @property string $title: Название картинки
- * @property string $desc: Описание картинки
- * @property string $imageToken: Идентификатор картинки
- * @property string $imageDir: Расположение картинки в сети/директории
- * @property bool $isToken: True, если однозначно используется идентификатор/токен картинки. По умолчанию false
  */
 class Image
 {
+    /**
+     * Кнопки, обрабатывающие действия на нажатие изображения или непосредственно кнопок.
+     * @var Buttons $button Кнопки, обрабатывающие действия на нажатие изображения или непосредственно кнопок.
+     * @see Buttons Смотри тут
+     */
     public $button;
+    /**
+     * Название картинки.
+     * @var string $title Название картинки.
+     */
     public $title;
+    /**
+     * Описание картинки.
+     * @var string $desc Описание картинки.
+     */
     public $desc;
+    /**
+     * Идентификатор картинки.
+     * @var string|null $imageToken Идентификатор картинки.
+     */
     public $imageToken;
+    /**
+     * Расположение картинки в сети/директории.
+     * @var string|null $imageDir Расположение картинки в сети/директории.
+     */
     public $imageDir;
+    /**
+     * True, если однозначно используется идентификатор/токен картинки. По умолчанию false.
+     * @var bool $isToken True, если однозначно используется идентификатор/токен картинки. По умолчанию false.
+     */
     public $isToken;
 
     /**
@@ -47,13 +64,14 @@ class Image
     }
 
     /**
-     * Инициализация значений для картинки
+     * Инициализация значений для картинки.
      *
-     * @param string|null $image : Путь до картинки в сети/папке. Либо идентификатор картинки
-     * @param string $title : Заголовок для картинки
-     * @param string $desc : Описание для картинки
-     * @param array|string|null $button : Возможные кнопки для картинки
+     * @param string|null $image Путь до картинки в сети/папке. Либо идентификатор картинки.
+     * @param string $title Заголовок для картинки.
+     * @param string $desc Описание для картинки.
+     * @param array|string|null $button Возможные кнопки для картинки.
      * @return bool
+     * @api
      */
     public function init(?string $image, $title, $desc = ' ', $button = null): bool
     {

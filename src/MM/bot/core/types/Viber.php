@@ -1,9 +1,8 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: max18
- * Date: 11.03.2020
- * Time: 12:24
+ * Универсальное приложение по созданию навыков и ботов.
+ * @version 1.0
+ * @author Maxim-M maximco36895@yandex.ru
  */
 
 namespace MM\bot\core\types;
@@ -15,52 +14,54 @@ use MM\bot\api\ViberRequest;
 use MM\bot\core\mmApp;
 
 /**
+ * Класс, отвечающий за корректную инициализацию и отправку ответа для Viber.
  * Class Viber
  * @package bot\core\types
- * @see TemplateTypeModel
+ * @see TemplateTypeModel Смотри тут
  */
 class Viber extends TemplateTypeModel
 {
     /**
-     * Инициализация параметров
+     * Инициализация параметров.
      *
-     * @param null|string $content
-     * @param BotController $controller
+     * @param string|null $content Запрос пользователя.
+     * @param BotController $controller Ссылка на класс с логикой навык/бота.
      * @return bool
-     * @see TemplateTypeModel::init()
+     * @see TemplateTypeModel::init() Смотри тут
+     * @api
      */
     public function init(?string $content, BotController &$controller): bool
     {
         if ($content) {
             /**
-             * @var array $content
-             * @see (https://developers.viber.com/docs/api/rest-bot-api/#receive-message-from-user)
-             *  - @var string event: Callback type - какое событие вызвало обратный вызов
-             *  - @var int timestamp: Время события, которое вызвало обратный вызов
-             *  - @var int message_token: Уникальный идентификатор сообщения
-             *  - @var array sender|user: Информация о пользователе. Для event='message' придет sender, иначе user
-             *      - @var string id: Уникальный идентификатор пользователя Viber отправителя сообщения
-             *      - @var string name: Имя отправителя Viber
-             *      - @var string avatar: URL-адрес Аватара отправителя
-             *      - @var string country:    Код страны из 2 букв отправителя
-             *      - @var string language: Язык телефона отправителя. Будет возвращен в соответствии с языком устройства
-             *      - @var int api_version: Максимальная версия Viber, которая поддерживается всеми устройствами пользователя
-             *  - @var array message: Информация о сообщении
-             *      - @var string type: Тип сообщения
-             *      - @var string text: Текст сообщения
-             *      - @var string media: URL носителя сообщения-может быть image,video, file и url. URL-адреса изображений/видео/файлов будут иметь TTL в течение 1 часа
-             *      - @var array location: Координаты местоположения
-             *          - @var float lat: Координата lat
-             *          - @var float lon: Координата lon
-             *      - @var array contact: name - имя пользователя контакта, phone_number - номер телефона контакта и avatar в качестве URL Аватара
-             *          - @var string name
-             *          - @var string phone_number
-             *          - @var string avatar
-             *      - @var string tracking_data: Отслеживание данных, отправленных вместе с последним сообщением пользователю
-             *      - @var array file_name: Имя файла. Актуально для type='file'
-             *      - @var array file_size: Размер файла в байтах. Актуально для type='file'
-             *      - @var array duration: Длина видео в секундах. Актуально для type='video'
-             *      - @var array sticker_id: Viber наклейка id. Актуально для type='sticker'
+             * array $content
+             * @see (https://developers.viber.com/docs/api/rest-bot-api/#receive-message-from-user) Смотри тут
+             *  - string event: Callback type - какое событие вызвало обратный вызов
+             *  - int timestamp: Время события, которое вызвало обратный вызов
+             *  - int message_token: Уникальный идентификатор сообщения
+             *  - array sender|user: Информация о пользователе. Для event='message' придет sender, иначе user
+             *      - string id: Уникальный идентификатор пользователя Viber отправителя сообщения
+             *      - string name: Имя отправителя Viber
+             *      - string avatar: URL-адрес Аватара отправителя
+             *      - string country:    Код страны из 2 букв отправителя
+             *      - string language: Язык телефона отправителя. Будет возвращен в соответствии с языком устройства
+             *      - int api_version: Максимальная версия Viber, которая поддерживается всеми устройствами пользователя
+             *  - array message: Информация о сообщении
+             *      - string type: Тип сообщения
+             *      - string text: Текст сообщения
+             *      - string media: URL носителя сообщения-может быть image,video, file и url. URL-адреса изображений/видео/файлов будут иметь TTL в течение 1 часа
+             *      - array location: Координаты местоположения
+             *          - float lat: Координата lat
+             *          - float lon: Координата lon
+             *      - array contact: name - имя пользователя контакта, phone_number - номер телефона контакта и avatar в качестве URL Аватара
+             *          - string name
+             *          - string phone_number
+             *          - string avatar
+             *      - string tracking_data: Отслеживание данных, отправленных вместе с последним сообщением пользователю
+             *      - array file_name: Имя файла. Актуально для type='file'
+             *      - array file_size: Размер файла в байтах. Актуально для type='file'
+             *      - array duration: Длина видео в секундах. Актуально для type='video'
+             *      - array sticker_id: Viber наклейка id. Актуально для type='sticker'
              */
             $content = json_decode($content, true);
             $this->controller = &$controller;
@@ -99,11 +100,11 @@ class Viber extends TemplateTypeModel
     }
 
     /**
-     * Заполнение nlu
+     * Заполнение nlu.
      *
-     * @param $userName - Имя пользователя
+     * @param string $userName Имя пользователя.
      */
-    protected function setNlu($userName): void
+    protected function setNlu(string $userName): void
     {
         $name = explode(' ', $userName);
         $thisUser = [
@@ -117,10 +118,11 @@ class Viber extends TemplateTypeModel
     }
 
     /**
-     * Отправка ответа пользователю
+     * Отправка ответа пользователю.
      *
      * @return string
-     * @see TemplateTypeModel::getContext()
+     * @see TemplateTypeModel::getContext() Смотри тут
+     * @api
      */
     public function getContext(): string
     {

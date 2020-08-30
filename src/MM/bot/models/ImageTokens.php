@@ -1,9 +1,8 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: max18
- * Date: 06.03.2020
- * Time: 10:40
+ * Универсальное приложение по созданию навыков и ботов.
+ * @version 1.0
+ * @author Maxim-M maximco36895@yandex.ru
  */
 
 namespace MM\bot\models;
@@ -20,12 +19,7 @@ use mysqli_result;
  * Class ImageTokens
  * @package bot\models
  *
- * Модель для взаимодействия со всеми картинками
- *
- * @property string $imageToken: Идентификатор/токен картинки
- * @property string $path: Расположение картинки (url/директория)
- * @property string $type: Тип приложения, для которого загружена картинка
- * @property string $caption: Описание картинки (Не обязательное поле)
+ * Модель для взаимодействия со всеми картинками.
  */
 class ImageTokens extends Model
 {
@@ -35,9 +29,25 @@ class ImageTokens extends Model
     const T_TELEGRAM = 2;
     const T_MARUSIA = 3;
 
+    /**
+     * Идентификатор/токен картинки.
+     * @var string|null $imageToken Идентификатор/токен картинки.
+     */
     public $imageToken;
+    /**
+     * Расположение картинки (url/директория).
+     * @var string|null $path Расположение картинки (url/директория).
+     */
     public $path;
+    /**
+     * Тип приложения, для которого загружена картинка.
+     * @var string|int $type Тип приложения, для которого загружена картинка.
+     */
     public $type;
+    /**
+     * Описание картинки (Не обязательное поле).
+     * @var string|null $caption Описание картинки (Не обязательное поле).
+     */
     public $caption;
 
     /**
@@ -53,9 +63,10 @@ class ImageTokens extends Model
     }
 
     /**
-     * Создание таблицы бд для хранения загруженных картинок
+     * Создание таблицы бд для хранения загруженных картинок.
      *
      * @return bool|mysqli_result|null
+     * @api
      */
     public function createTable()
     {
@@ -72,9 +83,10 @@ class ImageTokens extends Model
     }
 
     /**
-     * Удаление таблицы бд для хранения загруженных картинок
+     * Удаление таблицы бд для хранения загруженных картинок.
      *
      * @return bool|mysqli_result|null
+     * @api
      */
     public function dropTable()
     {
@@ -85,9 +97,10 @@ class ImageTokens extends Model
     }
 
     /**
-     * Название таблицы/файла с данными
+     * Название таблицы/файла с данными.
      *
      * @return string
+     * @api
      */
     public function tableName(): string
     {
@@ -95,9 +108,10 @@ class ImageTokens extends Model
     }
 
     /**
-     * Основные правила для полей
+     * Основные правила для полей.
      *
      * @return array
+     * @api
      */
     public function rules(): array
     {
@@ -108,9 +122,10 @@ class ImageTokens extends Model
     }
 
     /**
-     * Название атрибутов таблицы
+     * Название атрибутов таблицы.
      *
      * @return array
+     * @api
      */
     public function attributeLabels(): array
     {
@@ -122,9 +137,10 @@ class ImageTokens extends Model
     }
 
     /**
-     * Получить идентификатор/токен изображения
+     * Получить идентификатор/токен изображения.
      *
      * @return string|null
+     * @api
      */
     public function getToken(): ?string
     {

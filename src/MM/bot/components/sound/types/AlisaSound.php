@@ -1,9 +1,8 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: max18
- * Date: 11.03.2020
- * Time: 9:26
+ * Универсальное приложение по созданию навыков и ботов.
+ * @version 1.0
+ * @author Maxim-M maximco36895@yandex.ru
  */
 
 namespace MM\bot\components\sound\types;
@@ -12,12 +11,17 @@ use MM\bot\components\standard\Text;
 use MM\bot\models\SoundTokens;
 
 /**
+ * Класс отвечающий за воспроизведение звуков в Алисе.
  * Class AlisaSound
  * @package bot\components\sound\types
  */
 class AlisaSound extends TemplateSoundTypes
 {
-    public $isUsedStandardSound;
+    /**
+     * True, если использовать стандартные звуки.
+     * @var bool $isUsedStandardSound True, если использовать стандартные звуки.
+     */
+    public $isUsedStandardSound = true;
 
     const S_EFFECT_BEHIND_THE_WALL = '<speaker effect="behind_the_wall">';
     const S_EFFECT_HAMSTER = '<speaker effect="hamster">';
@@ -28,6 +32,9 @@ class AlisaSound extends TemplateSoundTypes
     const S_EFFECT_TRAIN_ANNOUNCE = '<speaker effect="train_announce">';
     const S_EFFECT_END = '<speaker effect="-">';
 
+    /** Стандартные звуки.
+     * @var array[] $standardSounds Стандартные звуки.
+     */
     protected $standardSounds = [
         [
             'key' => '#$game_win$#',
@@ -316,11 +323,12 @@ class AlisaSound extends TemplateSoundTypes
 
 
     /**
-     * Получить разметку для вставки паузы между словами
+     * Получить разметку для вставки паузы между словами.
      *
-     * @param $milliseconds : Пауза в миллисекундах
+     * @param int|float $milliseconds Пауза в миллисекундах.
      * @return string
-     * @see (https://yandex.ru/dev/dialogs/alice/doc/speech-tuning-docpage/)
+     * @see (https://yandex.ru/dev/dialogs/alice/doc/speech-tuning-docpage/) Смотри тут
+     * @api
      */
     public static function getPause($milliseconds): string
     {
@@ -328,13 +336,14 @@ class AlisaSound extends TemplateSoundTypes
     }
 
     /**
-     * Получить корректно составленный текст, в котором все ключи заменены на соответствующие звуки
+     * Получить корректно составленный текст, в котором все ключи заменены на соответствующие звуки.
      *
-     * @param array $sounds : Пользовательские звуки
-     * @param string $text : Исходный текст
+     * @param array|null $sounds Пользовательские звуки.
+     * @param string $text Исходный текст.
      * @return string
+     * @api
      */
-    public function getSounds($sounds, $text): string
+    public function getSounds(?array $sounds, string $text): string
     {
         if ($this->isUsedStandardSound) {
             $sounds = array_merge($this->standardSounds, $sounds);
@@ -347,7 +356,7 @@ class AlisaSound extends TemplateSoundTypes
                         /**
                          * Не стоит так делать, так как нужно время, пока Yandex обработает звуковую дорожку.
                          * Лучше загружать звуки через консоль администратора!
-                         * @see (https://dialogs.yandex.ru/developer/skills/<skill_id>/resources/sounds)
+                         * @see (https://dialogs.yandex.ru/developer/skills/<skill_id>/resources/sounds) Смотри тут
                          */
                         if (is_file($sText) || Text::isSayText(['http\:\/\/', 'https\:\/\/'], $sText)) {
                             $sModel = new SoundTokens();
@@ -367,23 +376,25 @@ class AlisaSound extends TemplateSoundTypes
     }
 
     /**
-     * Заменить ключи в текста на соответствующие им звуки
+     * Заменить ключи в текста на соответствующие им звуки.
      *
-     * @param string $key : Ключ для поиска
-     * @param string|array $value : Звук или массив звуков
-     * @param string $text : Обрабатываемый текст
+     * @param string $key Ключ для поиска.
+     * @param string|array $value Звук или массив звуков.
+     * @param string $text Обрабатываемый текст.
      * @return string
+     * @api
      */
-    public function replaceSound($key, $value, $text): string
+    public function replaceSound($key, $value, string $text): string
     {
         return str_replace($key, Text::getText($value), $text);
     }
 
     /**
-     * Удаление любых звуков и эффектов из текста
+     * Удаление любых звуков и эффектов из текста.
      *
-     * @param string $text : Обрабатываемый текст
+     * @param string $text Обрабатываемый текст.
      * @return string
+     * @api
      */
     public static function removeSound(string $text): string
     {

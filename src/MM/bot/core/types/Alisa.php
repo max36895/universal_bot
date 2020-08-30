@@ -1,9 +1,8 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Максим
- * Date: 07.03.2020
- * Time: 17:14
+ * Универсальное приложение по созданию навыков и ботов.
+ * @version 1.0
+ * @author Maxim-M maximco36895@yandex.ru
  */
 
 namespace MM\bot\core\types;
@@ -16,35 +15,39 @@ use MM\bot\controller\BotController;
 use MM\bot\core\mmApp;
 
 /**
+ * Класс, отвечающий за корректную инициализацию и отправку ответа для Алисы
  * Class Alisa
  * @package bot\core\types
- * @see TemplateTypeModel
+ * @see TemplateTypeModel Смотри тут
  */
 class Alisa extends TemplateTypeModel
 {
     /**
-     * @const string: Версия Алисы
+     * @const string Версия Алисы.
      */
     private const VERSION = '1.0';
     /**
-     * @const float: Максимально время, за которое должен ответить навык
+     * @const float Максимально время, за которое должен ответить навык.
      */
     private const MAX_TIME_REQUEST = 2.8;
     /**
-     * @var array $session :
+     * Информация о сессии пользователя.
+     * @var array|null $session Информация о сессии пользователя.
      */
     protected $session;
     /**
-     * @var bool $isState : Хранилище
+     * Использование хранилища.
+     * @var bool $isState Использование хранилища.
      */
-    protected $isState;
+    protected $isState = false;
     /**
-     * @var string $stateName : Название хранилища. Зависит от куда берутся данные(локально, глобально)
+     * Название хранилища. Зависит от куда берутся данные(локально, глобально).
+     * @var string|null $stateName Название хранилища. Зависит от куда берутся данные(локально, глобально).
      */
     protected $stateName;
 
     /**
-     * Генерирование ответа пользователю
+     * Получение ответа пользователю.
      *
      * @return array
      */
@@ -65,7 +68,7 @@ class Alisa extends TemplateTypeModel
     }
 
     /**
-     * Генерирование информации о сессии
+     * Получение информации о сессии.
      *
      * @return array
      */
@@ -79,12 +82,13 @@ class Alisa extends TemplateTypeModel
     }
 
     /**
-     * Инициализация параметров
+     * Инициализация параметров.
      *
-     * @param null|string $content
-     * @param BotController $controller
+     * @param string|null $content Запрос пользователя.
+     * @param BotController $controller Ссылка на класс с логикой навык/бота.
      * @return bool
-     * @see TemplateTypeModel::init()
+     * @see TemplateTypeModel::init() Смотри тут
+     * @api
      */
     public function init(?string $content, BotController &$controller): bool
     {
@@ -160,7 +164,7 @@ class Alisa extends TemplateTypeModel
             }
             /**
              * Раз в какое-то время Яндекс отправляет запрос ping, для проверки корректности работы навыка.
-             * @see (https://yandex.ru/dev/dialogs/alice/doc/health-check-docpage/)
+             * @see (https://yandex.ru/dev/dialogs/alice/doc/health-check-docpage/) Смотри тут
              */
             if ($this->controller->originalUserCommand == 'ping') {
                 $this->controller->text = 'pong';
@@ -175,10 +179,11 @@ class Alisa extends TemplateTypeModel
     }
 
     /**
-     * Отправка ответа пользователю
+     * Отправка ответа пользователю.
      *
      * @return string
-     * @see TemplateTypeModel::getContext()
+     * @see TemplateTypeModel::getContext() Смотри тут
+     * @api
      */
     public function getContext(): string
     {

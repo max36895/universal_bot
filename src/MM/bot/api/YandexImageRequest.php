@@ -1,9 +1,8 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: max18
- * Date: 06.03.2020
- * Time: 13:47
+ * Универсальное приложение по созданию навыков и ботов.
+ * @version 1.0
+ * @author Maxim-M maximco36895@yandex.ru
  */
 
 namespace MM\bot\api;
@@ -13,14 +12,11 @@ use MM\bot\api\request\Request;
 use MM\bot\core\mmApp;
 
 /**
- * Загрузка изображения для навыка
- * @see (https://yandex.ru/dev/dialogs/alice/doc/resource-upload-docpage/)
+ * Загрузка изображения в навык.
+ * @see (https://yandex.ru/dev/dialogs/alice/doc/resource-upload-docpage/) Смотри тут
  *
  * Class YandexImageRequest
- * @package bot\core\api
- *
- * @property string $skillId: Идентификатор навыка,  необходим для корректного сохранения изображения(Обязательный параметр)
- * @see YandexRequest
+ * @package bot\api
  */
 class YandexImageRequest extends YandexRequest
 {
@@ -28,15 +24,20 @@ class YandexImageRequest extends YandexRequest
      * @const string Адрес, на который будет отправляться запрос
      */
     private const STANDARD_URL = 'https://dialogs.yandex.net/api/v1/';
+    /**
+     * Идентификатор навыка, необходим для корректного сохранения изображения(Обязательный параметр)
+     * @var string|null $skillId Идентификатор навыка, необходим для корректного сохранения изображения(Обязательный параметр)
+     * @see YandexRequest Смотри тут
+     */
     public $skillId;
 
     /**
      * YandexImageRequest constructor.
      *
-     * @param string|null $oauth : Авторизационный токен для загрузки изображений
-     * @param string|null $skillId : Идентификатор навыка
-     * @see (https://tech.yandex.ru/dialogs/alice/doc/resource-upload-docpage/) - Документация
-     * @see (https://oauth.yandex.ru/verification_code) - Получение токена
+     * @param string|null $oauth Авторизационный токен для загрузки изображений.
+     * @param string|null $skillId Идентификатор навыка.
+     * @see (https://tech.yandex.ru/dialogs/alice/doc/resource-upload-docpage/) - Документация.
+     * @see (https://oauth.yandex.ru/verification_code) - Получение токена.
      */
     public function __construct(?string $oauth = null, ?string $skillId = null)
     {
@@ -52,7 +53,7 @@ class YandexImageRequest extends YandexRequest
     }
 
     /**
-     * Получить адрес для загрузки изображения
+     * Получить адрес для загрузки изображения.
      *
      * @return string
      */
@@ -62,15 +63,18 @@ class YandexImageRequest extends YandexRequest
     }
 
     /**
-     * Проверка занятого места
+     * Проверка занятого места.
      *
      * Возвращает массив
-     * - total - Все доступное место
-     * - used - Занятое место
+     * - total - Все доступное место.
+     * - used - Занятое место.
      *
      * @return array|null
-     *  - @var int total: Все доступное место
-     *  - @var int used: Занятое место
+     * [
+     *  - int total: Все доступное место.
+     *  - int used: Занятое место.
+     * ]
+     * @api
      */
     public function checkOutPlace(): ?array
     {
@@ -84,19 +88,21 @@ class YandexImageRequest extends YandexRequest
     }
 
     /**
-     * Загрузка изображения из интернета
+     * Загрузка изображения из интернета.
      *
      * Возвращает массив
-     * - id - Идентификатор изображения
-     * - origUrl - Адрес изображения
+     * - id - Идентификатор изображения.
+     * - origUrl - Адрес изображения.
      *
-     * @param $imageUrl - Адрес картинки из интернета
-     *
+     * @param string $imageUrl Адрес картинки из интернета.
      * @return array|null
-     *  - @var string id: Идентификатор изображения
-     *  - @var string origUrl: Адрес изображения
-     *  - @var int size: Размер изображения
-     *  - @var int createdAt: Дата загрузки
+     * [
+     *  - string id: Идентификатор изображения.
+     *  - string origUrl: Адрес изображения.
+     *  - int size: Размер изображения.
+     *  - int createdAt: Дата загрузки.
+     * ]
+     * @api
      */
     public function downloadImageUrl(string $imageUrl): ?array
     {
@@ -117,19 +123,21 @@ class YandexImageRequest extends YandexRequest
     }
 
     /**
-     * Загрузка изображения из файла
+     * Загрузка изображения из файла.
      *
      * Возвращает массив
-     * - id - Идентификатор изображения
-     * - origUrl - Адрес изображения
+     * - id - Идентификатор изображения.
+     * - origUrl - Адрес изображения.
      *
-     * @param $imageDir - Адрес картинки из интернета
-     *
+     * @param string $imageDir Адрес картинки из интернета.
      * @return array|null
-     *  - @var string id: Идентификатор изображения
-     *  - @var string origUrl: Адрес изображения
-     *  - @var int size: Размер изображения
-     *  - @var int createdAt: Дата загрузки
+     * [
+     *  - string id: Идентификатор изображения.
+     *  - string origUrl: Адрес изображения.
+     *  - int size: Размер изображения.
+     *  - int createdAt: Дата загрузки.
+     * ]
+     * @api
      */
     public function downloadImageFile(string $imageDir): ?array
     {
@@ -150,18 +158,18 @@ class YandexImageRequest extends YandexRequest
     }
 
     /**
-     * Просмотр всех загруженных изображений
+     * Просмотр всех загруженных изображений.
      *
-     * Вернет массив из массива изображений
-     * - id - Идентификатор изображения
-     * - origUrl - Адрес изображения.
-     *
-     * @return null|array[['id' => string, 'origUrl' => string],...]
-     *  - @var array
-     *      - @var string id: Идентификатор изображения
-     *      - @var string origUrl: Адрес изображения
-     *      - @var int size: Размер изображения
-     *      - @var int createdAt: Дата загрузки
+     * @return array|null
+     * [
+     *  [
+     *      - string id: Идентификатор изображения.
+     *      - string origUrl: Адрес изображения.
+     *      - int size: Размер изображения.
+     *      - int createdAt: Дата загрузки.
+     *  ]
+     * ]
+     * @api
      */
     public function getLoadedImages(): ?array
     {
@@ -176,12 +184,12 @@ class YandexImageRequest extends YandexRequest
     }
 
     /**
-     * Удаление выбранной картинки
-     * В случае успеха вернет 'ok'
+     * Удаление выбранной картинки.
+     * В случае успеха вернет 'ok'.
      *
-     * @param $imageId - Идентификатор картинки, которую необходимо удалить.
-     *
-     * @return null|string
+     * @param string $imageId Идентификатор картинки, которую необходимо удалить.
+     * @return string|null
+     * @api
      */
     public function deleteImage(string $imageId): ?string
     {
@@ -205,15 +213,12 @@ class YandexImageRequest extends YandexRequest
     }
 
     /**
-     * Удаление всех картинок
+     * Удаление всех картинок.
      * Если при удалении произошел сбой, то картинка останется.
-     * Чтобы точно удалить все картинки лучше использовать грубое удаление
-     *
-     * Возвращает массив
-     * - success - Количество успешно удаленных картинок
-     * - fail - Количество неудаленных картинок
+     * Чтобы точно удалить все картинки лучше использовать грубое удаление.
      *
      * @return bool
+     * @api
      */
     public function deleteImages(): bool
     {

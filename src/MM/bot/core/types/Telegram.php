@@ -1,9 +1,8 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: max18
- * Date: 11.03.2020
- * Time: 12:24
+ * Универсальное приложение по созданию навыков и ботов.
+ * @version 1.0
+ * @author Maxim-M maximco36895@yandex.ru
  */
 
 namespace MM\bot\core\types;
@@ -15,55 +14,57 @@ use MM\bot\api\TelegramRequest;
 use MM\bot\core\mmApp;
 
 /**
+ * Класс, отвечающий за корректную инициализацию и отправку ответа для Телеграма.
  * Class Telegram
  * @package bot\core\types
- * @see TemplateTypeModel
+ * @see TemplateTypeModel Смотри тут
  */
 class Telegram extends TemplateTypeModel
 {
     /**
-     * Инициализация параметров
+     * Инициализация параметров.
      *
-     * @param null|string $content
-     * @param BotController $controller
+     * @param string|null $content Запрос пользователя.
+     * @param BotController $controller Ссылка на класс с логикой навык/бота.
      * @return bool
-     * @see TemplateTypeModel::init()
+     * @see TemplateTypeModel::init() Смотри тут
+     * @api
      */
     public function init(?string $content, BotController &$controller): bool
     {
         if ($content) {
             /**
-             * @var array $content
-             * @see (https://core.telegram.org/bots/api#getting-updates)
-             *  - @var int update_id: Уникальный идентификатор обновления. Обновление идентификаторов начинается с определенного положительного числа и последовательно увеличивается. Этот идентификатор становится особенно удобным, если вы используете Webhooks, так как он позволяет игнорировать повторяющиеся обновления или восстанавливать правильную последовательность обновлений, если они выходят из строя. Если нет новых обновлений хотя бы в течение недели, то идентификатор следующего обновления будет выбран случайным образом, а не последовательно.
-             *  - @var array message: Новое входящее сообщение любого вида-текст, фотография, наклейка и т.д.
-             * @see (https://core.telegram.org/bots/api#message)
-             *      - @var int message_id
-             *      - @var array from
-             *          - @var int id
-             *          - @var bool is_bot
-             *          - @var string first_name
-             *          - @var string last_name
-             *          - @var string username
-             *          - @var string language_code
-             *      - @var array chat
-             *          - @var int id
-             *          - @var string first_name
-             *          - @var string last_name
-             *          - @var string username
-             *          - @var string type
-             *      - @var int date
-             *      - @var string text
-             *  -@var array edited_message: Новое входящее сообщение любого вида-текст, фотография, наклейка и т.д. @see message
-             *  -@var array channel_post: Новая версия сообщения, которая известна боту и была отредактирована @see message
-             *  -@var array edited_channel_post: Новый входящий пост канала любого рода-текст, фото, наклейка и т.д. @see message
-             *  -@var array inline_query: Новый входящий встроенный запрос. @see (https://core.telegram.org/bots/api#inlinequery)
-             *  -@var array chosen_inline_result: Результат встроенного запроса, который был выбран пользователем и отправлен его партнеру по чату. Пожалуйста, ознакомьтесь с нашей документацией по сбору обратной связи для получения подробной информации о том, как включить эти обновления для вашего бота. @see (https://core.telegram.org/bots/api#choseninlineresult)
-             *  -@var array callback_query: Новый входящий запрос обратного вызова. @see (https://core.telegram.org/bots/api#callbackquery)
-             *  -@var array shipping_query: Новый входящий запрос на доставку. Только для счетов-фактур с гибкой ценой. @see (https://core.telegram.org/bots/api#shippingquery)
-             *  -@var array pre_checkout_query: Новый входящий запрос предварительной проверки. Содержит полную информацию о кассе. @see (https://core.telegram.org/bots/api#precheckoutquery)
-             *  -@var array poll: Новое состояние опроса. Боты получают только обновления о остановленных опросах и опросах, которые отправляются ботом. @see (https://core.telegram.org/bots/api#poll)
-             *  -@var array poll_answer: Пользователь изменил свой ответ в неанонимном опросе. Боты получают новые голоса только в опросах, которые были отправлены самим ботом. @see (https://core.telegram.org/bots/api#poll_answer)
+             * array $content
+             * @see (https://core.telegram.org/bots/api#getting-updates) Смотри тут
+             *  - int update_id: Уникальный идентификатор обновления. Обновление идентификаторов начинается с определенного положительного числа и последовательно увеличивается. Этот идентификатор становится особенно удобным, если вы используете Webhooks, так как он позволяет игнорировать повторяющиеся обновления или восстанавливать правильную последовательность обновлений, если они выходят из строя. Если нет новых обновлений хотя бы в течение недели, то идентификатор следующего обновления будет выбран случайным образом, а не последовательно.
+             *  - array message: Новое входящее сообщение любого вида-текст, фотография, наклейка и т.д.
+             * @see (https://core.telegram.org/bots/api#message) Смотри тут
+             *      - int message_id
+             *      - array from
+             *          - int id
+             *          - bool is_bot
+             *          - string first_name
+             *          - string last_name
+             *          - string username
+             *          - string language_code
+             *      - array chat
+             *          - int id
+             *          - string first_name
+             *          - string last_name
+             *          - string username
+             *          - string type
+             *      - int date
+             *      - string text
+             *  - array edited_message: Новое входящее сообщение любого вида-текст, фотография, наклейка и т.д. @see message Смотри тут
+             *  - array channel_post: Новая версия сообщения, которая известна боту и была отредактирована @see message Смотри тут
+             *  - array edited_channel_post: Новый входящий пост канала любого рода-текст, фото, наклейка и т.д. @see message Смотри тут
+             *  - array inline_query: Новый входящий встроенный запрос. @see (https://core.telegram.org/bots/api#inlinequery) Смотри тут
+             *  - array chosen_inline_result: Результат встроенного запроса, который был выбран пользователем и отправлен его партнеру по чату. Пожалуйста, ознакомьтесь с нашей документацией по сбору обратной связи для получения подробной информации о том, как включить эти обновления для вашего бота. @see (https://core.telegram.org/bots/api#choseninlineresult) Смотри тут
+             *  - array callback_query: Новый входящий запрос обратного вызова. @see (https://core.telegram.org/bots/api#callbackquery) Смотри тут
+             *  - array shipping_query: Новый входящий запрос на доставку. Только для счетов-фактур с гибкой ценой. @see (https://core.telegram.org/bots/api#shippingquery) Смотри тут
+             *  - array pre_checkout_query: Новый входящий запрос предварительной проверки. Содержит полную информацию о кассе. @see (https://core.telegram.org/bots/api#precheckoutquery) Смотри тут
+             *  - array poll: Новое состояние опроса. Боты получают только обновления о остановленных опросах и опросах, которые отправляются ботом. @see (https://core.telegram.org/bots/api#poll) Смотри тут
+             *  - array poll_answer: Пользователь изменил свой ответ в неанонимном опросе. Боты получают новые голоса только в опросах, которые были отправлены самим ботом. @see (https://core.telegram.org/bots/api#poll_answer) Смотри тут
              */
             $content = json_decode($content, true);
             $this->controller = &$controller;
@@ -92,10 +93,11 @@ class Telegram extends TemplateTypeModel
     }
 
     /**
-     * Отправка ответа пользователю
+     * Отправка ответа пользователю.
      *
      * @return string
-     * @see TemplateTypeModel::getContext()
+     * @see TemplateTypeModel::getContext() Смотри тут
+     * @api
      */
     public function getContext(): string
     {

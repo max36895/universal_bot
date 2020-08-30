@@ -1,9 +1,8 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: max18
- * Date: 06.03.2020
- * Time: 13:47
+ * Универсальное приложение по созданию навыков и ботов.
+ * @version 1.0
+ * @author Maxim-M maximco36895@yandex.ru
  */
 
 namespace MM\bot\api;
@@ -13,7 +12,7 @@ use MM\bot\api\request\Request;
 use MM\bot\core\mmApp;
 
 /**
- * Отправка запросов на Yandex сервер
+ * Отправка запросов на Yandex сервер.
  *
  * Class YandexRequest
  * @package bot\core\api
@@ -21,25 +20,30 @@ use MM\bot\core\mmApp;
 class YandexRequest
 {
     /**
-     * @var Request $request Отправка запроса
-     * @see Request
+     * Отправка запроса.
+     * @var Request $request Отправка запроса.
+     * @see Request Смотри тут
      */
     protected $request;
 
     /**
-     * Авторизационный токен
-     * @var string
+     * Авторизационный токен.
+     * @var string|null $oauth Авторизационный токен.
      * О том как получить авторизационный токен сказано тут:
-     * @see (https://yandex.ru/dev/dialogs/alice/doc/resource-upload-docpage/#http-images-load__auth)
+     * @see (https://yandex.ru/dev/dialogs/alice/doc/resource-upload-docpage/#http-images-load__auth) Смотри тут
      */
     protected $oauth;
+    /**
+     * Текст с ошибкой
+     * @var string|null $error Текст с ошибкой
+     */
     protected $error;
 
     /**
      * YandexRequest constructor.
-     * @param null $oauth :  Авторизационный токен для загрузки данных
+     * @param string|null $oauth Авторизационный токен для загрузки данных.
      */
-    public function __construct($oauth = null)
+    public function __construct(?string $oauth = null)
     {
         if ($oauth) {
             $this->setOAuth($oauth);
@@ -51,11 +55,12 @@ class YandexRequest
     }
 
     /**
-     * Установка и инициализация токена
+     * Установка и инициализация токена.
      *
-     * @param string|null $oauth : Авторизационный токен для загрузки данных
+     * @param string|null $oauth Авторизационный токен для загрузки данных.
+     * @api
      */
-    public function setOAuth($oauth): void
+    public function setOAuth(?string $oauth): void
     {
         $this->oauth = $oauth;
         if ($this->request->header) {
@@ -64,10 +69,11 @@ class YandexRequest
     }
 
     /**
-     * Отправка запроса для обработки данных
+     * Отправка запроса для обработки данных.
      *
-     * @param string|null $url : Адрес запроса
+     * @param string|null $url Адрес запроса.
      * @return mixed
+     * @api
      */
     public function call(?string $url = null)
     {
@@ -85,7 +91,8 @@ class YandexRequest
     /**
      * Сохранение логов
      *
-     * @param string $error
+     * @param string $error Текст ошибки
+     * @api
      */
     protected function log(string $error): void
     {

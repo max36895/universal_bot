@@ -1,9 +1,8 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: max18
- * Date: 06.03.2020
- * Time: 10:40
+ * Универсальное приложение по созданию навыков и ботов.
+ * @version 1.0
+ * @author Maxim-M maximco36895@yandex.ru
  */
 
 namespace MM\bot\models;
@@ -15,12 +14,7 @@ use mysqli_result;
  * Class UsersData
  * @package bot\models
  *
- * Модель для взаимодействия со всеми пользовательскими данными
- *
- * @property string $userId: Идентификатор пользователя (Уникальный ключ)
- * @property string|array $meta: Meta данные пользователя
- * @property string|array $data: Пользовательские данные
- * @property int $type: Тип записи (0 - Алиса; 1 - Vk; 2 - Telegram)
+ * Модель для взаимодействия со всеми пользовательскими данными.
  */
 class UsersData extends Model
 {
@@ -33,9 +27,25 @@ class UsersData extends Model
 
     const T_USER_APP = 512;
 
+    /**
+     * Идентификатор пользователя (Уникальный ключ).
+     * @var string|null $userId Идентификатор пользователя (Уникальный ключ).
+     */
     public $userId;
+    /**
+     * Meta данные пользователя.
+     * @var string|array|null $meta Meta данные пользователя.
+     */
     public $meta;
+    /**
+     * Пользовательские данные.
+     * @var string|array|null $data Пользовательские данные.
+     */
     public $data;
+    /**
+     * Тип записи (0 - Алиса; 1 - Vk; 2 - Telegram).
+     * @var int $type Тип записи (0 - Алиса; 1 - Vk; 2 - Telegram).
+     */
     public $type;
 
     /**
@@ -46,13 +56,15 @@ class UsersData extends Model
         $this->userId = null;
         $this->meta = null;
         $this->data = null;
+        $this->type = self::T_ALISA;
         parent::__construct();
     }
 
     /**
-     * Создание таблицы бд для хранения пользовательских данных
+     * Создание таблицы бд для хранения пользовательских данных.
      *
      * @return bool|mysqli_result|null
+     * @api
      */
     public function createTable()
     {
@@ -67,9 +79,10 @@ class UsersData extends Model
     }
 
     /**
-     * Удаление таблицы бд для хранения пользовательских данных
+     * Удаление таблицы бд для хранения пользовательских данных.
      *
      * @return bool|mysqli_result|null
+     * @api
      */
     public function dropTable()
     {
@@ -77,9 +90,10 @@ class UsersData extends Model
     }
 
     /**
-     * Название таблицы/файла с данными
+     * Название таблицы/файла с данными.
      *
      * @return string
+     * @api
      */
     public function tableName(): string
     {
@@ -87,9 +101,10 @@ class UsersData extends Model
     }
 
     /**
-     * Основные правила для полей
+     * Основные правила для полей.
      *
      * @return array
+     * @api
      */
     public function rules(): array
     {
@@ -101,9 +116,10 @@ class UsersData extends Model
     }
 
     /**
-     * Название атрибутов таблицы
+     * Название атрибутов таблицы.
      *
      * @return array
+     * @api
      */
     public function attributeLabels(): array
     {
@@ -117,9 +133,10 @@ class UsersData extends Model
 
     /**
      * Выполнить запрос на поиск одного значения.
-     * В случае успешного поиска вернет true
+     * В случае успешного поиска вернет true.
      *
      * @return bool
+     * @api
      */
     public function getOne(): bool
     {
@@ -140,7 +157,8 @@ class UsersData extends Model
     }
 
     /**
-     * Валидация значений
+     * Валидация значений.
+     * @api
      */
     public function validate(): void
     {
@@ -156,9 +174,10 @@ class UsersData extends Model
     }
 
     /**
-     * Инициализация параметров
+     * Инициализация параметров.
      *
-     * @param array $data : Массив с данными
+     * @param array $data Массив с данными.
+     * @api
      */
     public function init(array $data): void
     {

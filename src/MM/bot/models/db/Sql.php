@@ -1,9 +1,8 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: max18
- * Date: 10.03.2020
- * Time: 9:30
+ * Универсальное приложение по созданию навыков и ботов.
+ * @version 1.0
+ * @author Maxim-M maximco36895@yandex.ru
  */
 
 namespace MM\bot\models\db;
@@ -15,24 +14,37 @@ use mysqli_result;
 if (!isset($vDB)) {
     /**
      * Переменная с коннектом к базе данных. Нужна для того, чтобы не было дополнительных подключений к базе
+     * @var DB|null $vDB Переменная с коннектом к базе данных. Нужна для того, чтобы не было дополнительных подключений к базе
      */
     $vDB = new DB();
 }
 
 /**
+ * Класс, позволяющий работать в Базой Данных
  * Class Sql
  * @package bot\models\db
- *
- * @property string $host: Местоположение базы данных
- * @property string $user: Имя пользователя
- * @property string $pass: Пароль пользователя
- * @property string $database: Название базы данных
  */
 class Sql
 {
+    /**
+     * Местоположение базы данных.
+     * @var string|null $host Местоположение базы данных.
+     */
     public $host;
+    /**
+     * Имя пользователя.
+     * @var string|null $user Имя пользователя.
+     */
     public $user;
+    /**
+     * Пароль пользователя.
+     * @var string|null $pass Пароль пользователя.
+     */
     public $pass;
+    /**
+     * Название базы данных.
+     * @var string|null $database Название базы данных.
+     */
     public $database;
 
     /**
@@ -48,9 +60,10 @@ class Sql
     }
 
     /**
-     * Настройка подключения к базе данных
+     * Настройка подключения к базе данных.
      *
      * @return bool
+     * @api
      */
     public function standardInit(): bool
     {
@@ -72,14 +85,15 @@ class Sql
     }
 
     /**
-     * Инициализация параметров подключения в Базе данных
+     * Инициализация параметров подключения в Базе данных.
      *
-     * @param string $host : Расположение базы данных
-     * @param string $user : Имя пользователя
-     * @param string $pass : Пароль
-     * @param string $database : Название базы данных
+     * @param string $host Расположение базы данных.
+     * @param string $user Имя пользователя.
+     * @param string $pass Пароль.
+     * @param string $database Название базы данных.
+     * @api
      */
-    public function initParam(string $host, $user, $pass, $database): void
+    public function initParam(string $host, string $user, string $pass, string $database): void
     {
         $this->host = $host;
         $this->user = $user;
@@ -95,9 +109,10 @@ class Sql
     }
 
     /**
-     * Подключение к Базе данных
+     * Подключение к Базе данных.
      *
      * @return bool
+     * @api
      */
     public function connect(): bool
     {
@@ -110,10 +125,11 @@ class Sql
     }
 
     /**
-     * Декодирование текста(Текст становится приемлемым для sql запроса)
+     * Декодирование текста(Текст становится приемлемым для sql запроса).
      *
-     * @param string $text : декодируемый текст
+     * @param string $text декодируемый текст.
      * @return string
+     * @api
      */
     public function escapeString(string $text): string
     {
@@ -122,10 +138,11 @@ class Sql
     }
 
     /**
-     * Выполнение запроса к базе данных
+     * Выполнение запроса к базе данных.
      *
-     * @param string $sql : Текст запроса
+     * @param string $sql Текст запроса.
      * @return mysqli_result|boolean|null
+     * @api
      */
     public function query(string $sql)
     {
@@ -147,9 +164,9 @@ class Sql
 
 
     /**
-     * Сохранение логов
+     * Сохранение логов.
      *
-     * @param string $errorMsg : Текст ошибки
+     * @param string $errorMsg Текст ошибки.
      * @return bool
      */
     private function saveLog(string $errorMsg): bool

@@ -1,9 +1,8 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: max18
- * Date: 25.03.2020
- * Time: 16:07
+ * Универсальное приложение по созданию навыков и ботов.
+ * @version 1.0
+ * @author Maxim-M maximco36895@yandex.ru
  */
 
 namespace MM\bot\components\button\types;
@@ -16,16 +15,18 @@ use MM\bot\components\button\Button;
  * @package bot\components\button\types
  *
  * Шаблонный класс для второстепенных классов.
- * Нужен для отображения кнопок в ответе пользователю
- *
- * @property Button[] $buttons
+ * Нужен для отображения кнопок в ответе пользователю.
  */
 abstract class TemplateButtonTypes
 {
+    /**
+     * Массив кнопок.
+     * @var Button[]|null $buttons Массив кнопок.
+     */
     public $buttons;
 
     /**
-     * Получить массив с кнопками для ответа пользователю
+     * Получить массив с кнопками для ответа пользователю.
      *
      * @return array
      */

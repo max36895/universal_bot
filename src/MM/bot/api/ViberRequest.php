@@ -1,9 +1,8 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: max18
- * Date: 13.04.2020
- * Time: 13:55
+ * Универсальное приложение по созданию навыков и ботов.
+ * @version 1.0
+ * @author Maxim-M maximco36895@yandex.ru
  */
 
 namespace MM\bot\api;
@@ -16,30 +15,34 @@ use MM\bot\core\mmApp;
 /**
  * Отправка запросов к viber серверу.
  *
- * Документация по viber Api
- * @see (https://developers.viber.com/docs/api/rest-bot-api/)
+ * Документация по viber api.
+ * @see (https://developers.viber.com/docs/api/rest-bot-api/) Смотри тут
  *
  * Class ViberRequest
- * @package bot\core\api
- *
- * @property string $token: Авторизационный токен бота, необходим для отправки данных.
+ * @package bot\api
  */
 class ViberRequest
 {
+    /**
+     * @const string: Адрес, на который отправляться запрос.
+     */
     const API_ENDPOINT = 'https://chatapi.viber.com/pa/';
 
     /**
-     * @var Request $request : Отправка запросов
-     * @see Request
+     * Отправка запросов.
+     * @var Request $request Отправка запросов.
+     * @see Request Смотри тут
      */
     protected $request;
     /**
-     * @var string: Ошибки при выполнении
+     * Ошибки при выполнении.
+     * @var string $error Ошибки при выполнении.
      */
     protected $error;
 
     /**
-     * @var string: Авторизационный токен бота, необходим для отправки данных.
+     * Авторизационный токен бота, необходим для отправки данных.
+     * @var string|null $token Авторизационный токен бота, необходим для отправки данных.
      */
     public $token;
 
@@ -56,8 +59,10 @@ class ViberRequest
     }
 
     /**
-     * Установить токен
-     * @param $token
+     * Установить токен.
+     *
+     * @param string $token Токен необходимый для отправки данных на сервер.
+     * @api
      */
     public function initToken($token): void
     {
@@ -65,10 +70,11 @@ class ViberRequest
     }
 
     /**
-     * Отправка запросов к viber серверу
+     * Отправка запросов к viber серверу.
      *
-     * @param string $method : Название метода
+     * @param string $method Название метода.
      * @return array|null
+     * @api
      */
     public function call(string $method): ?array
     {
@@ -100,25 +106,30 @@ class ViberRequest
     /**
      * Запрос будет получать сведения о конкретном пользователе Viber на основе его уникального идентификатора.
      * Этот запрос может быть отправлен дважды в течение 12 часов для каждого идентификатора пользователя.
-     * @see (https://developers.viber.com/docs/api/rest-bot-api/#get-user-details)
+     * @see (https://developers.viber.com/docs/api/rest-bot-api/#get-user-details) Смотри тут
      *
-     * @param string $id : Уникальный идентификатор пользователя
+     * @param string $id Уникальный идентификатор пользователя.
      * @return array|null
-     *  - @var int status: Результат действия
-     *  - @var string status_message: Статус сообщения
-     *  - @var int message_token: Уникальный идентификатор сообщения
-     *  - @var array user: Информация о пользователе
-     *      - @var string id: Уникальный идентификатор пользователя Viber
-     *      - @var string name: Имя пользователя Viber
-     *      - @var string avatar: URL-адрес аватара пользователя
-     *      - @var string country: Код страны пользователя
-     *      - @var string language: Язык телефона пользователя. Будет возвращен в соответствии с языком устройства
-     *      - @var string primary_device_os: Тип операционной системы и версия основного устройства пользователя.
-     *      - @var int api_version: Версия Viber, установленная на основном устройстве пользователя
-     *      - @var string viber_version: Версия Viber, установленная на основном устройстве пользователя
-     *      - @var int mcc: Мобильный код страны
-     *      - @var int mnc: Код мобильной сети
-     *      - @var string device_type: Тип устройства пользователя
+     * [
+     *  - int status: Результат действия.
+     *  - string status_message: Статус сообщения.
+     *  - int message_token: Уникальный идентификатор сообщения.
+     *  - array user: Информация о пользователе.
+     *  [
+     *      - string id: Уникальный идентификатор пользователя Viber.
+     *      - string name: Имя пользователя Viber.
+     *      - string avatar: URL-адрес аватара пользователя.
+     *      - string country: Код страны пользователя.
+     *      - string language: Язык телефона пользователя. Будет возвращен в соответствии с языком устройства.
+     *      - string primary_device_os: Тип операционной системы и версия основного устройства пользователя.
+     *      - int api_version: Версия Viber, установленная на основном устройстве пользователя.
+     *      - string viber_version: Версия Viber, установленная на основном устройстве пользователя.
+     *      - int mcc: Мобильный код страны.
+     *      - int mnc: Код мобильной сети.
+     *      - string device_type: Тип устройства пользователя.
+     *  ]
+     * ]
+     * @api
      */
     public function getUserDetails(string $id)
     {
@@ -129,35 +140,44 @@ class ViberRequest
     }
 
     /**
-     * Отправка сообщения пользователю
+     * Отправка сообщения пользователю.
      * Отправка сообщения пользователю будет возможна только после того, как пользователь подпишется на бота, отправив ему сообщение.
-     * @see (https://developers.viber.com/docs/api/rest-bot-api/#send-message)
+     * @see (https://developers.viber.com/docs/api/rest-bot-api/#send-message) Смотри тут
      *
-     * @param string $receiver : Уникальный идентификатор пользователя Viber
-     * @param array|string $sender : Отправитель
-     *  - @var string name: Имя отправителя для отображения (Максимум 28 символов)
-     *  - @var string avatar: URL-адрес Аватара отправителя (Размер аватара должен быть не более 100 Кб. Рекомендуется 720x720)
-     * @param string $text : Текст сообщения
-     * @param array $params :
-     *  - @var string receiver: Уникальный идентификатор пользователя Viber
-     *  - @var string type: Тип сообщения. (Доступные типы сообщений: text, picture, video, file, location, contact, sticker, carousel content и url)
-     *  - @var string $sender : Отправитель
-     *  - @var string tracking_data: Разрешить учетной записи отслеживать сообщения и ответы пользователя. Отправлено tracking_data значение будет передано обратно с ответом пользователя
-     *  - @var string min_api_version: Минимальная версия API, необходимая клиентам для этого сообщения (по умолчанию 1)
-     *  - @var string $text : Текст сообщения. (Обязательный параметр)
-     *  - @var string media: Url адрес отправляемого контента. Атуально при отправке файлов.
-     *  - @var string thumbnail: URL-адрес изображения уменьшенного размера. Актуально при отправке файлов
-     *  - @var int size: Размер файла в байтах
-     *  - @var int duration: Продолжительность видео или аудио в секундах. Будет отображаться на приемнике
-     *  - @var string file_name: Имя файла. Актуально для type = file
-     *  - @var array contact: Контакты пользователя. Актуально для type = contact
-     *      - @var string name: Имя контактного лица
-     *      - @var string phone_number: Номер телефона контактного лица
-     *  - @var array location: Координаты местоположения. Актуально для type = location
-     *      - @var string lat: Координата lat
-     *      - @var string lon: Координата lon
-     *  - @var int sticker_id: Уникальный идентификатор стикера Viber. Актуально для type = sticker
+     * @param string $receiver Уникальный идентификатор пользователя Viber.
+     * @param array|string $sender Отправитель:
+     * [
+     *  - string name: Имя отправителя для отображения (Максимум 28 символов).
+     *  - string avatar: URL-адрес Аватара отправителя (Размер аватара должен быть не более 100 Кб. Рекомендуется 720x720).
+     * ]
+     * @param string $text Текст сообщения.
+     * @param array $params Дополнительные параметры:
+     * [
+     *  - string receiver: Уникальный идентификатор пользователя Viber.
+     *  - string type: Тип сообщения. (Доступные типы сообщений: text, picture, video, file, location, contact, sticker, carousel content и url).
+     *  - string $sender Отправитель.
+     *  - string tracking_data: Разрешить учетной записи отслеживать сообщения и ответы пользователя. Отправлено tracking_data значение будет передано обратно с ответом пользователя.
+     *  - string min_api_version: Минимальная версия API, необходимая клиентам для этого сообщения (по умолчанию 1).
+     *  - string $text Текст сообщения. (Обязательный параметр).
+     *  - string media: Url адрес отправляемого контента. Атуально при отправке файлов.
+     *  - string thumbnail: URL-адрес изображения уменьшенного размера. Актуально при отправке файлов.
+     *  - int size: Размер файла в байтах.
+     *  - int duration: Продолжительность видео или аудио в секундах. Будет отображаться на приемнике.
+     *  - string file_name: Имя файла. Актуально для type = file.
+     *  - array contact: Контакты пользователя. Актуально для type = contact.
+     *  [
+     *      - string name: Имя контактного лица.
+     *      - string phone_number: Номер телефона контактного лица.
+     *  ]
+     *  - array location: Координаты местоположения. Актуально для type = location.
+     *  [
+     *      - string lat: Координата lat.
+     *      - string lon: Координата lon.
+     *  ]
+     *  - int sticker_id: Уникальный идентификатор стикера Viber. Актуально для type = sticker.
+     * ]
      * @return array|null
+     * @api
      */
     public function sendMessage(string $receiver, $sender, string $text, array $params = []): ?array
     {
@@ -178,12 +198,13 @@ class ViberRequest
     }
 
     /**
-     * Установка webhook для vider
-     * @see (https://developers.viber.com/docs/api/rest-bot-api/#webhooks)
+     * Установка webhook для vider.
+     * @see (https://developers.viber.com/docs/api/rest-bot-api/#webhooks) Смотри тут
      *
-     * @param string $url : Адресс webhook
-     * @param array $params : Дополнительные параметры
+     * @param string $url Адресс webhook`а.
+     * @param array $params Дополнительные параметры.
      * @return array|null
+     * @api
      */
     public function setWebhook(string $url, array $params = []): ?array
     {
@@ -213,14 +234,15 @@ class ViberRequest
     }
 
     /**
-     * Отправка карточки пользователю
-     * @see (https://developers.viber.com/docs/api/rest-bot-api/#message-types)
+     * Отправка карточки пользователю.
+     * @see (https://developers.viber.com/docs/api/rest-bot-api/#message-types) Смотри тут
      *
-     * @param string $receiver : Уникальный идентификатор пользователя Viber
-     * @param array $richMedia : Отображаемые данные. Параметр 'Buttons'
-     * @param array $params : Дополнительные параметры
+     * @param string $receiver Уникальный идентификатор пользователя Viber.
+     * @param array $richMedia Отображаемые данные. Параметр 'Buttons'.
+     * @param array $params Дополнительные параметры.
      * @return array|null
-     * @see sendMessage()
+     * @see sendMessage() Смотри тут
+     * @api
      */
     public function richMedia(string $receiver, array $richMedia, array $params = []): ?array
     {
@@ -242,13 +264,14 @@ class ViberRequest
     }
 
     /**
-     * Отправить файл на сервер
+     * Отправить файл на сервер.
      *
-     * @param string $receiver : Уникальный идентификатор пользователя Viber
-     * @param string $file : Ссылка на файл
-     * @param array $params Дополнительные параметры
+     * @param string $receiver Уникальный идентификатор пользователя Viber.
+     * @param string $file Ссылка на файл.
+     * @param array $params Дополнительные параметры.
      * @return array|null
-     * @see sendMessage()
+     * @see sendMessage() Смотри тут
+     * @api
      */
     public function sendFile(string $receiver, string $file, array $params = [])
     {
@@ -269,9 +292,9 @@ class ViberRequest
     }
 
     /**
-     * Запись логов
+     * Запись логов.
      *
-     * @param string $error
+     * @param string $error Текст ошибки.
      */
     protected function log(string $error): void
     {

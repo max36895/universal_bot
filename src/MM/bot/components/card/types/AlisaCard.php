@@ -1,9 +1,8 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: max18
- * Date: 25.03.2020
- * Time: 15:50
+ * Универсальное приложение по созданию навыков и ботов.
+ * @version 1.0
+ * @author Maxim-M maximco36895@yandex.ru
  */
 
 namespace MM\bot\components\card\types;
@@ -14,6 +13,7 @@ use MM\bot\components\standard\Text;
 use MM\bot\models\ImageTokens;
 
 /**
+ * Класс отвечающий за отображение карточки в Алисе.
  * Class AlisaCard
  * @package bot\components\card\types
  */
@@ -24,8 +24,11 @@ class AlisaCard extends TemplateCardTypes
     public const ALISA_MAX_IMAGES = 5;
 
     /**
-     * @param bool $isOne : True, если в любом случае использовать 1 картинку
+     * Получить карточку для отображения пользователю.
+     *
+     * @param bool $isOne True, если в любом случае использовать 1 картинку.
      * @return array
+     * @api
      */
     public function getCard(bool $isOne): array
     {

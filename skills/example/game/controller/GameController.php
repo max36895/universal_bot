@@ -1,9 +1,8 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: max18
- * Date: 29.08.2020
- * Time: 11:50
+ * Универсальное приложение по созданию навыков и ботов.
+ * @version 1.0
+ * @author Maxim-M maximco36895@yandex.ru
  */
 
 class GameController extends MM\bot\controller\BotController
@@ -21,7 +20,7 @@ class GameController extends MM\bot\controller\BotController
             if ($value1 < $value2) {
                 return [
                     'example' => "$value2 - $value1 = ?",
-                    'result' => $value2 + $value1
+                    'result' => $value2 - $value1
                 ];
             } else {
                 return [

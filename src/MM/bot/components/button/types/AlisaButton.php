@@ -1,9 +1,8 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: max18
- * Date: 25.03.2020
- * Time: 16:08
+ * Универсальное приложение по созданию навыков и ботов.
+ * @version 1.0
+ * @author Maxim-M maximco36895@yandex.ru
  */
 
 namespace MM\bot\components\button\types;
@@ -12,13 +11,16 @@ namespace MM\bot\components\button\types;
 use MM\bot\components\standard\Text;
 
 /**
+ * Класс отвечающий за отображение кнопок в Алисе
  * Class AlisaButton
  * @package bot\components\button\types
- *
- * @property bool $isCard: True, чтобы получить кнопки для карточки. По умолчанию false
  */
 class AlisaButton extends TemplateButtonTypes
 {
+    /**
+     * True, чтобы получить кнопки для карточки. По умолчанию false
+     * @var bool $isCard True, чтобы получить кнопки для карточки. По умолчанию false
+     */
     public $isCard;
 
     /**
@@ -30,9 +32,15 @@ class AlisaButton extends TemplateButtonTypes
     }
 
     /**
-     * Получить массив с кнопками для ответа пользователю
+     * Получить массив с кнопками для ответа пользователю.
      *
      * @return array
+     * [
+     *  - string text: Текст на кнопке.
+     *  - string payload: Произвольные данные, которые будут отправлены пр нажатии на кнопку.
+     *  - string url: Ссылка по которой будет произведен переход после нажатия на кнопку.
+     * ]
+     * @api
      */
     public function getButtons(): array
     {

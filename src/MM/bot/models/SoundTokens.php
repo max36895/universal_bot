@@ -1,9 +1,8 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: max18
- * Date: 06.03.2020
- * Time: 10:40
+ * Универсальное приложение по созданию навыков и ботов.
+ * @version 1.0
+ * @author Maxim-M maximco36895@yandex.ru
  */
 
 namespace MM\bot\models;
@@ -20,12 +19,7 @@ use mysqli_result;
  * Class SoundTokens
  * @package bot\models
  *
- * Модель для взаимодействия со всеми звуками
- *
- * @property string $soundToken: Идентификатор/токен мелодии
- * @property string $path: Расположение звукового файла(url|/директория)
- * @property string $type: Тип приложения, для которого загружена мелодия
- * @property bool $isAttachContent: True если передается содержимое файла. По умолчанию: false
+ * Модель для взаимодействия со всеми звуками.
  */
 class SoundTokens extends Model
 {
@@ -35,9 +29,25 @@ class SoundTokens extends Model
     const T_TELEGRAM = 2;
     const T_MARUSIA = 3;
 
+    /**
+     * Идентификатор/токен мелодии.
+     * @var string|null $soundToken Идентификатор/токен мелодии.
+     */
     public $soundToken;
+    /**
+     * Расположение звукового файла(url|/директория).
+     * @var string|null $path Расположение звукового файла(url|/директория).
+     */
     public $path;
+    /**
+     * Тип приложения, для которого загружена мелодия.
+     * @var string|int $type Тип приложения, для которого загружена мелодия.
+     */
     public $type;
+    /**
+     * True если передается содержимое файла. По умолчанию: false.
+     * @var bool $isAttachContent True если передается содержимое файла. По умолчанию: false.
+     */
     public $isAttachContent;
 
     /**
@@ -53,9 +63,10 @@ class SoundTokens extends Model
     }
 
     /**
-     * Создание таблицы бд для хранения загруженных звуков
+     * Создание таблицы бд для хранения загруженных звуков.
      *
      * @return bool|mysqli_result|null
+     * @api
      */
     public function createTable()
     {
@@ -72,9 +83,10 @@ class SoundTokens extends Model
     }
 
     /**
-     * Удаление таблицы бд для хранения загруженных звуков
+     * Удаление таблицы бд для хранения загруженных звуков.
      *
      * @return bool|mysqli_result|null
+     * @api
      */
     public function dropTable()
     {
@@ -85,9 +97,10 @@ class SoundTokens extends Model
     }
 
     /**
-     * Название таблицы/файла с данными
+     * Название таблицы/файла с данными.
      *
      * @return string
+     * @api
      */
     public function tableName(): string
     {
@@ -95,9 +108,10 @@ class SoundTokens extends Model
     }
 
     /**
-     * Основные правила для полей
+     * Основные правила для полей.
      *
      * @return array
+     * @api
      */
     public function rules(): array
     {
@@ -108,9 +122,10 @@ class SoundTokens extends Model
     }
 
     /**
-     * Название атрибутов таблицы
+     * Название атрибутов таблицы.
      *
      * @return array
+     * @api
      */
     public function attributeLabels(): array
     {
@@ -122,9 +137,10 @@ class SoundTokens extends Model
     }
 
     /**
-     * Получить идентификатор/токен мелодии
+     * Получить идентификатор/токен мелодии.
      *
      * @return string|null
+     * @api
      */
     public function getToken(): ?string
     {

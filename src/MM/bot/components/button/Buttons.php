@@ -1,9 +1,8 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: max18
- * Date: 05.03.2020
- * Time: 9:16
+ * Универсальное приложение по созданию навыков и ботов.
+ * @version 1.0
+ * @author Maxim-M maximco36895@yandex.ru
  */
 
 namespace MM\bot\components\button;
@@ -16,26 +15,9 @@ use MM\bot\components\button\types\VkButton;
 
 
 /**
+ * Отвечает за отображение определенных кнопок, в зависимости от типа приложения.
  * Class Buttons
  * @package bot\components\button
- *
- * @see Button
- * @property Button[] $buttons: Массив с различными кнопками.
- * @property array $btn:
- *  - @var string: Текст, отображаемый на кнопке
- *  or
- *  - @var array
- *      - @var string title:    Текст, отображаемый на кнопке
- *      - @var string url:      Ссылка, по которой перейдет пользователь после нажатия на кнопку
- *      - @var string payload:  Дополнительные параметры, передаваемые при нажатие на кнопку
- * @property array $link:
- *  - @var string: Текст, отображаемый на кнопке
- *  or
- *  - @var array
- *      - @var string title:    Текст, отображаемый на кнопке
- *      - @var string url:      Ссылка, по которой перейдет пользователь после нажатия на кнопку
- *      - @var string payload:  Дополнительные параметры, передаваемые при нажатие на кнопку
- * @property string $type: Тип кнопок(кнопка в Алисе, кнопка в карточке Алисы, кнопка в Vk, кнопка в Telegram)
  */
 class Buttons
 {
@@ -46,9 +28,37 @@ class Buttons
     public const T_VIBER_BUTTONS = 'viber_btn';
     public const T_USER_APP_BUTTONS = 'user_app_btn';
 
+    /**
+     * Массив с различными кнопками.
+     * @var Button[]|null $buttons Массив с различными кнопками.
+     * @see Button Смотри тут
+     */
     public $buttons;
+    /**
+     * Массив из кнопок вида кнопка.
+     * @var array|string|null $btn
+     *  - string Текст, отображаемый на кнопке.
+     *  or
+     *  - array
+     *      - string title    Текст, отображаемый на кнопке.
+     *      - string url      Ссылка, по которой перейдет пользователь после нажатия на кнопку.
+     *      - string payload  Дополнительные параметры, передаваемые при нажатие на кнопку.
+     */
     public $btn;
+    /**
+     * Массив из кнопок вида ссылка.
+     * @var array|null $link
+     *  - string Текст, отображаемый на кнопке.
+     *  or
+     *  - array
+     *      - string title    Текст, отображаемый на кнопке.
+     *      - string url      Ссылка, по которой перейдет пользователь после нажатия на кнопку.
+     *      - string payload  Дополнительные параметры, передаваемые при нажатие на кнопку.
+     */
     public $link;
+    /**
+     * @var string string $type Тип кнопок(кнопка в Алисе, кнопка в карточке Алисы, кнопка в Vk, кнопка в Telegram).
+     */
     public $type;
 
     /**
@@ -61,7 +71,8 @@ class Buttons
     }
 
     /**
-     * Очистка всех кнопок
+     * Очистка всех кнопок.
+     * @api
      */
     public function clear(): void
     {
@@ -71,12 +82,12 @@ class Buttons
     }
 
     /**
-     * Вставить кнопку
+     * Вставить кнопку.
      *
-     * @param string $title : Текст на кнопке
-     * @param string|null $url : Ссылка для перехода при нажатии на кнопку
-     * @param string|array|null $payload : Произвольные данные, отправляемые при нажатии кнопки
-     * @param bool|null $hide : True, если отображать кнопку как сайджест
+     * @param string $title Текст на кнопке.
+     * @param string|null $url Ссылка для перехода при нажатии на кнопку.
+     * @param string|array|null $payload Произвольные данные, отправляемые при нажатии кнопки.
+     * @param bool|null $hide True, если отображать кнопку как сайджест.
      *
      * @return bool
      */
@@ -100,12 +111,13 @@ class Buttons
     }
 
     /**
-     * Добавить кнопку типа кнопка
+     * Добавить кнопку типа кнопка.
      *
-     * @param string $title : Текст на кнопке
-     * @param string|null $url : Ссылка для перехода при нажатии на кнопку
-     * @param string|array|null $payload : Произвольные данные, отправляемые при нажатии кнопки
+     * @param string $title Текст на кнопке.
+     * @param string|null $url Ссылка для перехода при нажатии на кнопку.
+     * @param string|array|null $payload Произвольные данные, отправляемые при нажатии кнопки.
      * @return bool
+     * @api
      */
     public function addBtn($title, ?string $url = '', $payload = ''): bool
     {
@@ -113,12 +125,13 @@ class Buttons
     }
 
     /**
-     * Добавить кнопку типа сайджест
+     * Добавить кнопку типа сайджест.
      *
-     * @param string $title : Текст на кнопке
-     * @param string|null $url : Ссылка для перехода при нажатии на кнопку
-     * @param array|string|null $payload : Произвольные данные, отправляемые при нажатии кнопки
+     * @param string $title Текст на кнопке.
+     * @param string|null $url Ссылка для перехода при нажатии на кнопку.
+     * @param array|string|null $payload Произвольные данные, отправляемые при нажатии кнопки.
      * @return bool
+     * @api
      */
     public function addLink($title, ?string $url = '', $payload = ''): bool
     {
@@ -127,7 +140,7 @@ class Buttons
 
     /**
      * Дополнительная обработка второстепенных кнопок.
-     * А именно обрабатываются массивы btn и link. После чего все значения вносятся в массив buttons
+     * А именно обрабатываются массивы btn и link. После чего все значения вносятся в массив buttons.
      */
     protected function processing(): void
     {
@@ -160,11 +173,12 @@ class Buttons
     }
 
     /**
-     * Возвращает массив с кнопками для ответа пользователю
+     * Возвращает массив с кнопками для ответа пользователю.
      *
-     * @param string|null $type : Тип приложения
-     * @param TemplateButtonTypes| null $userButton : Класс с пользовательскими кнопками.
+     * @param string|null $type Тип приложения.
+     * @param TemplateButtonTypes|null $userButton Класс с пользовательскими кнопками.
      * @return array
+     * @api
      */
     public function getButtons($type = null, $userButton = null): array
     {
@@ -211,8 +225,9 @@ class Buttons
     /**
      * Возвращает строку из json объекта кнопок.
      *
-     * @param string|null $type : Тип приложения
+     * @param string|null $type Тип приложения.
      * @return string|null
+     * @api
      */
     public function getButtonJson($type = null): ?string
     {

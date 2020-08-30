@@ -1,9 +1,8 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: max18
- * Date: 13.03.2020
- * Time: 14:44
+ * Универсальное приложение по созданию навыков и ботов.
+ * @version 1.0
+ * @author Maxim-M maximco36895@yandex.ru
  */
 
 namespace MM\bot\components\standard;
@@ -12,30 +11,46 @@ namespace MM\bot\components\standard;
  * Класс, отвечающий за корректную навигацию по элементам меню.
  * Class Navigation
  * @package bot\components\standard
- *
- * @property bool $isUsedStandardText: Если true, тогда используются стандартные команды для навигации
- * @property array $nextText: Массив с возможными командами для навигации вперед
- * @property array $oldText: Массив с возможными командами для навигации назад
- * @property array $elements: Массив элементов для обработки
- * @property int $maxElement: (default 5) Максимальное количество отображаемых элементов
- * @property int $thisPage: (default 0) Текущая страница. Рекомендуется получать это значение после завершения всех операция.
  */
 class Navigation
 {
     public const STANDARD_NEXT_TEXT = ['дальше', 'вперед'];
     public const STANDARD_OLD_TEXT = ['назад'];
 
+    /**
+     * Если true, тогда используются стандартные команды для навигации.
+     * @var bool $isUsedStandardText Если true, тогда используются стандартные команды для навигации.
+     */
     public $isUsedStandardText;
+    /**
+     * Массив с возможными командами для навигации вперед.
+     * @var array $nextText Массив с возможными командами для навигации вперед.
+     */
     public $nextText;
+    /**
+     * Массив с возможными командами для навигации назад.
+     * @var array $oldText Массив с возможными командами для навигации назад.
+     */
     public $oldText;
-
+    /**
+     * Массив элементов для обработки.
+     * @var array $elements Массив элементов для обработки.
+     */
     public $elements;
+    /**
+     * (default 5) Максимальное количество отображаемых элементов.
+     * @var int $maxElement (default 5) Максимальное количество отображаемых элементов.
+     */
     public $maxElement;
+    /**
+     * (default 0) Текущая страница. Рекомендуется получать это значение после завершения всех операция.
+     * @var int $thisPage (default 0) Текущая страница. Рекомендуется получать это значение после завершения всех операция.
+     */
     public $thisPage;
 
     /**
      * Navigation constructor.
-     * @param int $maxElement
+     * @param int $maxElement Максимально количество отображаемых элементов.
      */
     public function __construct(int $maxElement = 5)
     {
@@ -48,10 +63,11 @@ class Navigation
     }
 
     /**
-     * Пользователь хочет двигаться дальше по массиву
+     * Пользователь хочет двигаться дальше по массиву.
      *
-     * @param string $text : Пользовательский запрос
+     * @param string $text Пользовательский запрос.
      * @return bool
+     * @api
      */
     public function isNext(string $text): bool
     {
@@ -64,10 +80,11 @@ class Navigation
     }
 
     /**
-     * Пользователь хочет двигаться назад по массиву
+     * Пользователь хочет двигаться назад по массиву.
      *
-     * @param string $text : Пользовательский запрос
+     * @param string $text Пользовательский запрос.
      * @return bool
+     * @api
      */
     public function isOld(string $text): bool
     {
@@ -80,10 +97,10 @@ class Navigation
     }
 
     /**
-     * Пользователь переходит на определенную страницу
-     * В случае успешного перехода вернет true
+     * Пользователь переходит на определенную страницу.
+     * В случае успешного перехода вернет true.
      *
-     * @param string $text : Пользовательский запрос
+     * @param string $text Пользовательский запрос.
      * @return bool
      */
     protected function numberPage(string $text): bool
@@ -102,9 +119,9 @@ class Navigation
 
     /**
      * Пользователь переходит на следующую страницу.
-     * В случае успешного перехода вернет true
+     * В случае успешного перехода вернет true.
      *
-     * @param string $text : Пользовательский запрос
+     * @param string $text Пользовательский запрос.
      * @return bool
      */
     protected function nextPage(string $text): bool
@@ -121,10 +138,10 @@ class Navigation
     }
 
     /**
-     * Пользователь переходит на предыдущую страницу
-     * В случае успешного перехода вернет true
+     * Пользователь переходит на предыдущую страницу.
+     * В случае успешного перехода вернет true.
      *
-     * @param string $text : Пользовательский запрос
+     * @param string $text Пользовательский запрос.
      * @return bool
      */
     protected function oldPage(string $text): bool
@@ -140,11 +157,12 @@ class Navigation
     }
 
     /**
-     * Возвращает новый массив с учетом текущего положения
+     * Возвращает новый массив с учетом текущего положения.
      *
-     * @param array|null $elements : Элемент для обработки
-     * @param string $text : Пользовательский запрос
+     * @param array|null $elements Элемент для обработки.
+     * @param string $text Пользовательский запрос.
      * @return array
+     * @api
      */
     public function nav(?array $elements = null, string $text = ''): array
     {
@@ -164,13 +182,14 @@ class Navigation
     }
 
     /**
-     * Пользователь выбирает определенный элемент списка на нужной странице
+     * Пользователь выбирает определенный элемент списка на нужной странице.
      *
-     * @param array $elements : Элемент для обработки
-     * @param string $text : Пользовательский запрос
-     * @param array|string|null $key : Поиск элемента по ключу массива. Если null, тогда подразумевается что передан массив из строк
-     * @param int|null $thisPage : Текущая страница
+     * @param array|null $elements Элемент для обработки.
+     * @param string $text Пользовательский запрос.
+     * @param array|string|null $key Поиск элемента по ключу массива. Если null, тогда подразумевается что передан массив из строк.
+     * @param int|null $thisPage Текущая страница.
      * @return mixed
+     * @api
      */
     public function selectedElement(?array $elements = null, string $text = '', $key = null, ?int $thisPage = null)
     {
@@ -229,10 +248,11 @@ class Navigation
     }
 
     /**
-     * Возвращает кнопки для навигации
+     * Возвращает кнопки для навигации.
      *
-     * @param bool $isNumber : Использовать числовую навигацию
+     * @param bool $isNumber Использование числовой навигации. Если true, тогда будут отображаться кнопки с числовой навигацией.
      * @return array
+     * @api
      */
     public function getPageNav(bool $isNumber = false): array
     {
@@ -273,9 +293,10 @@ class Navigation
     }
 
     /**
-     * Возвращает информацию о текущей позиции пользователя
+     * Возвращает информацию о текущей позиции пользователя.
      *
      * @return string
+     * @api
      */
     public function getPageInfo(): string
     {
@@ -293,10 +314,11 @@ class Navigation
     }
 
     /**
-     * Возвращает максимальное количество страниц
+     * Возвращает максимальное количество страниц.
      *
-     * @param array|null $elements : Элемент для обработки
+     * @param array|null $elements Элемент для обработки.
      * @return int
+     * @api
      */
     public function getMaxPage(?array $elements = null): int
     {

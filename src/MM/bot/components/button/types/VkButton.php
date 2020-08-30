@@ -1,9 +1,8 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: max18
- * Date: 25.03.2020
- * Time: 16:08
+ * Универсальное приложение по созданию навыков и ботов.
+ * @version 1.0
+ * @author Maxim-M maximco36895@yandex.ru
  */
 
 namespace MM\bot\components\button\types;
@@ -13,6 +12,7 @@ use MM\bot\components\button\Button;
 use MM\bot\core\mmApp;
 
 /**
+ * Класс отвечающий за отображение кнопок в ВКонтакте
  * Class VkButton
  * @package bot\components\button\types
  */
@@ -26,9 +26,10 @@ class VkButton extends TemplateButtonTypes
     public const GROUP_NAME = '_group';
 
     /**
-     * Получить массив с кнопками для ответа пользователю
+     * Получить массив с кнопками для ответа пользователю.
      *
      * @return array
+     * @api
      */
     public function getButtons(): array
     {

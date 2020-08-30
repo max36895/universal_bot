@@ -7,21 +7,32 @@ namespace MM\bot\models\db;
 use mysqli;
 
 /**
+ * Класс отвечающий за подключение и взаимодействие с Базой Данных
  * Class DB
  * @package bot\models\db
- *
- * @property mysqli $sql: Подключение к базе данных
- * @property array $errors: Ошибки при выполнении запросов
- * @property array $params: параметры для конфигурации. имеют следующие поля:
- *  - @var string host: Местоположение базы данных
- *  - @var string user: Имя пользователя
- *  - @var string pass: Пароль пользователя
- *  - @var string database: Название базы данных
  */
 class DB
 {
+    /**
+     * Подключение к базе данных
+     * @var mysqli|null $sql Подключение к базе данных
+     */
     public $sql;
+    /**
+     * Ошибки при выполнении запросов
+     * @var array $errors Ошибки при выполнении запросов
+     */
     public $errors;
+    /**
+     * параметры для конфигурации. имеют следующие поля:
+     * @var array|null $params параметры для конфигурации. имеют следующие поля:
+     * [
+     *  - string host:  Местоположение базы данных
+     *  - string user Имя пользователя
+     *  - string pass Пароль пользователя
+     *  - string database Название базы данных
+     * ]
+     */
     public $params;
 
     /**
@@ -35,9 +46,10 @@ class DB
     }
 
     /**
-     * Подключение к базе данных
+     * Подключение к базе данных.
      *
      * @return bool
+     * @api
      */
     public function connect(): bool
     {
@@ -59,7 +71,8 @@ class DB
     }
 
     /**
-     * Закрытие подключения к базе данных
+     * Закрытие подключения к базе данных.
+     * @api
      */
     public function close()
     {
