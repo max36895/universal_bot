@@ -1,38 +1,38 @@
 ---
-name: Bug report
-about: Create a report to help us improve
+name: Отчет об ошибке
+about: Создайте отчет, чтобы помочь улучшить продукт
 title: ''
 labels: ''
 assignees: ''
 
 ---
 
-**Describe the bug**
-A clear and concise description of what the bug is.
+** Опишите ошибку **
+Четкое и краткое описание ошибки.
 
-**To Reproduce**
-Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
+** Воспроизвести **
+Шаги по воспроизведению поведения:
+1. Перейдите к "..."
+2. Щелкните "...."
+3. Прокрутите вниз до "...."
+4. См. Ошибку
 
-**Expected behavior**
-A clear and concise description of what you expected to happen.
+** Ожидаемое поведение **
+Четкое и краткое описание того, что вы ожидали.
 
-**Screenshots**
-If applicable, add screenshots to help explain your problem.
+** Скриншоты **
+Если возможно, добавьте снимки экрана, чтобы объяснить вашу проблему.
 
-**Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
+** Рабочий стол (заполните следующую информацию): **
+  - ОС: [например, iOS]
+  - Браузер [например, хром, сафари]
+  - Версия [например, 22]
 
-**Smartphone (please complete the following information):**
- - Device: [e.g. iPhone6]
- - OS: [e.g. iOS8.1]
- - Browser [e.g. stock browser, safari]
- - Version [e.g. 22]
+** Смартфон (заполните следующую информацию): **
+  - Устройство: [например, iphone 6]
+  - ОС: [например, iOS8.1]
+  - Браузер [например, стандартный браузер, сафари]
+  - Версия [например, 22]
 
-**Additional context**
-Add any other context about the problem here.
+** Дополнительный контекст **
+Добавьте сюда любой другой контекст проблемы.
