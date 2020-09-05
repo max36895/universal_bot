@@ -5,6 +5,12 @@
  * @author Maxim-M maximco36895@yandex.ru
  */
 
+/**
+ * Пример, позволяющий сохранить данные в локальном хранилище.
+ * Локальное хранилище работает только для Алисы. Во всех других ботах, будет использована база данных.
+ *
+ * Class LocalStorageController
+ */
 class LocalStorageController extends MM\bot\controller\BotController
 {
     public function action($intentName): void

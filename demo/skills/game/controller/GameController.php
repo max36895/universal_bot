@@ -5,6 +5,11 @@
  * @author Maxim-M maximco36895@yandex.ru
  */
 
+/**
+ * Пример с игрой в математику.
+ *
+ * Class GameController
+ */
 class GameController extends MM\bot\controller\BotController
 {
     private function getExample()

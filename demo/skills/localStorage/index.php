@@ -9,8 +9,8 @@ require_once __DIR__ . '/controller/LocalStorageController.php';
 
 $bot = new MM\bot\core\Bot();
 $bot->initTypeInGet();
-$bot->initConfig(include __DIR__ . '/../config/skillStorageConfig.php');
-$bot->initParams(include __DIR__ . '/../config/skillDefaultParam.php');
+$bot->initConfig(include __DIR__ . '/../../config/skillStorageConfig.php');
+$bot->initParams(include __DIR__ . '/../../config/skillDefaultParam.php');
 $logic = new LocalStorageController();
 $bot->initBotController($logic);
 //echo $bot->run();

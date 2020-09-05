@@ -5,6 +5,16 @@
  * @author Maxim-M maximco36895@yandex.ru
  */
 
+/**
+ * Стандартный пример приложения.
+ * Отвечает на команды:
+ *  - Привет
+ *  - Пока
+ *  - Список
+ *  - Карточка
+ *
+ * Class StandardController
+ */
 class StandardController extends MM\bot\controller\BotController
 {
     public function action($intentName): void
