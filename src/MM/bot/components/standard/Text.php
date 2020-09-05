@@ -30,8 +30,10 @@ class Text
             if (mb_strlen($text, 'utf-8') > $size) {
                 if ($isEllipsis) {
                     $size -= 3;
+                    $text = (mb_substr($text, 0, $size) . '...');
+                } else {
+                    $text = mb_substr($text, 0, $size);
                 }
-                $text = (mb_substr($text, 0, $size) . '...');
             }
         } else {
             $text = '';
