@@ -241,7 +241,6 @@ class Navigation
                 if ($maxPercent > 98) {
                     return $selectElement;
                 }
-                $showElements[] = $this->elements[$i];
             }
         }
         return $selectElement;
