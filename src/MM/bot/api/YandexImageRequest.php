@@ -223,10 +223,10 @@ class YandexImageRequest extends YandexRequest
     public function deleteImages(): bool
     {
         if ($this->skillId) {
-            $sounds = $this->getLoadedImages();
-            if ($sounds) {
-                foreach ($sounds as $sound) {
-                    $this->deleteImage($sound['id'] ?? null);
+            $images = $this->getLoadedImages();
+            if ($images) {
+                foreach ($images as $image) {
+                    $this->deleteImage($image['id'] ?? null);
                     sleep(3);
                 }
             } else {

@@ -57,7 +57,7 @@ class Buttons
      */
     public $link;
     /**
-     * @var string string $type Тип кнопок(кнопка в Алисе, кнопка в карточке Алисы, кнопка в Vk, кнопка в Telegram).
+     * @var string $type Тип кнопок(кнопка в Алисе, кнопка в карточке Алисы, кнопка в Vk, кнопка в Telegram).
      */
     public $type;
 
