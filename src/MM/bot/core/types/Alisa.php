@@ -68,20 +68,6 @@ class Alisa extends TemplateTypeModel
     }
 
     /**
-     * Получение информации о сессии.
-     *
-     * @return array
-     */
-    protected function getSession(): array
-    {
-        return [
-            'session_id' => $this->session['session_id'],
-            'message_id' => $this->session['message_id'],
-            'user_id' => $this->session['user_id']
-        ];
-    }
-
-    /**
      * Инициализация параметров.
      *
      * @param string|null $content Запрос пользователя.
@@ -197,7 +183,7 @@ class Alisa extends TemplateTypeModel
             }
             $result['response'] = $this->getResponse();
         }
-        //$result['session'] = $this->getSession(); Не используется
+
         if ($this->isState || $this->isUsedLocalStorage) {
             if ($this->isUsedLocalStorage && $this->controller->userData) {
                 $result[$this->stateName] = $this->controller->userData;
