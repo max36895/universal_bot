@@ -157,8 +157,7 @@ class ImageTokens extends Model
                     }
                     if ($res) {
                         $this->imageToken = $res['id'];
-                        $status = $this->save(true);
-                        if ($status) {
+                        if ($this->save(true)) {
                             return $this->imageToken;
                         }
                     }
@@ -178,8 +177,7 @@ class ImageTokens extends Model
                             $photo = $vkApi->photosSaveMessagesPhoto($uploadResponse['photo'], $uploadResponse['server'], $uploadResponse['hash']);
                             if ($photo) {
                                 $this->imageToken = "photo{$photo['owner_id']}_{$photo['id']}";
-                                $status = $this->save(true);
-                                if ($status) {
+                                if ($this->save(true)) {
                                     return $this->imageToken;
                                 }
                             }
@@ -195,11 +193,10 @@ class ImageTokens extends Model
                     return $this->imageToken;
                 } else {
                     $photo = $telegramApi->sendPhoto(mmApp::$params['user_id'], $this->path, $this->caption);
-                    if ($photo) {
-                        if (isset($photo['photo']['file_id'])) {
-                            $this->imageToken = $photo['photo']['file_id'];
-                            $status = $this->save(true);
-                            if ($status) {
+                    if ($photo && $photo['ok']) {
+                        if (isset($photo['result']['photo']['file_id'])) {
+                            $this->imageToken = $photo['result']['photo']['file_id'];
+                            if ($this->save(true)) {
                                 return $this->imageToken;
                             }
                         }

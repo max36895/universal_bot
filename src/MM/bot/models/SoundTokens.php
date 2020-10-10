@@ -158,8 +158,7 @@ class SoundTokens extends Model
                     }
                     if ($res) {
                         $this->soundToken = $res['id'];
-                        $status = $this->save();
-                        if ($status) {
+                        if ($this->save(true)) {
                             return $this->soundToken;
                         }
                     }
@@ -175,11 +174,10 @@ class SoundTokens extends Model
                     if ($uploadServerResponse) {
                         $uploadResponse = $vkApi->upload($uploadServerResponse['upload_url'], $this->path);
                         if ($uploadResponse) {
-                            $doc = $vkApi->docsSave($uploadResponse['photo'], 'Voice message');
+                            $doc = $vkApi->docsSave($uploadResponse['file'], 'Voice message');
                             if ($doc) {
-                                $this->soundToken = "doc{$doc['file']['owner_id']}_{$doc['file']['id']}";
-                                $status = $this->save(true);
-                                if ($status) {
+                                $this->soundToken = "doc{$doc['owner_id']}_{$doc['id']}";
+                                if ($this->save(true)) {
                                     return $this->soundToken;
                                 }
                             }
@@ -195,11 +193,10 @@ class SoundTokens extends Model
                     return $this->soundToken;
                 } else {
                     $sound = $telegramApi->sendAudio(mmApp::$params['user_id'], $this->path);
-                    if ($sound) {
-                        if (isset($sound['audio']['file_id'])) {
-                            $this->soundToken = $sound['audio']['file_id'];
-                            $status = $this->save(true);
-                            if ($status) {
+                    if ($sound && $sound['ok']) {
+                        if (isset($sound['result']['audio']['file_id'])) {
+                            $this->soundToken = $sound['result']['audio']['file_id'];
+                            if ($this->save(true)) {
                                 return $this->soundToken;
                             }
                         }
@@ -208,7 +205,7 @@ class SoundTokens extends Model
                 }
                 break;
 
-            case T_MARUSIA:
+            case self::T_MARUSIA:
                 return null;
                 break;
         }

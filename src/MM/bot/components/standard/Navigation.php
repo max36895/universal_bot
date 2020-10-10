@@ -102,15 +102,19 @@ class Navigation
      *
      * @param string $text Пользовательский запрос.
      * @return bool
+     * @api
      */
-    protected function numberPage(string $text): bool
+    public function numberPage(string $text): bool
     {
         @preg_match_all('/(\d) страни/umi', $text, $data);
         if (isset($data[0][0])) {
-            $this->thisPage = $data[0][0];
+            $this->thisPage = $data[0][0] - 1;
             $maxPage = $this->getMaxPage();
             if ($this->thisPage >= $maxPage) {
                 $this->thisPage = $maxPage - 1;
+            }
+            if ($this->thisPage < 0) {
+                $this->thisPage = 0;
             }
             return true;
         }
@@ -278,9 +282,10 @@ class Navigation
             $count = 0;
             for ($i = $index; $i < $maxPage; $i++) {
                 if ($i == $this->thisPage) {
-                    $buttons[] = "[{$i}]";
+                    $thisPage = $i + 1;
+                    $buttons[] = "[{$thisPage}]";
                 } else {
-                    $buttons[] = $i;
+                    $buttons[] = $i + 1;
                 }
                 $count++;
                 if ($count > 5) {

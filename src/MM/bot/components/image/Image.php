@@ -73,7 +73,7 @@ class Image
      * @return bool
      * @api
      */
-    public function init(?string $image, $title, $desc = ' ', $button = null): bool
+    public function init(?string $image, string $title, string $desc = ' ', $button = null): bool
     {
         if ($this->isToken) {
             $this->imageToken = $image;

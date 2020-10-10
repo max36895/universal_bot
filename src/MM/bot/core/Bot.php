@@ -140,7 +140,7 @@ class Bot
      * @return string
      * @api
      */
-    public function run($userBotClass = null): string
+    public function run(?TemplateTypeModel $userBotClass = null): string
     {
         $botClass = $type = null;
         switch (mmApp::$appType) {
@@ -191,6 +191,7 @@ class Bot
 
                 $isLocalStorage = (mmApp::$config['isLocalStorage'] && $botClass->isLocalStorage());
 
+                $isNew = true;
                 if ($isLocalStorage) {
                     $botClass->isUsedLocalStorage = $isLocalStorage;
                     $this->botController->userData = $botClass->getLocalStorage();
@@ -200,7 +201,6 @@ class Bot
                         $sql = "`userId`=\"{$userData->escapeString($this->botController->userToken)}\"";
                     }
 
-                    $isNew = true;
                     if ($userData->whereOne($sql)) {
                         $this->botController->userData = $userData->data;
                         $isNew = false;

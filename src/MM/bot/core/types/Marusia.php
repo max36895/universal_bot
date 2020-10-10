@@ -111,9 +111,8 @@ class Marusia extends TemplateTypeModel
             }
 
             $this->session = $content['session'];
-            $userId = $this->session['user_id'];
 
-            $this->controller->userId = $userId;
+            $this->controller->userId = $this->session['user_id'];
             mmApp::$params['user_id'] = $this->controller->userId;
             $this->controller->nlu->setNlu($content['request']['nlu'] ?? []);
 
@@ -121,11 +120,7 @@ class Marusia extends TemplateTypeModel
             $this->controller->messageId = $this->session['message_id'];
 
             mmApp::$params['app_id'] = $this->session['skill_id'];
-            if (isset($this->controller->userMeta['interfaces']['screen'])) {
-                $this->controller->isScreen = true;
-            } else {
-                $this->controller->isScreen = false;
-            }
+            $this->controller->isScreen = isset($this->controller->userMeta['interfaces']['screen']);
             return true;
         } else {
             $this->error = 'Marusia:init(): Отправлен пустой запрос!';

@@ -64,7 +64,7 @@ class ViberRequest
      * @param string $token Токен необходимый для отправки данных на сервер.
      * @api
      */
-    public function initToken($token): void
+    public function initToken(string $token): void
     {
         $this->token = $token;
     }
@@ -84,7 +84,7 @@ class ViberRequest
                     "X-Viber-Auth-Token: {$this->token}"
                 ];
                 $this->request->post['min_api_version'] = mmApp::$params['viber_api_version'] ?? 2;
-                $data = $this->request->send(self::API_ENDPOINT . $method);
+                $data = $this->request->send(self::API_ENDPOINT . $method)['data']??[];
                 if (isset($data['failed_list']) && count($data['failed_list'])) {
                     $this->error = json_encode($data['failed_list'], JSON_UNESCAPED_UNICODE);
                     $this->log($data['status_message']);

@@ -62,7 +62,7 @@ class TelegramRequest
      * @param string|null $token Токен для загрузки данных на сервер.
      * @api
      */
-    public function initToken($token): void
+    public function initToken(?string $token): void
     {
         $this->token = $token;
     }
@@ -248,8 +248,7 @@ class TelegramRequest
                         }
                         $options = $tmp;
                     }
-                    $options = json_encode($options);
-                    $this->request->post['options'] = $options;
+                    $this->request->post['options'] = json_encode($options);;
                 } else {
                     $isSend = false;
                 }
@@ -321,7 +320,7 @@ class TelegramRequest
      * ]
      * @api
      */
-    public function sendPhoto($userId, string $file, $desc = null, array $params = []): ?array
+    public function sendPhoto($userId, string $file, ?string $desc = null, array $params = []): ?array
     {
         $this->request->post = [
             'chat_id' => $userId
@@ -588,7 +587,7 @@ class TelegramRequest
     protected function log(string $error): void
     {
         $error = sprintf("\n%sПроизошла ошибка при отправке запроса по адресу: %s\nОшибка:\n%s\n%s\n",
-            date('(d-m-Y H:i:s)'), $this->request->url, $error, $this->error);
+            date('(d-m-Y H:i:s): '), $this->request->url, $error, $this->error);
         mmApp::saveLog('telegramApi.log', $error);
     }
 }

@@ -32,7 +32,6 @@ class AlisaCard extends TemplateCardTypes
      */
     public function getCard(bool $isOne): array
     {
-        $object = [];
         $this->button->type = Buttons::T_ALISA_CARD_BUTTON;
         $countImage = count($this->images);
         if ($countImage) {
@@ -58,9 +57,10 @@ class AlisaCard extends TemplateCardTypes
                     if (count($button)) {
                         $object['button'] = $button[0];
                     }
+                    return $object;
                 }
             } else {
-                $tmp = [
+                $object = [
                     'type' => self::ALISA_CARD_ITEMS_LIST,
                     'header' => [
                         'text' => Text::resize($this->title, 64)
@@ -95,18 +95,18 @@ class AlisaCard extends TemplateCardTypes
                     }
                     //}
                 }
-                $tmp['items'] = $items;
+                $object['items'] = $items;
                 $items = null;
                 $btn = $this->button->getButtons();
                 if (count($btn)) {
-                    $tmp['footer'] = [
+                    $object['footer'] = [
                         'text' => $btn[0]['text'],
                         'button' => $btn[0]
                     ];
                 }
-                $object = $tmp;
+                return $object;
             }
         }
-        return $object;
+        return [];
     }
 }

@@ -62,7 +62,7 @@ class VkCard extends TemplateCardTypes
                          * У карточки в любом случае должна быть хоть одна кнопка.
                          * Максимальное количество кнопок 3
                          */
-                        if (count($button)) {
+                        if ($button['one_time'] ?? false) {
                             $element['buttons'] = array_splice($button['buttons'], 0, 3);
                             $element['action'] = ['type' => 'open_photo'];
                             $elements[] = $element;

@@ -445,7 +445,7 @@ class Nlu
      */
     public function getEMail(string $query): array
     {
-        $pattern = "/([^@^\\s]+\\@[^\\.^\\s]+\\.\\S{1,})/umi";
+        $pattern = "/([^@^\\s]+@[^\\.^\\s]+\\.\\S{1,})/umi";
         preg_match_all($pattern, $query, $mail);
         if (isset($mail[0][0])) {
             return ['status' => true, 'result' => $mail[0]];

@@ -180,7 +180,7 @@ class Buttons
      * @return array
      * @api
      */
-    public function getButtons($type = null, $userButton = null): array
+    public function getButtons(?string $type = null, ?TemplateButtonTypes $userButton = null): array
     {
         $this->processing();
         if ($type === null) {
@@ -229,7 +229,7 @@ class Buttons
      * @return string|null
      * @api
      */
-    public function getButtonJson($type = null): ?string
+    public function getButtonJson(?string $type = null): ?string
     {
         $btn = $this->getButtons($type);
         if (count($btn)) {

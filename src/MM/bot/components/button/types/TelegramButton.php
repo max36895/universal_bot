@@ -26,46 +26,42 @@ class TelegramButton extends TemplateButtonTypes
     public function getButtons(): array
     {
         $objects = [];
-        $inline = [];
+        $inlines = [];
         $reply = [];
         foreach ($this->buttons as $button) {
-            if ($button->hide == Button::B_BTN) {
+            //if ($button->hide == Button::B_BTN) {
                 if ($button->url) {
-                    $i = [
-                        'text' => $button->title
+                    $inline = [
+                        'text' => $button->title,
+                        'url'=>$button->url
                     ];
-                    if ($button->url) {
-                        $i['url'] = $button->url;
-                    }
                     if ($button->payload) {
-                        $i['callback_data'] = $button->payload;
-                        $inline[] = $i;
-                    } elseif (!isset($i['url'])) {
-                        $reply[] = [$button->title];
+                        $inline['callback_data'] = $button->payload;
+                        $inlines[] = $inline;
                     }
                 } else {
                     $reply[] = [$button->title];
                 }
-            } else {
-                $i = [
+            /*} else {
+                $inline = [
                     'text' => $button->title
                 ];
                 if ($button->url) {
-                    $i['url'] = $button->url;
+                    $inline['url'] = $button->url;
                 }
                 if ($button->payload) {
-                    $i['callback_data'] = $button->payload;
-                    $inline[] = $i;
-                } elseif (!isset($i['url'])) {
+                    $inline['callback_data'] = $button->payload;
+                    $inlines[] = $inline;
+                } elseif (!isset($inline['url'])) {
                     $reply = [$button->title];
                 }
-            }
+            }*/
         }
         $rCount = count($reply);
-        $rInline = count($inline);
+        $rInline = count($inlines);
         if ($rCount || $rInline) {
             if ($rInline) {
-                $objects['inline_keyboard'] = $inline;
+                $objects['inline_keyboard'] = $inlines;
             }
             if ($rCount) {
                 $objects['keyboard'] = $reply;

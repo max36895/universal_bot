@@ -384,7 +384,7 @@ class AlisaSound extends TemplateSoundTypes
      * @return string
      * @api
      */
-    public function replaceSound($key, $value, string $text): string
+    public function replaceSound(string $key, $value, string $text): string
     {
         return str_replace($key, Text::getText($value), $text);
     }

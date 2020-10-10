@@ -195,7 +195,7 @@ abstract class Model
      */
     public function init(array $data): void
     {
-        $i = 0 + $this->startIndex;
+        $i = $this->startIndex;
         foreach ($this->attributeLabels() as $index => $label) {
             if (IS_SAVE_DB) {
                 $this->$index = $data[$i];
@@ -371,7 +371,7 @@ abstract class Model
      * @return bool|mysqli_result|array|null
      * @api
      */
-    public function where($where = '1', bool $isOne = false)
+    public function where(string $where = '1', bool $isOne = false)
     {
         if (IS_SAVE_DB) {
             $sql = 'SELECT * FROM ' . $this->tableName() . " WHERE {$where}";
@@ -415,7 +415,7 @@ abstract class Model
      * @return bool
      * @api
      */
-    public function whereOne($where = '1'): bool
+    public function whereOne(string $where = '1'): bool
     {
         if (IS_SAVE_DB) {
             $res = $this->where("{$where} LIMIT 1");

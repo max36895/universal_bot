@@ -13,9 +13,7 @@ return [
         'chat' => [
             'id' => $userId,
         ],
-        'message' => [
-            'text' => $query,
-            'message_id' => $count
-        ]
+        'text' => $query,
+        'message_id' => $count
     ]
 ];

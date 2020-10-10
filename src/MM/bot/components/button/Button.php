@@ -8,6 +8,7 @@
 namespace MM\bot\components\button;
 
 use MM\bot\components\standard\Text;
+use MM\bot\core\mmApp;
 
 /**
  * Class Button
@@ -91,13 +92,22 @@ class Button
         if ($title || $title == '') {
             $this->title = (string)$title;
             if ($url && Text::isSayText(['http\:\/\/', 'https\:\/\/'], $url)) {
-                if (Text::isSayText('utm_source', $url)) {
+                if (mmApp::$params['utm_text'] === null) {
+                    if (Text::isSayText('utm_source', $url)) {
+                        if (strpos($url, '?') !== false) {
+                            $url .= '&';
+                        } else {
+                            $url .= '?';
+                        }
+                        $url .= 'utm_source=Yandex_Alisa&utm_medium=cpc&utm_campaign=phone';
+                    }
+                } elseif (mmApp::$params['utm_text']) {
                     if (strpos($url, '?') !== false) {
                         $url .= '&';
                     } else {
                         $url .= '?';
                     }
-                    $url .= 'utm_source=Yandex_Alisa&utm_medium=cpc&utm_campaign=phone';
+                    $url .= mmApp::$params['utm_text'];
                 }
             } else {
                 $url = null;

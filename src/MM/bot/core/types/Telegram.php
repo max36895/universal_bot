@@ -115,7 +115,7 @@ class Telegram extends TemplateTypeModel
             if (count($this->controller->card->images)) {
                 $res = $this->controller->card->getCards();
                 if (count($res)) {
-                    $telegramApi->sendPoll($this->controller->userId, $res['question'], $res['params']);
+                    $telegramApi->sendPoll($this->controller->userId, $res['question'], $res['options']);
                 }
             }
 

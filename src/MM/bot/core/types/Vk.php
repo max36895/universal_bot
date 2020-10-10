@@ -50,7 +50,6 @@ class Vk extends TemplateTypeModel
              *          - int random_id
              *          - array attachments
              *          - bool is_hidden
-             *          -
              *      - array clientInfo
              *          - array button_actions
              *          - bool keyboard

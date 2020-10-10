@@ -143,11 +143,7 @@ class Alisa extends TemplateTypeModel
             }
 
             mmApp::$params['app_id'] = $this->session['skill_id'];
-            if (isset($this->controller->userMeta['interfaces']['screen'])) {
-                $this->controller->isScreen = true;
-            } else {
-                $this->controller->isScreen = false;
-            }
+            $this->controller->isScreen = isset($this->controller->userMeta['interfaces']['screen']);
             /**
              * Раз в какое-то время Яндекс отправляет запрос ping, для проверки корректности работы навыка.
              * @see (https://yandex.ru/dev/dialogs/alice/doc/health-check-docpage/) Смотри тут

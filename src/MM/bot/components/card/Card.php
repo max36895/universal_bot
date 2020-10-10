@@ -80,7 +80,7 @@ class Card
      * @param array|null $button Кнопки, обрабатывающие команды при нажатии на элемент.
      * @api
      */
-    public function add(?string $image, $title, string $desc = ' ', ?array $button = null): void
+    public function add(?string $image, string $title, string $desc = ' ', ?array $button = null): void
     {
         $img = new Image();
         if ($img->init($image, $title, $desc, $button)) {
@@ -95,7 +95,7 @@ class Card
      * @return array
      * @api
      */
-    public function getCards($userCard = null): array
+    public function getCards(?TemplateCardTypes $userCard = null): array
     {
         $card = null;
         switch (mmApp::$appType) {

@@ -84,7 +84,7 @@ class VkRequest
      * @param string $token Токен для загрузки данных на сервер.
      * @api
      */
-    public function initToken($token): void
+    public function initToken(string $token): void
     {
         $this->token = $token;
     }
@@ -104,7 +104,7 @@ class VkRequest
             $this->request->post['v'] = $this->vkApiVersion;
             $data = $this->request->send(self::VK_API_ENDPOINT . $method);
             if ($data['status']) {
-                $this->error = json_encode($data['error'] ?? [], JSON_UNESCAPED_UNICODE);
+                $this->error = json_encode($data['err'] ?? [], JSON_UNESCAPED_UNICODE);
                 if (isset($data['data']['error'])) {
                     $this->error = json_encode($data['data']['error']);
                     $this->log('');

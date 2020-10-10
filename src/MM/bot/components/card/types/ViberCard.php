@@ -46,8 +46,8 @@ class ViberCard extends TemplateCardTypes
                     ];
                     $btn = $this->images[0]->button->getButtons(Buttons::T_VIBER_BUTTONS);
                     if (isset($btn['Buttons'])) {
-                        $object = array_merge($object, $btn[0]);
-                        $object['text'] = "<font color=#000><b>{$this->images[0]->title}</b></font><font color=#000>{$this->images[0]->desc}</font>";
+                        $object = array_merge($object, $btn['Buttons'][0]);
+                        $object['Text'] = "<font color=#000><b>{$this->images[0]->title}</b></font><font color=#000>{$this->images[0]->desc}</font>";
                     }
                 }
             } else {
@@ -67,8 +67,8 @@ class ViberCard extends TemplateCardTypes
                     }
                     $btn = $image->button->getButtons(Buttons::T_VIBER_BUTTONS);
                     if (isset($btn['Buttons'])) {
-                        $element = array_merge($object, $btn[0]);
-                        $element['text'] = "<font color=#000><b>{$image->title}</b></font><font color=#000>{$image->desc}</font>";
+                        $element = array_merge($element, $btn['Buttons'][0]);
+                        $element['Text'] = "<font color=#000><b>{$image->title}</b></font><font color=#000>{$image->desc}</font>";
                     }
                     $object[] = $element;
                 }

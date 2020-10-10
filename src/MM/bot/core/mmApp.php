@@ -56,9 +56,9 @@ class mmApp
      * Основные параметры приложения.
      * @var array $params Основные параметры приложения.
      * [
-     * /**
      * - string|null viber_token Viber токен для отправки сообщений, загрузки изображений и звуков.
      * - string|null viber_sender Имя пользователя, от которого будет отправляться сообщение.
+     * - int|null viber_api_version Версия api для viber.
      * - string|null telegram_token Telegram токен для отправки сообщений, загрузки изображений и звуков.
      * - string|null vk_api_version Версия Vk api. По умолчанию используется v5.103.
      * - string|null vk_confirmation_token Код для проверки корректности Vk бота. Необходим для подтверждения бота.
@@ -92,11 +92,13 @@ class mmApp
      *      ],
      *      -'is_pattern' => true
      *  ]
+     *  - string|null utm_text Текст для UTM метки. По умолчанию utm_source=Yandex_Alisa&utm_medium=cpc&utm_campaign=phone
      * ]
      */
     public static $params = [
         'viber_token' => null,
         'viber_sender' => null,
+        'viber_api_version' => null,
         'telegram_token' => null,
         'vk_api_version' => null,
         'vk_confirmation_token' => null,
@@ -122,7 +124,8 @@ class mmApp
                     'что ты умеешь'
                 ]
             ],
-        ]
+        ],
+        'utm_text' => null
     ];
 
     /**

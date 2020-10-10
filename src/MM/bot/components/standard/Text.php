@@ -50,7 +50,7 @@ class Text
      */
     public static function isSayTrue(string $text)
     {
-        $pattern = '/(\bда\b)|(\bконечно\b)|(\bсогласен\b)|(\bподтвер[^s]+\b)/umi';
+        $pattern = '/(\bда\b)|(\bконечно\b)|(\bсоглас[^s]+\b)|(\bподтвер[^s]+\b)/umi';
         preg_match_all($pattern, $text, $data);
         return (($data[0][0] ?? null) ? true : false);
     }
@@ -87,7 +87,6 @@ class Text
                     $pattern .= '|';
                 }
                 if ($isPattern == false) {
-                    //$pattern .= '(\b' . $value . '[^\s]+\b)|(\b' . $value . '\b)';
                     $pattern .= "(\\b{$value}(|[^\\s]+)\\b)";
                 } else {
                     $pattern .= "({$value})";
@@ -96,7 +95,6 @@ class Text
             }
         } else {
             if ($isPattern == false) {
-                //$pattern = '(\b' . $find . '[^\s]+\b)|(\b' . $find . '\b)';
                 $pattern = "(\\b{$find}(|[^\\s]+)\\b)";
             } else {
                 $pattern = $find;

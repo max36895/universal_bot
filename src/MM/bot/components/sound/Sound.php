@@ -50,7 +50,7 @@ class Sound
      * @return string|array
      * @api
      */
-    public function getSounds($text, $userSound = null)
+    public function getSounds(string $text, ?TemplateSoundTypes $userSound = null)
     {
         $sound = null;
         switch (mmApp::$appType) {
