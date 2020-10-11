@@ -65,7 +65,7 @@ class Viber extends TemplateTypeModel
              */
             $content = json_decode($content, true);
             $this->controller = &$controller;
-            $this->controller->requestArray = $content;
+            $this->controller->requestObject = $content;
 
             if (isset($content['message'])) {
                 switch ($content['event']) {

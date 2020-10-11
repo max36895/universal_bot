@@ -51,7 +51,7 @@ abstract class BotController
     /**
      * Обработанный nlu в приложении.
      * @var Nlu $nlu Обработанный nlu в приложении.
-     * @link (https://www.maxim-m.ru/glossary/nlu)
+     * @link [nlu](https://www.maxim-m.ru/glossary/nlu)
      * @see Nlu Смотри тут
      */
     public $nlu;
@@ -137,9 +137,9 @@ abstract class BotController
 
     /**
      * Полученный запрос.
-     * @var array|null $requestArray Полученный запрос.
+     * @var array|null $requestObject Полученный запрос.
      */
-    public $requestArray;
+    public $requestObject;
 
     /**
      * BotController constructor.
@@ -166,7 +166,7 @@ abstract class BotController
         $this->isAuth = false;
         $this->isAuthSuccess = null;
         $this->isSend = true;
-        $this->requestArray = null;
+        $this->requestObject = null;
     }
 
     /**

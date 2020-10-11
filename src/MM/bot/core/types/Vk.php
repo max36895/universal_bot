@@ -61,7 +61,7 @@ class Vk extends TemplateTypeModel
              */
             $content = json_decode($content);
             $this->controller = &$controller;
-            $this->controller->requestArray = $content;
+            $this->controller->requestObject = $content;
 
             switch ($content['type'] ?? null) {
                 case 'confirmation':

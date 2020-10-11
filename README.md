@@ -321,7 +321,7 @@ class UserApp extends TemplateTypeModel
       if ($content) {
           $content = json_decode($content, true);
           $this->controller = &$controller;
-          $this->controller->requestArray = $content;
+          $this->controller->requestObject = $content;
           /**
           * Инициализация основных параметров приложения
           */

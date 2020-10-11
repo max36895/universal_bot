@@ -94,7 +94,7 @@ class Marusia extends TemplateTypeModel
             }
 
             $this->controller = &$controller;
-            $this->controller->requestArray = $content;
+            $this->controller->requestObject = $content;
 
             if ($content['request']['type'] == 'SimpleUtterance') {
                 $this->controller->userCommand = trim($content['request']['command'] ?? '');

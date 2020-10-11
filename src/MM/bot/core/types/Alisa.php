@@ -90,7 +90,7 @@ class Alisa extends TemplateTypeModel
             }
 
             $this->controller = &$controller;
-            $this->controller->requestArray = $content;
+            $this->controller->requestObject = $content;
 
             if ($content['request']['type'] == 'SimpleUtterance') {
                 $this->controller->userCommand = trim($content['request']['command'] ?? '');
@@ -195,11 +195,17 @@ class Alisa extends TemplateTypeModel
         return json_encode($result);
     }
 
+    /**
+     * Получить данные из локального хранилища Алисы
+     */
     public function getLocalStorage(): ?array
     {
         return $this->controller->state;
     }
 
+    /**
+     * Проверка что используется локальное хранилище
+     */
     public function isLocalStorage(): bool
     {
         return $this->controller->state !== null;
