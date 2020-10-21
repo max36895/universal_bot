@@ -184,7 +184,7 @@ class Bot
             }
             if ($botClass->init($this->content, $this->botController)) {
                 $userData = new UsersData();
-                $userData->escapeString($this->botController->userId);
+                $this->botController->userId = $userData->escapeString($this->botController->userId);
                 if ($type) {
                     $userData->type = $type;
                 }

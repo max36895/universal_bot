@@ -175,6 +175,9 @@ class Alisa extends TemplateTypeModel
             };
         } else {
             if (count($this->controller->sound->sounds) || $this->controller->sound->isUsedStandardSound) {
+                if (!$this->controller->tts) {
+                    $this->controller->tts = $this->controller->text;
+                }
                 $this->controller->tts = $this->controller->sound->getSounds($this->controller->tts);
             }
             $result['response'] = $this->getResponse();
