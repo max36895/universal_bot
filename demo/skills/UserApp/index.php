@@ -5,16 +5,24 @@
  * @author Maxim-M maximco36895@yandex.ru
  */
 require_once __DIR__ . '/../../../src/MM/bot/init.php';
-require_once __DIR__ . '/controller/AuthController.php';
+require_once __DIR__ . '/controller/UserAppController.php';
+require_once __DIR__ . '/UserTemplate/Controller/UserApp.php';
 
 $bot = new MM\bot\core\Bot();
 $bot->initTypeInGet();
 $bot->initConfig(include __DIR__ . '/../../config/skillStorageConfig.php');
-$bot->initParams(include __DIR__ . '/../../config/skillAuthParam.php');
-$logic = new AuthController();
+$bot->initParams(include __DIR__ . '/../../config/skillDefaultParam.php');
+$logic = new UserAppController();
 $bot->initBotController($logic);
-//echo $bot->run();
+
+$userApp = new UserApp();
+//echo $bot->run($userApp);
 /**
  * Отображаем ответ навыка и хранилище в консоли.
  */
-$bot->test(true, true);
+$bot->test(true,
+    true,
+    true,
+    $userApp,
+    __DIR__ . '/UserTemplate/userDataConfig.php'
+);

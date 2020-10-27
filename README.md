@@ -300,74 +300,82 @@ echo $bot->run(); // Запуск приложения
 Пример:
 ```php
 <?php
-namespace MM\bot\core\types;
 
 use MM\bot\components\button\Buttons;
 use MM\bot\controller\BotController;
 use MM\bot\core\mmApp;
+use MM\bot\core\types\TemplateTypeModel;
+
+require_once __DIR__ . '/../Components/UserButton.php';
+require_once __DIR__ . '/../Components/UserCard.php';
+require_once __DIR__ . '/../Components/UserSound.php';
 
 class UserApp extends TemplateTypeModel
 {
-  /**
-   * Инициализация параметров
-   *
-   * @param null|string $content
-   * @param BotController $controller
-   * @return bool
-   * @see TemplateTypeModel::init() Смотри тут
-   */
-  public function init(?string $content, BotController &$controller): bool
-  {
-      if ($content) {
-          $content = json_decode($content, true);
-          $this->controller = &$controller;
-          $this->controller->requestObject = $content;
-          /**
-          * Инициализация основных параметров приложения
-          */
-          $this->controller->userId = 'Идентификатор пользователя. Берется из $content';
-          mmApp::$params['user_id'] = $this->controller->userId;
-          return true;
-      } else {
-          $this->error = 'UserApp:init(): Отправлен пустой запрос!';
-      }
-      return false;
-  }
+    /**
+     * Инициализация параметров
+     *
+     * @param null|string $content
+     * @param BotController $controller
+     * @return bool
+     * @see TemplateTypeModel::init() Смотри тут
+     */
+    public function init(?string $content, BotController &$controller): bool
+    {
+        if ($content) {
+            $content = json_decode($content, true);
+            $this->controller = &$controller;
+            $this->controller->requestObject = $content;
+            /**
+             * Инициализация основных параметров приложения
+             */
+            $this->controller->userCommand = $content['data']['text'];
+            $this->controller->originalUserCommand = $content['data']['text'];
 
-  /**
-   * Отправка ответа пользователю
-   *
-   * @return string
-   * @see TemplateTypeModel::getContext() Смотри тут
-   */
-  public function getContext(): string
-  {
-      // Проверяем отправлять ответ пользователю или нет
-      if ($this->controller->isSend) {
-          /**
-          * Отправляем ответ в нужном формате
-          */
-          $buttonClass = '';// Класс отвечающий за отображение кнопок. Должен быть унаследован от TemplateButtonTypes
-          /*
-           * Получение кнопок
-           */
-          $buttons = $this->controller->buttons->getButtons(Buttons::T_USER_APP_BUTTONS, $buttonClass);
-        
-          $cardClass = '';// Класс отвечающий за отображение карточек. Должен быть унаследован от TemplateCardTypes
-          /*
-           * Получить информацию о карточке
-           */
-          $cards = $this->controller->card->getCards($cardClass);
-        
-          $soundClass = '';// Класс отвечающий за отображение звуков. Должен быть унаследован от TemplateSoundTypes
-          /*
-           * Получить все звуки
-           */
-          $sounds = $this->controller->sounds->getSounds('', $soundClass);
-      }
-      return 'ok';
-  }
+            $this->controller->userId = 'Идентификатор пользователя. Берется из $content';
+            mmApp::$params['user_id'] = $this->controller->userId;
+            return true;
+        } else {
+            $this->error = 'UserApp:init(): Отправлен пустой запрос!';
+        }
+        return false;
+    }
+
+    /**
+     * Отправка ответа пользователю
+     *
+     * @return string
+     * @see TemplateTypeModel::getContext() Смотри тут
+     */
+    public function getContext(): string
+    {
+        // Проверяем отправлять ответ пользователю или нет
+        if ($this->controller->isSend) {
+            /**
+             * Отправляем ответ в нужном формате
+             */
+            $buttonClass = new UserButton();// Класс отвечающий за отображение кнопок. Должен быть унаследован от TemplateButtonTypes
+            /*
+             * Получение кнопок
+             */
+            $buttons = $this->controller->buttons->getButtons(Buttons::T_USER_APP_BUTTONS, $buttonClass);
+
+            $cardClass = new UserCard();// Класс отвечающий за отображение карточек. Должен быть унаследован от TemplateCardTypes
+            /*
+             * Получить информацию о карточке
+             */
+            $cards = $this->controller->card->getCards($cardClass);
+
+            $soundClass = new UserSound();// Класс отвечающий за отображение звуков. Должен быть унаследован от TemplateSoundTypes
+            /*
+             * Получить все звуки
+             */
+            $sounds = $this->controller->sound->getSounds('', $soundClass);
+        }
+        return 'ok';
+    }
 }
+
 ```
 Класс отвечает за инициализацию основных параметров приложения.
 1. Устанавливается идентификатор пользователя
@@ -387,141 +395,146 @@ class UserApp extends TemplateTypeModel
 Пример для отображения кнопок/клавиатуры:
 ```php
 <?php
-
-namespace MM\bot\components\button\types;
+use MM\bot\components\button\types\TemplateButtonTypes;
 
 class UserButton extends TemplateButtonTypes
 {
-  /**
-   * Получение массив с кнопками для ответа пользователю
-   *
-   * @return array
-   */
-  public function getButtons(): array
-  {
-      $objects = [];
-      foreach ($this->buttons as $button) {
-          /*
-           * Заполняем массив $object нужными данными
-           */
-      }
-      return $objects;
-  }
+    /**
+     * Получение массив с кнопками для ответа пользователю
+     *
+     * @return array
+     */
+    public function getButtons(): array
+    {
+        $objects = [];
+        foreach ($this->buttons as $button) {
+            /*
+             * Заполняем массив $object нужными данными
+             */
+        }
+        return $objects;
+    }
 }
+
 ```
 Пример для отображения карточки:
 ```php
 <?php
-namespace MM\bot\components\card\types;
 
 use MM\bot\components\button\Buttons;
+use MM\bot\components\card\types\TemplateCardTypes;
+
+require_once __DIR__ . '/UserButton.php';
 
 class UserCard extends TemplateCardTypes
 {
-  /**
-   * Получение массива для отображения карточки/картинки
-   *
-   * @param bool $isOne True, если отобразить только 1 картинку.
-   * @return array
-   */
-  public function getCard(bool $isOne): array
-  {
-      $object = [];
-      $countImage = count($this->images);
-      if ($countImage > 7) {
-          $countImage = 7;
-      }
-      if ($countImage) {
-          if ($countImage === 1 || $isOne) {
-              if (!$this->images[0]->imageToken) {
-                  if ($this->images[0]->imageDir) {
-                      $this->images[0]->imageToken = $this->images[0]->imageDir;
-                  }
-              }
-              if ($this->images[0]->imageToken) {
-                  /*
-                   * Заполняем $object необходимыми данными
-                   */
-                  // Получаем возможные кнопки у карточки
-                  $btn = $this->images[0]->button->getButtons(Buttons::T_USER_APP_BUTTONS);
-                  if ($btn) {
-                      // Добавляем кнопки к карточке
-                      $object = array_merge($object, $btn[0]);
-                  }
-              }
-          } else {
-              foreach ($this->images as $image) {
-                  if (!$image->imageToken) {
-                      if ($image->imageDir) {
-                          $image->imageToken = $image->imageDir;
-                      }
-                  }
-                  $element = [];
-                  /*
-                   * Заполняем $element необходимыми данными
-                   */
-                  // Получаем возможные кнопки у карточки
-                  $btn = $image->button->getButtons(Buttons::T_USER_APP_BUTTONS);
-                  if ($btn) {
-                      // Добавляем кнопки к карточке
-                      $object = array_merge($object, $btn[0]);
-                  }
-                  $object[] = $element;
-              }
-          }
-      }
-      return $object;
-  }
+    /**
+     * Получение массива для отображения карточки/картинки
+     *
+     * @param bool $isOne True, если отобразить только 1 картинку.
+     * @return array
+     */
+    public function getCard(bool $isOne): array
+    {
+        $object = [];
+        $countImage = count($this->images);
+        if ($countImage > 7) {
+            $countImage = 7;
+        }
+        $userButton = new UserButton();
+        if ($countImage) {
+            if ($countImage === 1 || $isOne) {
+                if (!$this->images[0]->imageToken) {
+                    if ($this->images[0]->imageDir) {
+                        $this->images[0]->imageToken = $this->images[0]->imageDir;
+                    }
+                }
+                if ($this->images[0]->imageToken) {
+                    /*
+                     * Заполняем $object необходимыми данными
+                     */
+                    // Получаем возможные кнопки у карточки
+                    $btn = $this->images[0]->button->getButtons(Buttons::T_USER_APP_BUTTONS, $userButton);
+                    if ($btn) {
+                        // Добавляем кнопки к карточке
+                        $object = array_merge($object, $btn[0]);
+                    }
+                }
+            } else {
+                foreach ($this->images as $image) {
+                    if (!$image->imageToken) {
+                        if ($image->imageDir) {
+                            $image->imageToken = $image->imageDir;
+                        }
+                    }
+                    $element = [];
+                    /*
+                     * Заполняем $element необходимыми данными
+                     */
+                    // Получаем возможные кнопки у карточки
+                    $btn = $image->button->getButtons(Buttons::T_USER_APP_BUTTONS, $userButton);
+                    if ($btn) {
+                        // Добавляем кнопки к карточке
+                        $object = array_merge($object, $btn[0]);
+                    }
+                    $object[] = $element;
+                }
+            }
+        }
+        return $object;
+    }
 }
+
 ```
 Пример для воспроизведения звука:
 ```php
 <?php
-namespace MM\bot\components\sound\types;
 
-use MM\bot\core\api\YandexSpeechKit;
+use MM\bot\api\YandexSpeechKit;
+use MM\bot\components\sound\types\TemplateSoundTypes;
 use MM\bot\components\standard\Text;
 
 class UserSound extends TemplateSoundTypes
 {
-  /**
-   * Возвращает массив с отображаемыми звуками.
-   * В случае если передается параметр text, то можно отправить запрос в Yandex SpeechKit, для преобразования текста в голос
-   *
-   * @param array $sounds Массив звуков
-   * @param string $text Исходный текст
-   * @return array
-   */
-  public function getSounds($sounds, $text = ''): array
-  {
-      if ($sounds && is_array($sounds)) {
-          foreach ($sounds as $sound) {
-              if (is_array($sound)) {
-                  if (isset($sound['sounds'], $sound['key'])) {
-                      $sText = Text::getText($sound['sounds']);
-                      /*
-                       * Сохраняем данные в массив, либо отправляем данные через запрос
-                       */
-                  }
-              }
-          }
-      }
-      /*
-       * если есть необходимость для прочтения текста
-       */
-      if ($text) {
-          $speechKit = new YandexSpeechKit();
-          $content = $speechKit->getTts($text);
-          if ($content) {
-              /*
-              * Сохраняем данные в массив, либо отправляем данные через запрос.
-               * п.с. В $content находится содержимое файла!
-              */
-          }
-      }
-      return [];
-  }
+    /**
+     * Возвращает массив с отображаемыми звуками.
+     * В случае если передается параметр text, то можно отправить запрос в Yandex SpeechKit, для преобразования текста в голос
+     *
+     * @param array $sounds Массив звуков
+     * @param string $text Исходный текст
+     * @return array
+     */
+    public function getSounds($sounds, $text = ''): array
+    {
+        if ($sounds && is_array($sounds)) {
+            foreach ($sounds as $sound) {
+                if (is_array($sound)) {
+                    if (isset($sound['sounds'], $sound['key'])) {
+                        $sText = Text::getText($sound['sounds']);
+                        /*
+                         * Сохраняем данные в массив, либо отправляем данные через запрос
+                         */
+                    }
+                }
+            }
+        }
+        /*
+         * если есть необходимость для прочтения текста
+         */
+        if ($text) {
+            $speechKit = new YandexSpeechKit();
+            $content = $speechKit->getTts($text);
+            if ($content) {
+                /*
+                * Сохраняем данные в массив, либо отправляем данные через запрос.
+                 * п.с. В $content находится содержимое файла!
+                */
+            }
+        }
+        return [];
+    }
 }
+
 ```
 
 ## Старт

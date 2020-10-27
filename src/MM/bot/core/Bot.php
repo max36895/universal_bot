@@ -248,9 +248,15 @@ class Bot
      * @param bool $isShowResult Отображать полный навыка.
      * @param bool $isShowStorage Отображать данные из хранилища.
      * @param bool $isShowTime Отображать время выполнения запроса.
+     * @param TemplateTypeModel|null $userBotClass Пользовательский класс для обработки команд.
+     * @param string|null $userBotConfig Шаблон с пользовательским типом приложения
      * @api
      */
-    public function test(bool $isShowResult = false, bool $isShowStorage = false, bool $isShowTime = true)
+    public function test(bool $isShowResult = false,
+                         bool $isShowStorage = false,
+                         bool $isShowTime = true,
+                         ?TemplateTypeModel $userBotClass = null,
+                         ?string $userBotConfig = null)
     {
         $count = 0;
         $state = [];
@@ -265,14 +271,14 @@ class Bot
                 }
             }
             if (!$this->content) {
-                $this->content = json_encode($this->getSkillContent($query, $count, $state));
+                $this->content = json_encode($this->getSkillContent($query, $count, $state, $userBotConfig));
             }
             $timeStart = microtime(true);
             if (is_array($this->content)) {
                 $this->content = json_encode($this->content);
             }
 
-            $result = $this->run();
+            $result = $this->run($userBotClass);
             $result = json_decode($result, true);
             if ($isShowResult) {
                 printf("Результат работы: > \n%s\n\n", json_encode($result, JSON_UNESCAPED_UNICODE));
@@ -311,9 +317,10 @@ class Bot
      * @param string $query Пользовательский запрос.
      * @param int $count Номер сообщения.
      * @param array|null $state Данные из хранилища.
+     * @param string|null $userBotConfig Шаблон с пользовательским типом приложения
      * @return array|mixed
      */
-    protected function getSkillContent(string $query, int $count, ?array $state): array
+    protected function getSkillContent(string $query, int $count, ?array $state, ?string $userBotConfig): array
     {
         /**
          * Все переменные используются внутри шаблонов
@@ -342,6 +349,17 @@ class Bot
             case T_VIBER:
                 $this->botController->isSend = false;
                 $content = include __DIR__ . '/skillsTemplateConfig/viberConfig.php';
+                break;
+
+            case T_USER_APP:
+                $this->botController->isSend = true;
+                if (is_file($userBotConfig)) {
+                    $content = include $userBotConfig;
+                } else {
+                    mmApp::saveLog('test.log', 'Указан не верный шаблон для загружаемых данных!');
+                    echo "Указан не верный шаблон для загружаемых данных!\nУбедитесь что файл ${userBotConfig} существует!";
+                    die();
+                }
                 break;
         }
         return $content;
