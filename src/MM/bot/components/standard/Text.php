@@ -86,7 +86,7 @@ class Text
                 if ($pattern) {
                     $pattern .= '|';
                 }
-                if ($isPattern == false) {
+                if (!$isPattern) {
                     $pattern .= "(\\b{$value}(|[^\\s]+)\\b)";
                 } else {
                     $pattern .= "({$value})";
@@ -94,7 +94,7 @@ class Text
 
             }
         } else {
-            if ($isPattern == false) {
+            if (!$isPattern) {
                 $pattern = "(\\b{$find}(|[^\\s]+)\\b)";
             } else {
                 $pattern = $find;

@@ -95,11 +95,11 @@ class Buttons
     {
         $button = new Button();
         if ($hide === Button::B_LINK) {
-            if ($button->initLink($title, $url, $payload) === false) {
+            if (!$button->initLink($title, $url, $payload)) {
                 $button = null;
             }
         } else {
-            if ($button->initBtn($title, $url, $payload) === false) {
+            if (!$button->initBtn($title, $url, $payload)) {
                 $button = null;
             }
         }
