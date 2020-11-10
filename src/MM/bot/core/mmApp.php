@@ -179,6 +179,7 @@ class mmApp
      * @param string $fileName Название файла.
      * @param array|null $data Сохраняемые данные.
      * @return bool
+     * @throws \Exception
      * @api
      */
     public static function saveJson(string $fileName, ?array $data): bool
@@ -194,8 +195,9 @@ class mmApp
             fclose($fJson);
             return true;
         } else {
-            echo "mmApp::saveJson(): Не удалось создать/открыть файл: {$path}/{$fileName}\n";
-            return false;
+            $error = "mmApp::saveJson(): Не удалось создать/открыть файл: {$path}/{$fileName}\n";
+            echo $error;
+            throw new \Exception($error);
         }
     }
 
@@ -205,6 +207,7 @@ class mmApp
      * @param string $fileName Название файла.
      * @param string $errorText Текст ошибки.
      * @return bool
+     * @throws \Exception
      * @api
      */
     public static function saveLog(string $fileName, string $errorText): bool
@@ -220,8 +223,9 @@ class mmApp
             fclose($fError);
             return true;
         } else {
-            echo "mmApp::saveLog(): Не удалось создать/открыть файл: {$path}/{$fileName}\n";
-            return false;
+            $error = "mmApp::saveJson(): Не удалось создать/открыть файл: {$path}/{$fileName}\n";
+            echo $error;
+            throw new \Exception($error);
         }
     }
 }
