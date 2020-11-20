@@ -39,9 +39,9 @@ class Navigation
     public $elements;
     /**
      * (default 5) Максимальное количество отображаемых элементов.
-     * @var int $maxElement (default 5) Максимальное количество отображаемых элементов.
+     * @var int $maxVisibleElements (default 5) Максимальное количество отображаемых элементов.
      */
-    public $maxElement;
+    public $maxVisibleElements;
     /**
      * (default 0) Текущая страница. Рекомендуется получать это значение после завершения всех операция.
      * @var int $thisPage (default 0) Текущая страница. Рекомендуется получать это значение после завершения всех операция.
@@ -50,15 +50,15 @@ class Navigation
 
     /**
      * Navigation constructor.
-     * @param int $maxElement Максимально количество отображаемых элементов.
+     * @param int $maxVisibleElements Максимально количество отображаемых элементов.
      */
-    public function __construct(int $maxElement = 5)
+    public function __construct(int $maxVisibleElements = 5)
     {
         $this->isUsedStandardText = true;
         $this->nextText = [];
         $this->oldText = [];
         $this->elements = [];
-        $this->maxElement = $maxElement;
+        $this->maxVisibleElements = $maxVisibleElements;
         $this->thisPage = 0;
     }
 
@@ -176,8 +176,8 @@ class Navigation
         }
         $this->nextPage($text);
         $this->oldPage($text);
-        $start = $this->thisPage * $this->maxElement;
-        for ($i = $start; $i < ($start + $this->maxElement); $i++) {
+        $start = $this->thisPage * $this->maxVisibleElements;
+        for ($i = $start; $i < ($start + $this->maxVisibleElements); $i++) {
             if (isset($this->elements[$i])) {
                 $showElements[] = $this->elements[$i];
             }
@@ -208,11 +208,11 @@ class Navigation
         if (isset($data[0][0])) {
             $number = $data[0][0];
         }
-        $start = $this->thisPage * $this->maxElement;
+        $start = $this->thisPage * $this->maxVisibleElements;
         $index = 1;
         $selectElement = null;
         $maxPercent = 0;
-        for ($i = $start; $i < ($start + $this->maxElement); $i++) {
+        for ($i = $start; $i < ($start + $this->maxVisibleElements); $i++) {
             if (isset($this->elements[$i])) {
                 if ($index == $number) {
                     return $this->elements[$i];
@@ -304,7 +304,7 @@ class Navigation
      */
     public function getPageInfo(): string
     {
-        if (!isset($this->elements[$this->thisPage * $this->maxElement]) || $this->thisPage < 0) {
+        if (!isset($this->elements[$this->thisPage * $this->maxVisibleElements]) || $this->thisPage < 0) {
             $this->thisPage = 0;
         }
         $pageInfo = ($this->thisPage + 1) . ' страница из ';
@@ -331,8 +331,8 @@ class Navigation
         }
         if (is_array($this->elements)) {
             $countEl = count($this->elements);
-            $maxPage = (int)($countEl / $this->maxElement);
-            if ($countEl % $this->maxElement) {
+            $maxPage = (int)($countEl / $this->maxVisibleElements);
+            if ($countEl % $this->maxVisibleElements) {
                 $maxPage++;
             }
             return $maxPage;
