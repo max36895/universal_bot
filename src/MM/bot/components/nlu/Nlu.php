@@ -397,7 +397,7 @@ class Nlu
      * ]
      * @api
      */
-    public function getLink(string $query): array
+    public static function getLink(string $query): array
     {
         $pattern = "/((http|s:\\/\\/)[^( |\\n)]+)/umi";
         preg_match_all($pattern, $query, $link);
@@ -420,7 +420,7 @@ class Nlu
      * ]
      * @api
      */
-    public function getPhone(string $query): array
+    public static function getPhone(string $query): array
     {
         $pattern = "/([\\d\\-\\(\\) ]{4,}\\d)|((?:\\+|\\d)[\\d\\-\\(\\) ]{9,}\\d)/umi";
         preg_match_all($pattern, $query, $phone);
@@ -443,7 +443,7 @@ class Nlu
      * ]
      * @api
      */
-    public function getEMail(string $query): array
+    public static function getEMail(string $query): array
     {
         $pattern = "/([^@^\\s]+@[^\\.^\\s]+\\.\\S{1,})/umi";
         preg_match_all($pattern, $query, $mail);

@@ -46,9 +46,24 @@ class Bot
      */
     public function __construct(?string $type = null)
     {
-        $this->auth = null;
         $this->content = file_get_contents('php://input');
+        $this->initAuth();
 
+        $this->botController = null;
+        if ($type == null) {
+            mmApp::$appType = T_ALISA;
+        } else {
+            mmApp::$appType = $type;
+        }
+    }
+
+    /**
+     * Проверяем что пользователь авторизовался в приложении.
+     * В случае успеха, auth не будет равен null
+     */
+    protected function initAuth(): void
+    {
+        $this->auth = null;
         if (!function_exists('getallheaders')) {
             function getallheaders(): array
             {
@@ -65,13 +80,6 @@ class Bot
         $header = getallheaders();
         if (isset($header['Authorization'])) {
             $this->auth = str_replace('Bearer ', '', $header['Authorization']);
-        }
-
-        $this->botController = null;
-        if ($type == null) {
-            mmApp::$appType = T_ALISA;
-        } else {
-            mmApp::$appType = $type;
         }
     }
 
@@ -176,6 +184,7 @@ class Bot
                     $botClass = $userBotClass;
                     $type = UsersData::T_USER_APP;
                 }
+                break;
         }
 
         if ($botClass) {
@@ -291,6 +300,7 @@ class Bot
                 case T_ALISA:
                     $result = $result['response']['text'];
                     break;
+
                 default:
                     $result = $this->botController->text;
                     break;
