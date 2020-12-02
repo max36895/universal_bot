@@ -201,7 +201,6 @@ class SoundTokens extends Model
                             }
                         }
                     }
-
                 }
                 break;
 

@@ -7,9 +7,6 @@
 
 namespace MM\bot\components\button\types;
 
-
-use MM\bot\components\button\Button;
-
 /**
  * Класс отвечающий за отображение кнопок в Телеграме
  * Class TelegramButton
@@ -29,33 +26,18 @@ class TelegramButton extends TemplateButtonTypes
         $inlines = [];
         $reply = [];
         foreach ($this->buttons as $button) {
-            //if ($button->hide == Button::B_BTN) {
-                if ($button->url) {
-                    $inline = [
-                        'text' => $button->title,
-                        'url'=>$button->url
-                    ];
-                    if ($button->payload) {
-                        $inline['callback_data'] = $button->payload;
-                        $inlines[] = $inline;
-                    }
-                } else {
-                    $reply[] = [$button->title];
-                }
-            /*} else {
+            if ($button->url) {
                 $inline = [
-                    'text' => $button->title
+                    'text' => $button->title,
+                    'url' => $button->url
                 ];
-                if ($button->url) {
-                    $inline['url'] = $button->url;
-                }
                 if ($button->payload) {
                     $inline['callback_data'] = $button->payload;
                     $inlines[] = $inline;
-                } elseif (!isset($inline['url'])) {
-                    $reply = [$button->title];
                 }
-            }*/
+            } else {
+                $reply[] = [$button->title];
+            }
         }
         $rCount = count($reply);
         $rInline = count($inlines);
