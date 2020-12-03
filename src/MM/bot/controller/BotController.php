@@ -98,8 +98,8 @@ abstract class BotController
      */
     public $payload;
     /**
-     * Пользовательские данные (Хранятся в бд либо в файле. Зависит от параметра IS_SAVE_DB).
-     * @var array|null $userData Пользовательские данные (Хранятся в бд либо в файле. Зависит от параметра IS_SAVE_DB).
+     * Пользовательские данные (Хранятся в бд либо в файле. Зависит от переменой mmApp::$isSaveDb).
+     * @var array|null $userData Пользовательские данные (Хранятся в бд либо в файле. Зависит от переменой mmApp::$isSaveDb).
      */
     public $userData;
     /**

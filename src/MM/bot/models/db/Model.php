@@ -63,7 +63,7 @@ abstract class Model
      */
     public function __construct()
     {
-        if (IS_SAVE_DB) {
+        if (mmApp::$isSaveDb) {
             $this->db = new Sql();
         } else {
             $this->db = null;
@@ -79,7 +79,7 @@ abstract class Model
      */
     public final function escapeString(string $text): string
     {
-        if (IS_SAVE_DB) {
+        if (mmApp::$isSaveDb) {
             return $this->db->escapeString($text);
         }
         return $text;
@@ -91,7 +91,7 @@ abstract class Model
      */
     public function validate(): void
     {
-        if (IS_SAVE_DB) {
+        if (mmApp::$isSaveDb) {
             $rules = $this->rules();
             if ($rules) {
                 foreach ($rules as $rule) {
@@ -197,7 +197,7 @@ abstract class Model
     {
         $i = $this->startIndex;
         foreach ($this->attributeLabels() as $index => $label) {
-            if (IS_SAVE_DB) {
+            if (mmApp::$isSaveDb) {
                 $this->$index = $data[$i];
             } else {
                 $this->$index = $data[$index] ?? '';
@@ -217,7 +217,7 @@ abstract class Model
         $idName = $this->getId();
         if ($idName) {
             if ($this->$idName) {
-                if (IS_SAVE_DB) {
+                if (mmApp::$isSaveDb) {
                     return $this->db->query('SELECT * FROM ' . $this->tableName() . " WHERE `{$idName}`={$this->getVal($this->$idName, $this->isAttribute($idName))} LIMIT 1");
                 } else {
                     $data = $this->getFileData();
@@ -257,7 +257,7 @@ abstract class Model
      */
     public function update()
     {
-        if (IS_SAVE_DB) {
+        if (mmApp::$isSaveDb) {
             $this->validate();
             $idName = $this->getId();
             if ($idName) {
@@ -297,7 +297,7 @@ abstract class Model
      */
     public function add()
     {
-        if (IS_SAVE_DB) {
+        if (mmApp::$isSaveDb) {
             $this->validate();
             $idName = $this->getId();
             if ($idName) {
@@ -338,7 +338,7 @@ abstract class Model
      */
     public function delete()
     {
-        if (IS_SAVE_DB) {
+        if (mmApp::$isSaveDb) {
             $idString = null;
             $idName = $this->getId();
             if ($idName) {
@@ -373,7 +373,7 @@ abstract class Model
      */
     public function where(string $where = '1', bool $isOne = false)
     {
-        if (IS_SAVE_DB) {
+        if (mmApp::$isSaveDb) {
             $sql = 'SELECT * FROM ' . $this->tableName() . " WHERE {$where}";
             return $this->db->query($sql);
         } else {
@@ -417,7 +417,7 @@ abstract class Model
      */
     public function whereOne(string $where = '1'): bool
     {
-        if (IS_SAVE_DB) {
+        if (mmApp::$isSaveDb) {
             $res = $this->where("{$where} LIMIT 1");
             if ($res && $res->num_rows) {
                 $this->init($res->fetch_array(MYSQLI_NUM));
@@ -435,7 +435,7 @@ abstract class Model
     }
 
     /**
-     * Получение всех значений из файла. Актуально если глобальная константа IS_SAVE_DB равна false.
+     * Получение всех значений из файла. Актуально если переменая mmApp::$isSaveDb равна false.
      *
      * @return array|mixed
      * @api
@@ -461,7 +461,7 @@ abstract class Model
      */
     public function query(string $sql)
     {
-        if (IS_SAVE_DB) {
+        if (mmApp::$isSaveDb) {
             return $this->db->query($sql);
         }
         return null;

@@ -7,6 +7,7 @@
 
 namespace MM\bot\models;
 
+use MM\bot\core\mmApp;
 use MM\bot\models\db\Model;
 use mysqli_result;
 
@@ -141,7 +142,7 @@ class UsersData extends Model
     public function getOne(): bool
     {
         $one = $this->selectOne();
-        if (IS_SAVE_DB) {
+        if (mmApp::$isSaveDb) {
             if ($one && $one->num_rows) {
                 $this->init($one->fetch_array(MYSQLI_NUM));
                 $one->free_result();
@@ -162,7 +163,7 @@ class UsersData extends Model
      */
     public function validate(): void
     {
-        if (IS_SAVE_DB) {
+        if (mmApp::$isSaveDb) {
             if (is_array($this->meta)) {
                 $this->meta = json_encode($this->meta, JSON_UNESCAPED_UNICODE);
             }
@@ -182,7 +183,7 @@ class UsersData extends Model
     public function init(array $data): void
     {
         parent::init($data);
-        if (IS_SAVE_DB) {
+        if (mmApp::$isSaveDb) {
             if (!is_array($this->meta)) {
                 $this->meta = json_decode($this->meta, true);
             }
