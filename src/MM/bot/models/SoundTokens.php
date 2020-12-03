@@ -70,7 +70,7 @@ class SoundTokens extends Model
      */
     public function createTable()
     {
-        if (IS_SAVE_DB) {
+        if (mmApp::$isSaveDb) {
             $sql = "CREATE TABLE IF NOT EXISTS `{$this->tableName()}` (
  `soundToken` VARCHAR(150) COLLATE utf8_unicode_ci NOT NULL,
  `path` VARCHAR(150) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -90,7 +90,7 @@ class SoundTokens extends Model
      */
     public function dropTable()
     {
-        if (IS_SAVE_DB) {
+        if (mmApp::$isSaveDb) {
             return $this->query("DROP TABLE IF EXISTS `{$this->tableName()}`;");
         }
         return null;
