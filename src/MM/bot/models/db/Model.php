@@ -435,7 +435,7 @@ abstract class Model
     }
 
     /**
-     * Получение всех значений из файла. Актуально если переменая mmApp::$isSaveDb равна false.
+     * Получение всех значений из файла. Актуально если переменная mmApp::$isSaveDb равна false.
      *
      * @return array|mixed
      * @api
