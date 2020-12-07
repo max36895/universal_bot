@@ -1,6 +1,6 @@
 <?php
 /**
- * Created by Maxim-M generated
+ * Created by u_bot
  * Date: {{date}}
  * Time: {{time}}
  */
