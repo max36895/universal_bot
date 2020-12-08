@@ -44,6 +44,31 @@ class InitController
         return (new UsersData())->dropTable();
     }
 
+    /**
+     * Удаление Таблиз из бд
+     */
+    public function drop()
+    {
+        if ($this->dropImageTokensTable()) {
+            printf("Таблица \"%s\" успешно удалена!\n", ImageTokens::TABLE_NAME);
+        } else {
+            printf("Не удалось удалить таблицу \"%s\"!\n", ImageTokens::TABLE_NAME);
+        }
+        if ($this->dropSoundTokensTable()) {
+            printf("Таблица \"%s\" успешно удалена!\n", SoundTokens::TABLE_NAME);
+        } else {
+            printf("Не удалось удалить таблицу \"%s\"!\n", SoundTokens::TABLE_NAME);
+        }
+        if ($this->dropUserDataTable()) {
+            printf("Таблица \"%s\" успешно удалена!\n", UsersData::TABLE_NAME);
+        } else {
+            printf("Не удалось удалить таблицу \"%s\"!\n", UsersData::TABLE_NAME);
+        }
+    }
+
+    /**
+     * Создание таблиц в бд
+     */
     public function init()
     {
         if ($this->createImageTokensTable()) {

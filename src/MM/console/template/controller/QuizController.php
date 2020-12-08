@@ -1,6 +1,6 @@
 <?php
 /**
- * Created by Maxim-M generated
+ * Created by u_bot
  * Date: {{date}}
  * Time: {{time}}
  */
@@ -32,7 +32,7 @@ class __className__Controller extends MM\bot\controller\BotController
     /**
      * Получаем вопрос и отображаем его пользователю
      *
-     * @param $id
+     * @param int $id Идентификатор записи
      */
     protected function setQuestionText($id)
     {
@@ -48,8 +48,8 @@ class __className__Controller extends MM\bot\controller\BotController
     /**
      * Проверяем правильно ответил пользователь или нет
      *
-     * @param $text
-     * @param $questionId
+     * @param string $text пользовательский ответ
+     * @param int $questionId номер вопроса
      */
     protected function isSuccess($text, $questionId)
     {
@@ -70,6 +70,9 @@ class __className__Controller extends MM\bot\controller\BotController
         $this->setQuestionText($questionId);
     }
 
+    /**
+     * Начат квест
+     */
     protected function quiz()
     {
         if (isset($this->userData['question_id'])) {
@@ -87,6 +90,17 @@ class __className__Controller extends MM\bot\controller\BotController
         $this->text = MM\bot\core\mmApp::$params['help_text'];
     }
 
+    /**
+     * Обработка пользовательских команд.
+     *
+     * Если intentName === null, значит не удалось найти обрабатываемых команд в тексте.
+     * В таком случе стоит смотреть либо на предыдущую команду пользователя(которая сохранена в бд).
+     * Либо вернуть текст помощи.
+     *
+     * Обрабатываем приветствие и команду повтори.
+     *
+     * @param string|null $intentName Название действия.
+     */
     public function action($intentName): void
     {
         switch ($intentName) {
@@ -94,6 +108,12 @@ class __className__Controller extends MM\bot\controller\BotController
                 $this->userData['prevCommand'] = self::START_QUESTION;
                 $this->buttons->btn = ['Да', 'Нет'];
                 break;
+
+            case 'replay':
+                $this->text = "Повторяю ещё раз:\n";
+                $this->setQuestionText($this->userData['question_id']);
+                break;
+
             default:
                 switch ($this->userData['prevCommand'] ?? null) {
                     case self::START_QUESTION:
@@ -109,9 +129,11 @@ class __className__Controller extends MM\bot\controller\BotController
                             $this->buttons->btn = ['Да', 'Нет'];
                         }
                         break;
+
                     case self::GAME_QUESTION:
                         $this->quiz();
                         break;
+
                     default:
                         $this->help();
                         break;

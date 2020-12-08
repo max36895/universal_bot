@@ -8,108 +8,82 @@
 namespace MM\console\controllers;
 
 
+use MM\bot\core\mmApp;
+
 class CreateController
 {
-    const T_DEFAULT = 'default';
+    const T_DEFAULT = 'Default';
+    const T_QUIZ = 'Quiz';
 
     protected $path;
     protected $name;
+    public $params;
 
-    protected function createConfig()
+    protected function getFileContent($file)
     {
-        $configDir = $this->path . '/config';
-        if (!is_dir($configDir)) {
-            mkdir($configDir);
+        $content = '';
+        if ($file && is_file($file)) {
+            $content = file_get_contents($file);
         }
-        $fConfig = fopen($configDir . "/{$this->name}Config.php", 'w');
-        $dConfig = "<?php\n";
-        $dConfig .= "/**\n";
-        $dConfig .= " * Created by Maxim-M bot\n";
-        $dConfig .= " * Date: " . date('d.m.Y') . "\n";
-        $dConfig .= " * Time: " . date('H:i') . "\n";
-        $dConfig .= " */\n";
-        $dConfig .= "return [\n";
-        $dConfig .= "\t'telegram_token' => '',\n";
-        $dConfig .= "\t'vk_api_version' => '',\n";
-        $dConfig .= "\t'vk_confirmation_token' => '',\n";
-        $dConfig .= "\t'vk_token' => '',\n";
-        $dConfig .= "\t'yandex_token' => '',\n";
-        $dConfig .= "\t'welcome_text' => '',\n";
-        $dConfig .= "\t'help_text' => '',\n";
-        $dConfig .= "\t'intents' => [\n";
-        $dConfig .= "\t\t[\n";
-        $dConfig .= "\t\t\t'name' => '',\n";
-        $dConfig .= "\t\t\t'slots' => []'\n";
-        $dConfig .= "\t\t]\n";
-        $dConfig .= "\t]\n";
-        $dConfig .= "];\n";
-        fwrite($fConfig, $dConfig);
-        fclose($fConfig);
-        return "/config/{$this->name}Config.php";
+        return $content;
     }
 
-    protected function createController()
+    public function getArrayToPhpStr($arr, $depth = 0): string
     {
-        $configDir = $this->path . '/controller';
-        if (!is_dir($configDir)) {
-            mkdir($configDir);
+        $content = '';
+        $tab = "\t";
+        for ($i = 0; $i < $depth; $i++) {
+            $tab .= "\t";
         }
-        $name = (mb_strtoupper(mb_substr($this->name, 0, 1))) . (mb_substr($this->name, 1));
-        $filePath = "/controller/{$name}Controller.php";
-        $fController = fopen($this->path . $filePath, 'w');
-        $dController = "<?php\n";
-        $dController .= "/**\n";
-        $dController .= " * Created by Maxim-M bot\n";
-        $dController .= " * Date: " . date('d.m.Y') . "\n";
-        $dController .= " * Time: " . date('H:i') . "\n";
-        $dController .= " */\n";
-        $dController .= "\n";
-        $dController .= "class {$name}Controller extends \bot\controller\BotController\n";
-        $dController .= "{\n";
-        $dController .= "/**\n";
-        $dController .= " * Обработка команд\n";
-        $dController .= " * @property string \$intentName\n";
-        $dController .= " */\n";
-        $dController .= "\tpublic function action(\$intentName): void\n";
-        $dController .= "\t{\n";
-        $dController .= "\t\tswitch (\$intentName) {\n";
-        $dController .= "\t\t\t\n";
-        $dController .= "\t\t}\n";
-        $dController .= "\t}\n";
-        $dController .= "}\n";
-        fwrite($fController, $dController);
-        fclose($fController);
-        return $filePath;
+
+        foreach ($arr as $key => $value) {
+            if (is_array($value)) {
+                $content .= "{$tab}'{$key}' => [\n";
+                $content .= $this->getArrayToPhpStr($value, $depth + 1);
+                $content .= "{$tab}],\n";
+            } else {
+                $content .= "{$tab}'{$key}' => '{$value}',\n";
+            }
+        }
+        return $content;
     }
 
-    protected function createIndex($controllerPath, $configPath)
+    protected function getHeaderContent()
     {
-        $initPath = __DIR__ . '/../../bot/init.php';
-        $controllerClassName = str_replace(['/controller/', '.php'], '', $controllerPath);
-        $fIndex = fopen('index.php', 'w');
-        $dIndex = "<?php\n";
-        $dIndex .= "/**\n";
-        $dIndex .= " * Created by Maxim-M bot\n";
-        $dIndex .= " * Date: " . date('d.m.Y') . "\n";
-        $dIndex .= " * Time: " . date('H:i') . "\n";
-        $dIndex .= " */\n";
-        $dIndex .= "\n";
-        $dIndex .= "require_once '{$initPath}'; // Подключение основных компонентов приложения\n";
-        $dIndex .= "require_once __DIR__ . '{$controllerPath}'; // Сгенерированный контролер, отвечающий за логику\n";
-        $dIndex .= "\n";
-        $dIndex .= "\$bot = new \bot\core\Bot(); // Создаем приложение\n";
-        $dIndex .= "\$bot->initTypeInGet(); // Отпеделяем тип приложения(alisa, vk, telegram) через _GET['type']\n";
-        $dIndex .= "\$bot->initConfig(include __DIR__ . '{$configPath}'); // Устанавливаем настройки\n";
-        $dIndex .= "\$logic = new {$controllerClassName}(); // Создаем объект с логикой навыка/бота\n";
-        $dIndex .= "\$bot->initBotLogic(\$logic); // Инициализируем логику приложения\n";
-        $dIndex .= "echo \$bot->run() // Запускаем приложение\n";
-        fwrite($fIndex, $dIndex);
-        fclose($fIndex);
+        $headerContent = "<?php\n";
+        $headerContent .= "/*\n";
+        $headerContent .= " * Date: {{date}}\n";
+        $headerContent .= " * Time: {{time}}\n";
+        $headerContent .= " */\n\n";
+        return $headerContent;
     }
 
-    protected function generateFile(string $templateFile, string $newFileName)
+    protected function initParams($defaultParams)
     {
-        $templateContent = file_get_contents(__DIR__ . "/../../bot/template/{$templateFile}");
+        $params = mmApp::arrayMerge($defaultParams, $this->params['params']);
+
+        $content = $this->getHeaderContent();
+        $content .= "return ";
+        $content .= $this->getArrayToPhpStr($params);
+        $content .= ";\n";
+
+        return $content;
+    }
+
+    protected function initConfig($defaultConfig)
+    {
+        $config = mmApp::arrayMerge($defaultConfig, $this->params['config']);
+
+        $content = $this->getHeaderContent();
+        $content .= "return ";
+        $content .= $this->getArrayToPhpStr($config);
+        $content .= ";\n";
+
+        return $content;
+    }
+
+    protected function generateFile(string $templateContent, string $fileName): string
+    {
         $find = [
             '{{date}}',
             '{{time}}',
@@ -127,52 +101,84 @@ class CreateController
             $this->name,
             $name
         ];
-        $newFileName = str_replace($find, $replace, $newFileName);
+        $fileName = str_replace($find, $replace, $fileName);
         $content = str_replace($find, $replace, $templateContent);
-        file_put_contents($newFileName, $content);
+        file_put_contents($fileName, $content);
+        return $fileName;
+    }
+
+    protected function getConfigFile(string $path, string $type)
+    {
+        $configFile = "{$this->path}/config/{{name}}Config.php";
+        if (is_file("{$path}/config/{$type}Config.php")) {
+            $configContent = $this->initConfig(include "{$path}/config/{$type}Config.php");
+        } else {
+            $configContent = $this->getFileContent("{$path}/config/{$type}Config.php");
+        }
+        $this->generateFile($configContent, $configFile);
+    }
+
+    protected function getParamsFile(string $path)
+    {
+        $paramsFile = "{$this->path}/config/{{name}}Params.php";
+        if (is_file("{$path}/config/defaultParams.php")) {
+            $paramsContent = $this->initConfig(include "{$path}/config/defaultParams.php");
+        } else {
+            $paramsContent = $this->getFileContent("{$path}/config/defaultParams.php");
+        }
+        $this->generateFile($paramsContent, $paramsFile);
     }
 
     protected function create($type = self::T_DEFAULT)
     {
-        switch ($type) {
-            case self::T_DEFAULT:
-                $standardPath = 'default/';
-                $configFile = "{$this->path}/config";
-                if (!is_dir($configFile)) {
-                    mkdir($configFile);
-                }
-                $configFile .= '/{{name}}Config.php';
-                $this->generateFile("{$standardPath}/config/defaultConfig.php", $configFile);
+        if (in_array($type, [self::T_DEFAULT, self::T_QUIZ])) {
+            $standardPath = __DIR__ . '/../template';
+            $configFile = "{$this->path}/config";
+            if (!is_dir($configFile)) {
+                mkdir($configFile);
+            }
+            $typeToLower = strtolower($type);
 
-                $paramsFile = $this->path . '/config/{{name}}Params.php';
-                $this->generateFile("{$standardPath}/config/defaultParams.php", $paramsFile);
+            $this->getConfigFile($standardPath, $typeToLower);
+            $this->getParamsFile($standardPath);
 
-                $controllerFile = "{$this->path}/controller";
-                if (!is_dir($controllerFile)) {
-                    mkdir($controllerFile);
-                }
-                $controllerFile .= '/{{className}}Controller.php';
-                $this->generateFile("{$standardPath}/controller/DefaultController.php", $controllerFile);
+            $controllerFile = "{$this->path}/controller";
+            if (!is_dir($controllerFile)) {
+                mkdir($controllerFile);
+            }
+            $controllerFile .= '/{{className}}Controller.php';
+            $controllerContent = $this->getFileContent("{$standardPath}/controller/{$type}Controller.php");
+            $this->generateFile($controllerContent, $controllerFile);
 
-                $indexFile = "{$this->path}/index.php";
-                $this->generateFile("{$standardPath}/index.php", $indexFile);
-                break;
+            $indexFile = "{$this->path}/index.php";
+            $indexContent = $this->getFileContent("{$standardPath}/index.php");
+            $this->generateFile($indexContent, $indexFile);
         }
     }
 
-    public function init($name = null)
+    public function init($name = null, $type = self::T_DEFAULT)
     {
         if ($name) {
-            if (is_dir($name)) {
-                printf("Не удалось создать директорию:\n\t%s\nПроверьте права...\n", $name);
-                return;
+            if (!is_dir($name)) {
+                mkdir($name);
             }
             $this->name = $name;
-            mkdir($name);
-            $this->path = $name;
-            $configPath = $this->createConfig();
-            $controllerPath = $this->createController();
-            $this->createIndex($controllerPath, $configPath);
+            $this->path = '';
+            if ($this->params['path']) {
+                $this->path = $this->params['path'];
+                $paths = explode('/', $this->path);
+                $path = '';
+                foreach ($paths as $p) {
+                    $path .= $p . '/';
+                    if ($p !== './' && $p !== '../') {
+                        if (!is_dir($path)) {
+                            mkdir($path);
+                        }
+                    }
+                }
+            }
+            $this->path .= $name;
+            $this->create($type);
         }
     }
 }
