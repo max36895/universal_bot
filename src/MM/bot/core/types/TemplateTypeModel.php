@@ -20,22 +20,22 @@ abstract class TemplateTypeModel
 {
     /**
      * Класс с логикой приложения.
-     * @var BotController|null $controller Класс с логикой приложения.
+     * @var BotController|null $controller
      */
     protected $controller;
     /**
-     * Строка с ошибками работы приложения.
-     * @var string|null $error Строка с ошибками работы приложения.
+     * Строка с ошибками, произошедшими при работе приложения.
+     * @var string|null $error
      */
     protected $error;
     /**
      * Время начала работы приложения.
-     * @var float|int|null $timeStart Время начала работы приложения.
+     * @var float|int|null $timeStart
      */
     protected $timeStart;
     /**
      * Использование локального хранилища как БД.
-     * @var bool $isUsedLocalStorage Использование локального хранилища как БД.
+     * @var bool $isUsedLocalStorage
      */
     public $isUsedLocalStorage;
 

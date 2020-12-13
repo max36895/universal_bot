@@ -75,6 +75,10 @@ class Sound
                 $sound = null;
                 break;
 
+            case T_SMARTAPP:
+                $sound = null;
+                break;
+
             case T_USER_APP:
                 $sound = $userSound;
                 break;

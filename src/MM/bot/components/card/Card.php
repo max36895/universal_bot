@@ -10,6 +10,7 @@ namespace MM\bot\components\card;
 
 use MM\bot\components\button\Buttons;
 use MM\bot\components\card\types\AlisaCard;
+use MM\bot\components\card\types\SmartAppCard;
 use MM\bot\components\card\types\TelegramCard;
 use MM\bot\components\card\types\TemplateCardTypes;
 use MM\bot\components\card\types\ViberCard;
@@ -117,6 +118,10 @@ class Card
 
             case T_MARUSIA:
                 $card = null;
+                break;
+
+            case T_SMARTAPP:
+                $card = new SmartAppCard();
                 break;
 
             case T_USER_APP:

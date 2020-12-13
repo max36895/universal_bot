@@ -8,6 +8,7 @@
 namespace MM\bot\components\button;
 
 use MM\bot\components\button\types\AlisaButton;
+use MM\bot\components\button\types\SmartAppButton;
 use MM\bot\components\button\types\TelegramButton;
 use MM\bot\components\button\types\TemplateButtonTypes;
 use MM\bot\components\button\types\ViberButton;
@@ -26,6 +27,8 @@ class Buttons
     public const T_VK_BUTTONS = 'vk_btn';
     public const T_TELEGRAM_BUTTONS = 'telegram_btn';
     public const T_VIBER_BUTTONS = 'viber_btn';
+    public const T_SMARTAPP_BUTTONS = 'smart-app_btn';
+    public const T_SMARTAPP_BUTTON_CARD = 'smart-app_card_btn';
     public const T_USER_APP_BUTTONS = 'user_app_btn';
 
     /**
@@ -208,6 +211,16 @@ class Buttons
 
             case self::T_VIBER_BUTTONS:
                 $button = new ViberButton();
+                break;
+
+            case self::T_SMARTAPP_BUTTONS:
+                $button = new SmartAppButton();
+                $button->isCard = false;
+                break;
+
+            case self::T_SMARTAPP_BUTTON_CARD:
+                $button = new SmartAppButton();
+                $button->isCard = true;
                 break;
 
             case self::T_USER_APP_BUTTONS:

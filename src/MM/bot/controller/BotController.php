@@ -20,12 +20,12 @@ use MM\bot\core\mmApp;
  * Class BotController
  * @package bot\controller
  *
- * Абстрактный класс, который унаследуют все классы, обрабатывающие логику приложения.
+ * Абстрактный класс, который должны унаследовать все классы, обрабатывающие логику приложения.
  */
 abstract class BotController
 {
     /**
-     * Кнопки отображаемые в приложении
+     * Кнопки отображаемые в приложении.
      * @var Buttons $buttons Кнопки отображаемые в приложении
      * @see Buttons Смотри тут
      */
@@ -37,7 +37,7 @@ abstract class BotController
      */
     public $card;
     /**
-     * Текст который увидит пользователь.
+     * Текст который отобразится пользователю.
      * @var string $text
      */
     public $text;
@@ -56,7 +56,7 @@ abstract class BotController
      */
     public $nlu;
     /**
-     * Звуки в приложении.
+     * Звуки которые будут присутствовать в приложении.
      * @var Sound $sound Звуки в приложении.
      * @see Sound Смотри тут
      */
@@ -68,7 +68,7 @@ abstract class BotController
      */
     public $userId;
     /**
-     * Пользовательский токен. Инициализируется тогда, когда пользователь авторизован (Актуально для Алисы).
+     * Пользовательский токен. Инициализируется когда пользователь авторизован (Актуально для Алисы).
      * @var string|null $userToken Пользовательский токен. Инициализируется тогда, когда пользователь авторизован (Актуально для Алисы).
      */
     public $userToken;
@@ -83,7 +83,7 @@ abstract class BotController
      */
     public $messageId;
     /**
-     * Запрос пользователь в нижнем регистре.
+     * Запрос пользователя в нижнем регистре.
      * @var string|null $userCommand Запрос пользователь в нижнем регистре.
      */
     public $userCommand;
@@ -93,7 +93,7 @@ abstract class BotController
      */
     public $originalUserCommand;
     /**
-     * Дополнительные параметры запроса.
+     * Дополнительные параметры к запросу.
      * @var array|null $payload Дополнительные параметры запроса.
      */
     public $payload;
@@ -103,7 +103,7 @@ abstract class BotController
      */
     public $userData;
     /**
-     * Запросить авторизацию пользователя или нет (Актуально для Алисы).
+     * Запросить авторизацию для пользователя или нет (Актуально для Алисы).
      * @var bool $isAuth Запросить авторизацию пользователя или нет (Актуально для Алисы).
      */
     public $isAuth;
@@ -114,24 +114,24 @@ abstract class BotController
     public $isAuthSuccess;
 
     /**
-     * Пользовательское хранилище (Актуально для Алисы).
+     * Пользовательское локальное хранилище (Актуально для Алисы).
      * @var array|null $state Пользовательское хранилище (Актуально для Алисы).
      */
     public $state;
 
     /**
-     * Если ли экран (Актуально для Алисы).
-     * @var bool $isScreen Если ли экран (Актуально для Алисы).
+     * Присутствие экрана.
+     * @var bool $isScreen
      */
     public $isScreen;
     /**
-     * Завершение сессии (Актуально для Алисы).
-     * @var bool $isEnd Завершение сессии (Актуально для Алисы).
+     * Завершение сессии.
+     * @var bool $isEnd
      */
     public $isEnd;
     /**
      * Отправлять в конце запрос или нет. (Актуально для Vk и Telegram) False тогда, когда все запросы отправлены внутри логики приложения, и больше ничего отправлять не нужно.
-     * @var bool $isSend Отправлять в конце запрос или нет. (Актуально для Vk и Telegram) False тогда, когда все запросы отправлены внутри логики приложения, и больше ничего отправлять не нужно.
+     * @var bool $isSend
      */
     public $isSend;
 
@@ -140,6 +140,34 @@ abstract class BotController
      * @var array|null $requestObject Полученный запрос.
      */
     public $requestObject;
+
+    /**
+     * Идентификатор предыдущего действия пользователя.
+     * @var string|null $oldIntentName
+     */
+    public $oldIntentName;
+
+    /**
+     * Идентификатор текущего действия пользователя.
+     * @var string|null $thisIntentName
+     */
+    public $thisIntentName;
+
+    /**
+     * Эмоция, с котороей будет общаться приложение. Актуально для Сбер.
+     * @var string|null $emotion
+     */
+    public $emotion;
+
+    /**
+     * Манера общения с пользователем. Общаемся на "Вы" или на "ты".
+     * Возможные значения:
+     * "official" - оффициальный тон общения(на Вы)
+     * "no_official" - Общаемся на ты
+     * null - можно использовать любой тон
+     * @var string|null $appeal
+     */
+    public $appeal;
 
     /**
      * BotController constructor.
@@ -167,6 +195,10 @@ abstract class BotController
         $this->isAuthSuccess = null;
         $this->isSend = true;
         $this->requestObject = null;
+        $this->oldIntentName = null;
+        $this->thisIntentName = null;
+        $this->emotion = null;
+        $this->appeal = null;
     }
 
     /**
@@ -201,7 +233,7 @@ abstract class BotController
      * Обработка пользовательских команд.
      *
      * Если intentName === null, значит не удалось найти обрабатываемых команд в тексте.
-     * В таком случе стоит смотреть либо на предыдущую команду пользователя(которая сохранена в бд).
+     * В таком случе стоит смотреть либо на предыдущую команду пользователя.
      * Либо вернуть текст помощи.
      *
      * @param string|null $intentName Название действия.
@@ -225,6 +257,7 @@ abstract class BotController
             case WELCOME_INTENT_NAME:
                 $this->text = Text::getText(mmApp::$params['welcome_text'] ?? '');
                 break;
+
             case HELP_INTENT_NAME:
                 $this->text = Text::getText(mmApp::$params['help_text'] ?? '');
                 break;

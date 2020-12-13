@@ -179,6 +179,12 @@ class Bot
                 $type = UsersData::T_MARUSIA;
                 break;
 
+            case T_SMARTAPP:
+                @header('Content-Type: application/json');
+                $botClass = new SmartApp();
+                $type = UsersData::T_SMART_APP;
+                break;
+
             case T_USER_APP:
                 if ($userBotClass) {
                     $botClass = $userBotClass;
@@ -219,8 +225,15 @@ class Bot
                         $userData->meta = $this->botController->userMeta;
                     }
                 }
+                if (!$this->botController->oldIntentName
+                    && $this->botController->userData && $this->botController->userData['oldIntentName']) {
+                    $this->botController->oldIntentName = $this->botController->userData['oldIntentName'];
+                }
 
                 $this->botController->run();
+                if ($this->botController->thisIntentName) {
+                    $this->botController->userData['oldIntentName'] = $this->botController->thisIntentName;
+                }
                 $content = $botClass->getContext();
                 if (!$isLocalStorage) {
                     $userData->data = $this->botController->userData;

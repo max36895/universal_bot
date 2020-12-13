@@ -69,6 +69,17 @@ class Nlu
     }
 
     /**
+     * Приводим nlu в пригодный для работы вид.
+     * @param array|null $nlu
+     * @return array|null
+     */
+    protected function serializeNlu(?array $nlu):?array
+    {
+        // todo добавить обработку
+        return $nlu;
+    }
+
+    /**
      * Инициализация массива с nlu.
      *
      * @param array|null $nlu Значение для nlu. В случае с Алисой передается в запросе. Для других типов инициируется самостоятельно.
@@ -76,7 +87,7 @@ class Nlu
      */
     public function setNlu(?array $nlu): void
     {
-        $this->nlu = $nlu;
+        $this->nlu = $this . $this->serializeNlu($nlu);
     }
 
     /**

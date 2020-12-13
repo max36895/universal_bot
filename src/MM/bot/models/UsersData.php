@@ -25,6 +25,7 @@ class UsersData extends Model
     const T_TELEGRAM = 2;
     const T_VIBER = 3;
     const T_MARUSIA = 4;
+    const T_SMART_APP = 5;
 
     const T_USER_APP = 512;
 
