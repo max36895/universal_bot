@@ -20,7 +20,7 @@ use MM\bot\models\ImageTokens;
 class TelegramCard extends TemplateCardTypes
 {
     /**
-     * Получить карточку для отображения пользователю.
+     * Получение карточки для отображения пользователю.
      *
      * todo подумать над корректным отображением.
      * @param bool $isOne True, если отобразить только 1 картинку. Не используется.

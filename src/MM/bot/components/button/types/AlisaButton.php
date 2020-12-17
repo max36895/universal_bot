@@ -18,8 +18,9 @@ use MM\bot\components\standard\Text;
 class AlisaButton extends TemplateButtonTypes
 {
     /**
-     * True, чтобы получить кнопки для карточки. По умолчанию false
-     * @var bool $isCard True, чтобы получить кнопки для карточки. По умолчанию false
+     * Использование кнопок для карточки
+     * True - получение кнопки для карточки. По умолчанию false
+     * @var bool $isCard
      */
     public $isCard;
 
@@ -32,7 +33,7 @@ class AlisaButton extends TemplateButtonTypes
     }
 
     /**
-     * Получить массив с кнопками для ответа пользователю.
+     * Получение массива с кнопками для ответа пользователю.
      *
      * @return array
      * [

@@ -15,23 +15,23 @@ class DB
 {
     /**
      * Подключение к базе данных
-     * @var mysqli|null $sql Подключение к базе данных
+     * @var mysqli|null $sql
      */
     public $sql;
     /**
      * Ошибки при выполнении запросов
-     * @var array $errors Ошибки при выполнении запросов
+     * @var array $errors
      */
     public $errors;
     /**
-     * параметры для конфигурации. имеют следующие поля:
-     * @var array|null $params параметры для конфигурации. имеют следующие поля:
+     * Параметры для конфигурации. имеют следующие поля:
      * [
      *  - string host:  Местоположение базы данных
      *  - string user Имя пользователя
      *  - string pass Пароль пользователя
      *  - string database Название базы данных
      * ]
+     * @var array|null $params
      */
     public $params;
 

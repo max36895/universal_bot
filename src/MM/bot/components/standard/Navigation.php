@@ -18,33 +18,34 @@ class Navigation
     public const STANDARD_OLD_TEXT = ['назад'];
 
     /**
-     * Если true, тогда используются стандартные команды для навигации.
-     * @var bool $isUsedStandardText Если true, тогда используются стандартные команды для навигации.
+     * Использование стандартных команд навигации
+     * Если true, тогда используются стандартные команды.
+     * @var bool $isUsedStandardText
      */
     public $isUsedStandardText;
     /**
      * Массив с возможными командами для навигации вперед.
-     * @var array $nextText Массив с возможными командами для навигации вперед.
+     * @var array $nextText
      */
     public $nextText;
     /**
      * Массив с возможными командами для навигации назад.
-     * @var array $oldText Массив с возможными командами для навигации назад.
+     * @var array $oldText
      */
     public $oldText;
     /**
      * Массив элементов для обработки.
-     * @var array $elements Массив элементов для обработки.
+     * @var array $elements
      */
     public $elements;
     /**
      * (default 5) Максимальное количество отображаемых элементов.
-     * @var int $maxVisibleElements (default 5) Максимальное количество отображаемых элементов.
+     * @var int $maxVisibleElements
      */
     public $maxVisibleElements;
     /**
      * (default 0) Текущая страница. Рекомендуется получать это значение после завершения всех операция.
-     * @var int $thisPage (default 0) Текущая страница. Рекомендуется получать это значение после завершения всех операция.
+     * @var int $thisPage
      */
     public $thisPage;
 
@@ -106,7 +107,7 @@ class Navigation
      */
     public function numberPage(string $text): bool
     {
-        @preg_match_all('/(\d) страни/umi', $text, $data);
+        @preg_match_all('/((-|)\d) страни/umi', $text, $data);
         if (isset($data[0][0])) {
             $this->thisPage = $data[0][0] - 1;
             $maxPage = $this->getMaxPage();
@@ -122,7 +123,7 @@ class Navigation
     }
 
     /**
-     * Пользователь переходит на следующую страницу.
+     * Переход на следующую страницу.
      * В случае успешного перехода вернет true.
      *
      * @param string $text Пользовательский запрос.
@@ -142,7 +143,7 @@ class Navigation
     }
 
     /**
-     * Пользователь переходит на предыдущую страницу.
+     * Переход на предыдущую страницу.
      * В случае успешного перехода вернет true.
      *
      * @param string $text Пользовательский запрос.
@@ -186,7 +187,7 @@ class Navigation
     }
 
     /**
-     * Пользователь выбирает определенный элемент списка на нужной странице.
+     * Выбор определенного элемента списка на нужной странице.
      *
      * @param array|null $elements Элемент для обработки.
      * @param string $text Пользовательский запрос.
@@ -251,7 +252,7 @@ class Navigation
     }
 
     /**
-     * Возвращает кнопки для навигации.
+     * Возвращает кнопки с навигацией.
      *
      * @param bool $isNumber Использование числовой навигации. Если true, тогда будут отображаться кнопки с числовой навигацией.
      * @return array
@@ -297,7 +298,7 @@ class Navigation
     }
 
     /**
-     * Возвращает информацию о текущей позиции пользователя.
+     * Возвращает информацию о текущей позиции.
      *
      * @return string
      * @api

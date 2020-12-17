@@ -21,12 +21,12 @@ abstract class TemplateButtonTypes
 {
     /**
      * Массив кнопок.
-     * @var Button[]|null $buttons Массив кнопок.
+     * @var Button[]|null $buttons
      */
     public $buttons;
 
     /**
-     * Получить массив с кнопками для ответа пользователю.
+     * Получение массива с кнопками для ответа пользователю.
      *
      * @return array
      */

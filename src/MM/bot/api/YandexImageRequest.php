@@ -26,7 +26,7 @@ class YandexImageRequest extends YandexRequest
     private const STANDARD_URL = 'https://dialogs.yandex.net/api/v1/';
     /**
      * Идентификатор навыка, необходим для корректного сохранения изображения(Обязательный параметр)
-     * @var string|null $skillId Идентификатор навыка, необходим для корректного сохранения изображения(Обязательный параметр)
+     * @var string|null $skillId
      * @see YandexRequest Смотри тут
      */
     public $skillId;

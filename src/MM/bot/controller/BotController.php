@@ -26,13 +26,13 @@ abstract class BotController
 {
     /**
      * Кнопки отображаемые в приложении.
-     * @var Buttons $buttons Кнопки отображаемые в приложении
+     * @var Buttons $buttons
      * @see Buttons Смотри тут
      */
     public $buttons;
     /**
      * Карточки отображаемые в приложении.
-     * @var Card $card Карточки отображаемые в приложении.
+     * @var Card $card
      * @see Card Смотри тут
      */
     public $card;
@@ -43,84 +43,84 @@ abstract class BotController
     public $text;
     /**
      * Текст который услышит пользователь.
-     * @var string|null $tts Текст который услышит пользователь.
      * !Важно, если переменная заполняется для других типов приложения, тогда отправляется запрос в yandex speechkit для преобразования текста в звук.
      * Полученный звук отправляется пользователю как аудио сообщение.
+     * @var string|null $tts
      */
     public $tts;
     /**
      * Обработанный nlu в приложении.
-     * @var Nlu $nlu Обработанный nlu в приложении.
+     * @var Nlu $nlu
      * @link [nlu](https://www.maxim-m.ru/glossary/nlu)
      * @see Nlu Смотри тут
      */
     public $nlu;
     /**
      * Звуки которые будут присутствовать в приложении.
-     * @var Sound $sound Звуки в приложении.
+     * @var Sound $sound
      * @see Sound Смотри тут
      */
     public $sound;
 
     /**
      * Идентификатор пользователя.
-     * @var string|null $userId Идентификатор пользователя.
+     * @var string|null $userId
      */
     public $userId;
     /**
-     * Пользовательский токен. Инициализируется когда пользователь авторизован (Актуально для Алисы).
-     * @var string|null $userToken Пользовательский токен. Инициализируется тогда, когда пользователь авторизован (Актуально для Алисы).
+     * Пользовательский токен. Инициализируется когда пользователь авторизовался (Актуально для Алисы).
+     * @var string|null $userToken
      */
     public $userToken;
     /**
      * Meta данные пользователя.
-     * @var array|null $userMeta Meta данные пользователя.
+     * @var array|null $userMeta
      */
     public $userMeta;
     /**
      * Id сообщения(Порядковый номер сообщения), необходим для того, чтобы понять в 1 раз пишет пользователь или нет.
-     * @var string|int|null $messageId Id сообщения(Порядковый номер сообщения), необходим для того, чтобы понять в 1 раз пишет пользователь или нет.
+     * @var string|int|null $messageId
      */
     public $messageId;
     /**
      * Запрос пользователя в нижнем регистре.
-     * @var string|null $userCommand Запрос пользователь в нижнем регистре.
+     * @var string|null $userCommand
      */
     public $userCommand;
     /**
      * Оригинальный запрос пользователя.
-     * @var string|null $originalUserCommand Оригинальный запрос пользователя.
+     * @var string|null $originalUserCommand
      */
     public $originalUserCommand;
     /**
      * Дополнительные параметры к запросу.
-     * @var array|null $payload Дополнительные параметры запроса.
+     * @var array|null $payload
      */
     public $payload;
     /**
-     * Пользовательские данные (Хранятся в бд либо в файле. Зависит от переменной mmApp::$isSaveDb).
-     * @var array|null $userData Пользовательские данные (Хранятся в бд либо в файле. Зависит от переменной mmApp::$isSaveDb).
+     * Пользовательские данные, сохраненные в приложении (Хранятся в бд либо в файле. Зависит от параметра mmApp.isSaveDb).
+     * @var array|null $userData
      */
     public $userData;
     /**
      * Запросить авторизацию для пользователя или нет (Актуально для Алисы).
-     * @var bool $isAuth Запросить авторизацию пользователя или нет (Актуально для Алисы).
+     * @var bool $isAuth
      */
     public $isAuth;
     /**
      * Проверка что авторизация пользователя прошла успешно (Актуально для Алисы).
-     * @var bool|null $isAuthSuccess Проверка что авторизация пользователя прошла успешно (Актуально для Алисы).
+     * @var bool|null $isAuthSuccess
      */
     public $isAuthSuccess;
 
     /**
      * Пользовательское локальное хранилище (Актуально для Алисы).
-     * @var array|null $state Пользовательское хранилище (Актуально для Алисы).
+     * @var array|null $state
      */
     public $state;
 
     /**
-     * Присутствие экрана.
+     * Наличие экрана.
      * @var bool $isScreen
      */
     public $isScreen;
@@ -137,7 +137,7 @@ abstract class BotController
 
     /**
      * Полученный запрос.
-     * @var array|null $requestObject Полученный запрос.
+     * @var array|null $requestObject
      */
     public $requestObject;
 
@@ -212,7 +212,7 @@ abstract class BotController
     }
 
     /**
-     * Поиск нужной команды в  пользовательском запросе.
+     * Поиск нужной команды в пользовательском запросе.
      * В случае успеха вернет название действия.
      *
      * @param string $text Текст, в котором происходит поиск вхождений.
@@ -232,7 +232,7 @@ abstract class BotController
     /**
      * Обработка пользовательских команд.
      *
-     * Если intentName === null, значит не удалось найти обрабатываемых команд в тексте.
+     * Если intentName === null, значит не удалось найти обрабатываемых команд в запросе.
      * В таком случе стоит смотреть либо на предыдущую команду пользователя.
      * Либо вернуть текст помощи.
      *

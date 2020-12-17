@@ -24,12 +24,13 @@ class Sound
 {
     /**
      * Массив звуков.
-     * @var array $sounds Массив звуков.
+     * @var array $sounds
      */
     public $sounds;
     /**
-     * True, если использовать стандартные звуки. Актуально для Алисы. По умолчанию true.
-     * @var bool $isUsedStandardSound True, если использовать стандартные звуки. Актуально для Алисы. По умолчанию true.
+     * Использовать стандартные звуки.
+     * Если true - используются стандартные звуки. Актуально для Алисы. По умолчанию true.
+     * @var bool $isUsedStandardSound
      */
     public $isUsedStandardSound;
 

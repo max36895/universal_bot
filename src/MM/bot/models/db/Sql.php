@@ -13,8 +13,8 @@ use mysqli_result;
 
 if (!isset($vDB)) {
     /**
-     * Переменная с коннектом к базе данных. Нужна для того, чтобы не было дополнительных подключений к базе
-     * @var DB|null $vDB Переменная с коннектом к базе данных. Нужна для того, чтобы не было дополнительных подключений к базе
+     * Переменная с коннектом к базе данных. Нужна для того, чтобы не было дополнительных подключений к базе.
+     * @var DB|null $vDB
      */
     $vDB = new DB();
 }
@@ -28,22 +28,22 @@ class Sql
 {
     /**
      * Местоположение базы данных.
-     * @var string|null $host Местоположение базы данных.
+     * @var string|null $host
      */
     public $host;
     /**
      * Имя пользователя.
-     * @var string|null $user Имя пользователя.
+     * @var string|null $user
      */
     public $user;
     /**
      * Пароль пользователя.
-     * @var string|null $pass Пароль пользователя.
+     * @var string|null $pass
      */
     public $pass;
     /**
      * Название базы данных.
-     * @var string|null $database Название базы данных.
+     * @var string|null $database
      */
     public $database;
 

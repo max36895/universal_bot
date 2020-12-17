@@ -18,25 +18,26 @@ use MM\bot\core\types\Vk;
 use MM\bot\models\UsersData;
 
 /**
- * Class Bot
+ * Класс отвечающий за запуск приложения.
+ * В нем происхожит инициализации параметров, выбор типа приложения, запуск логики и возврат корректного результата.
  * @package bot\core
  */
 class Bot
 {
     /**
-     * Полученный запрос. В основном JSON.
-     * @var bool|string|null $content Полученный запрос. В основном JSON.
+     * Полученный запрос. В основном JSON или объект.
+     * @var bool|string|null $content
      */
     private $content;
     /**
-     * Логика приложения.
-     * @var BotController|null $botController Логика приложения.
+     * Контроллер с логикой приложения.
+     * @var BotController|null $botController
      * @see BotController Смотри тут
      */
     protected $botController;
     /**
      * Авторизационный токен если есть (Актуально для Алисы). Передастся в том случае, если пользователь произвел авторизацию в навыке.
-     * @var string|null $auth Авторизационный токен если есть (Актуально для Алисы). Передастся в том случае, если пользователь произвел авторизацию в навыке.
+     * @var string|null $auth
      */
     private $auth;
 

@@ -22,24 +22,48 @@ use MM\bot\components\button\types\VkButton;
  */
 class Buttons
 {
+    /**
+     * Кнопки в Алисе.
+     */
     public const T_ALISA_BUTTONS = 'alisa_btn';
+    /**
+     * Кнопки в карточке Алисы.
+     */
     public const T_ALISA_CARD_BUTTON = 'alisa_card_btn';
+    /**
+     * Кнопки в vk.
+     */
     public const T_VK_BUTTONS = 'vk_btn';
+    /**
+     * Кнопки в Telegram.
+     */
     public const T_TELEGRAM_BUTTONS = 'telegram_btn';
+    /**
+     * Кнопки в viber.
+     */
     public const T_VIBER_BUTTONS = 'viber_btn';
+    /**
+     * Кнопки в Сбер SmartApp.
+     */
     public const T_SMARTAPP_BUTTONS = 'smart-app_btn';
+    /**
+     * Кнопки в карточке Сбер SmartApp.
+     */
     public const T_SMARTAPP_BUTTON_CARD = 'smart-app_card_btn';
+    /**
+     * Кнопки в пользовательском типе приложения.
+     */
     public const T_USER_APP_BUTTONS = 'user_app_btn';
 
     /**
      * Массив с различными кнопками.
-     * @var Button[]|null $buttons Массив с различными кнопками.
+     * @var Button[]|null $buttons
      * @see Button Смотри тут
      */
     public $buttons;
     /**
      * Массив из кнопок вида кнопка.
-     * @var array|string|null $btn
+     * @var array|string|null $btns
      *  - string Текст, отображаемый на кнопке.
      *  or
      *  - array
@@ -47,10 +71,10 @@ class Buttons
      *      - string url      Ссылка, по которой перейдет пользователь после нажатия на кнопку.
      *      - string payload  Дополнительные параметры, передаваемые при нажатие на кнопку.
      */
-    public $btn;
+    public $btns;
     /**
      * Массив из кнопок вида ссылка.
-     * @var array|null $link
+     * @var array|null $links
      *  - string Текст, отображаемый на кнопке.
      *  or
      *  - array
@@ -58,9 +82,10 @@ class Buttons
      *      - string url      Ссылка, по которой перейдет пользователь после нажатия на кнопку.
      *      - string payload  Дополнительные параметры, передаваемые при нажатие на кнопку.
      */
-    public $link;
+    public $links;
     /**
-     * @var string $type Тип кнопок(кнопка в Алисе, кнопка в карточке Алисы, кнопка в Vk, кнопка в Telegram).
+     * Тип кнопок(кнопка в Алисе, кнопка в карточке Алисы, кнопка в Vk, кнопка в Telegram и тд).
+     * @var string $type
      */
     public $type;
 
@@ -80,12 +105,12 @@ class Buttons
     public function clear(): void
     {
         $this->buttons = [];
-        $this->btn = [];
-        $this->link = [];
+        $this->btns = [];
+        $this->links = [];
     }
 
     /**
-     * Вставить кнопку.
+     * Добавить кнопку.
      *
      * @param string $title Текст на кнопке.
      * @param string|null $url Ссылка для перехода при нажатии на кнопку.
@@ -147,9 +172,9 @@ class Buttons
      */
     protected function processing(): void
     {
-        if (count($this->btn)) {
-            if (is_array($this->btn)) {
-                foreach ($this->btn as $btn) {
+        if (count($this->btns)) {
+            if (is_array($this->btns)) {
+                foreach ($this->btns as $btn) {
                     if (is_array($btn)) {
                         $this->addBtn($btn['title'] ?? null, $btn['url'] ?? '', $btn['payload'] ?? null);
                     } else {
@@ -157,12 +182,12 @@ class Buttons
                     }
                 }
             } else {
-                $this->addBtn((string)$this->btn);
+                $this->addBtn((string)$this->btns);
             }
         }
-        if (count($this->link)) {
-            if (is_array($this->link)) {
-                foreach ($this->link as $link) {
+        if (count($this->links)) {
+            if (is_array($this->links)) {
+                foreach ($this->links as $link) {
                     if (is_array($link)) {
                         $this->addLink($link['title'] ?? null, $link['url'] ?? '', $link['payload'] ?? null);
                     } else {
@@ -170,7 +195,7 @@ class Buttons
                     }
                 }
             } else {
-                $this->addLink((string)$this->link);
+                $this->addLink((string)$this->links);
             }
         }
     }
@@ -178,7 +203,7 @@ class Buttons
     /**
      * Возвращает массив с кнопками для ответа пользователю.
      *
-     * @param string|null $type Тип приложения.
+     * @param string|null $type Тип кнопки.
      * @param TemplateButtonTypes|null $userButton Класс с пользовательскими кнопками.
      * @return array
      * @api
@@ -236,15 +261,16 @@ class Buttons
     }
 
     /**
-     * Возвращает строку из json объекта кнопок.
+     * Возвращает json строку c кнопками.
      *
      * @param string|null $type Тип приложения.
+     * @param TemplateButtonTypes|null $userButton Класс с пользовательскими кнопками.
      * @return string|null
      * @api
      */
-    public function getButtonJson(?string $type = null): ?string
+    public function getButtonJson(?string $type = null, ?TemplateButtonTypes $userButton): ?string
     {
-        $btn = $this->getButtons($type);
+        $btn = $this->getButtons($type, $userButton);
         if (count($btn)) {
             return json_encode($btn, JSON_UNESCAPED_UNICODE);
         }

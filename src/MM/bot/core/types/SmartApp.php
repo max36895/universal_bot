@@ -26,12 +26,12 @@ class SmartApp extends TemplateTypeModel
     private const MAX_TIME_REQUEST = 2800;
     /**
      * Информация о сессии пользователя.
-     * @var array|null $session Информация о сессии пользователя.
+     * @var array|null $session
      */
     protected $session;
 
     /**
-     * Получение ответа пользователю.
+     * Получение данных, необходимых для постоения ответа пользователю.
      *
      * @return array
      */
@@ -82,11 +82,11 @@ class SmartApp extends TemplateTypeModel
     }
 
     /**
-     * Инициализация параметров.
+     * Инициализация основных параметров. В случае успешной инициализации, вернет true, иначе false.
      *
      * @param string|null $content Запрос пользователя.
      * @param BotController $controller Ссылка на класс с логикой навык/бота.
-     * @return boolean
+     * @return bool
      * @see TemplateTypeModel::init() Смотри тут
      * @api
      */
@@ -150,7 +150,7 @@ class SmartApp extends TemplateTypeModel
     }
 
     /**
-     * Отправка ответа пользователю.
+     * Получение ответа, который отправится пользователю. В случае с Алисой, Марусей и Сбер, возвращается json. С остальными типами, ответ отправляется непосредственно на сервер.
      *
      * @return string
      * @see TemplateTypeModel::getContext() Смотри тут

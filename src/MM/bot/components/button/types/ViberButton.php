@@ -24,7 +24,7 @@ class ViberButton extends TemplateButtonTypes
     const T_NONE = 'none';
 
     /**
-     * Получить массив с кнопками для ответа пользователю.
+     * Получение массива с кнопками для ответа пользователю.
      *
      * @return array
      * @api

@@ -18,8 +18,9 @@ use MM\bot\models\SoundTokens;
 class AlisaSound extends TemplateSoundTypes
 {
     /**
-     * True, если использовать стандартные звуки.
-     * @var bool $isUsedStandardSound True, если использовать стандартные звуки.
+     * Использование стандартных звуков.
+     * True - используются стандартные звуки.
+     * @var bool $isUsedStandardSound
      */
     public $isUsedStandardSound = true;
 
@@ -33,7 +34,7 @@ class AlisaSound extends TemplateSoundTypes
     const S_EFFECT_END = '<speaker effect="-">';
 
     /** Стандартные звуки.
-     * @var array[] $standardSounds Стандартные звуки.
+     * @var array[] $standardSounds
      */
     protected $standardSounds = [
         [
@@ -323,7 +324,7 @@ class AlisaSound extends TemplateSoundTypes
 
 
     /**
-     * Получить разметку для вставки паузы между словами.
+     * Получение разметки для вставки паузы между словами.
      *
      * @param int|float $milliseconds Пауза в миллисекундах.
      * @return string
@@ -336,7 +337,7 @@ class AlisaSound extends TemplateSoundTypes
     }
 
     /**
-     * Получить корректно составленный текст, в котором все ключи заменены на соответствующие звуки.
+     * Получение корректно составленный текст, в котором все ключи заменены на соответствующие звуки.
      *
      * @param array|null $sounds Пользовательские звуки.
      * @param string $text Исходный текст.
@@ -376,7 +377,7 @@ class AlisaSound extends TemplateSoundTypes
     }
 
     /**
-     * Заменить ключи в текста на соответствующие им звуки.
+     * Замена ключей в тексте на соответствующие им звуки.
      *
      * @param string $key Ключ для поиска.
      * @param string|array $value Звук или массив звуков.

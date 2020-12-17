@@ -79,16 +79,18 @@ abstract class TemplateTypeModel
     }
 
     /**
-     * Инициализация основных параметров и компонентов контроллера.
+     * Инициализация основных параметров. В случае успешной инициализации, вернет true, иначе false.
      *
-     * @param string|null $content Запрос пользователя. В основном json строка.
+     * @param string|null $content Запрос пользователя.
      * @param BotController $controller Ссылка на класс с логикой навык/бота.
      * @return bool
+     * @see TemplateTypeModel::init() Смотри тут
+     * @api
      */
     public abstract function init(?string $content, BotController &$controller): bool;
 
     /**
-     * Отправка ответа пользователю.
+     * Получение ответа, который отправится пользователю. В случае с Алисой, Марусей и Сбер, возвращается json. С остальными типами, ответ отправляется непосредственно на сервер.
      *
      * @return string
      */

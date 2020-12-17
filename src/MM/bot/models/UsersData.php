@@ -31,22 +31,22 @@ class UsersData extends Model
 
     /**
      * Идентификатор пользователя (Уникальный ключ).
-     * @var string|null $userId Идентификатор пользователя (Уникальный ключ).
+     * @var string|null $userId
      */
     public $userId;
     /**
      * Meta данные пользователя.
-     * @var string|array|null $meta Meta данные пользователя.
+     * @var string|array|null $meta
      */
     public $meta;
     /**
      * Пользовательские данные.
-     * @var string|array|null $data Пользовательские данные.
+     * @var string|array|null $data
      */
     public $data;
     /**
      * Тип записи (0 - Алиса; 1 - Vk; 2 - Telegram).
-     * @var int $type Тип записи (0 - Алиса; 1 - Vk; 2 - Telegram).
+     * @var int $type
      */
     public $type;
 
