@@ -25,7 +25,7 @@ class SmartAppButton extends TemplateButtonTypes
     public $isCard;
 
     /**
-     * AlisaButton constructor.
+     * SmartAppButton constructor.
      */
     public function __construct()
     {
