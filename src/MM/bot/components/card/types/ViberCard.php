@@ -19,7 +19,7 @@ use MM\bot\components\image\Image;
 class ViberCard extends TemplateCardTypes
 {
     /**
-     * Получить елемент карточки.
+     * Получить элемент карточки.
      * @param Image $image Объект с изображением
      * @param int $countImage Количество изображений
      * @return array
