@@ -31,22 +31,22 @@ class ImageTokens extends Model
 
     /**
      * Идентификатор/токен картинки.
-     * @var string|null $imageToken Идентификатор/токен картинки.
+     * @var string|null $imageToken
      */
     public $imageToken;
     /**
      * Расположение картинки (url/директория).
-     * @var string|null $path Расположение картинки (url/директория).
+     * @var string|null $path
      */
     public $path;
     /**
      * Тип приложения, для которого загружена картинка.
-     * @var string|int $type Тип приложения, для которого загружена картинка.
+     * @var string|int $type
      */
     public $type;
     /**
      * Описание картинки (Не обязательное поле).
-     * @var string|null $caption Описание картинки (Не обязательное поле).
+     * @var string|null $caption
      */
     public $caption;
 
@@ -137,7 +137,7 @@ class ImageTokens extends Model
     }
 
     /**
-     * Получить идентификатор/токен изображения.
+     * Получение идентификатора/токена изображения.
      *
      * @return string|null
      * @api

@@ -13,7 +13,7 @@ use MM\bot\api\request\Request;
 use MM\bot\core\mmApp;
 
 /**
- * Отправка запросов к viber серверу.
+ * Отправка запросов на viber сервер.
  *
  * Документация по viber api.
  * @see (https://developers.viber.com/docs/api/rest-bot-api/) Смотри тут
@@ -30,19 +30,19 @@ class ViberRequest
 
     /**
      * Отправка запросов.
-     * @var Request $request Отправка запросов.
+     * @var Request $request
      * @see Request Смотри тут
      */
     protected $request;
     /**
      * Ошибки при выполнении.
-     * @var string $error Ошибки при выполнении.
+     * @var string $error
      */
     protected $error;
 
     /**
-     * Авторизационный токен бота, необходим для отправки данных.
-     * @var string|null $token Авторизационный токен бота, необходим для отправки данных.
+     * Авторизационный токен бота, необходимый для отправки данных.
+     * @var string|null $token
      */
     public $token;
 
@@ -54,7 +54,7 @@ class ViberRequest
         $this->request = new Request();
         $this->token = null;
         if (isset(mmApp::$params['viber_token'])) {
-            $this->token = mmApp::$params['viber_token'];
+            $this->initToken(mmApp::$params['viber_token']);
         }
     }
 
@@ -70,7 +70,7 @@ class ViberRequest
     }
 
     /**
-     * Отправка запросов к viber серверу.
+     * Отправка запросов на viber сервер.
      *
      * @param string $method Название метода.
      * @return array|null
@@ -84,7 +84,7 @@ class ViberRequest
                     "X-Viber-Auth-Token: {$this->token}"
                 ];
                 $this->request->post['min_api_version'] = mmApp::$params['viber_api_version'] ?? 2;
-                $data = $this->request->send(self::API_ENDPOINT . $method)['data']??[];
+                $data = $this->request->send(self::API_ENDPOINT . $method)['data'] ?? [];
                 if (isset($data['failed_list']) && count($data['failed_list'])) {
                     $this->error = json_encode($data['failed_list'], JSON_UNESCAPED_UNICODE);
                     $this->log($data['status_message']);
@@ -281,7 +281,7 @@ class ViberRequest
         if (Text::isSayText(['http:\/\/', 'https:\/\/'], $file)) {
             $this->request->post['type'] = 'file';
             $this->request->post['media'] = $file;
-            $this->request->post['size'] = 10000;
+            $this->request->post['size'] = 10e4;
             $this->request->post['file_name'] = Text::resize($file, 150);
             if (count($params)) {
                 $this->request->post = mmApp::arrayMerge($this->request->post, $params);

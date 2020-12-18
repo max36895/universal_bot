@@ -13,7 +13,7 @@ use CURLFile;
  * Class Request
  *
  * Класс для отправки curl запросов на необходимый url.
- * Поддерживаются различные заголовки, а также есть возможность отправки файлов.
+ * Поддерживаются различные заголовки, а также присутствует возможность отправки файлов.
  *
  * @package bot\api\request
  */
@@ -26,59 +26,61 @@ class Request
     public const HEADER_FORM_DATA = 'Content-Type: multipart/form-data';
 
     /**
-     * Адрес, на который будет отправляться запрос.
-     * @var string $url Адрес, на который будет отправляться запрос.
+     * Адрес, на который отправляется запрос.
+     * @var string $url
      */
     public $url;
     /**
      * Get параметры запроса.
-     * @var string|array $get Get параметры запроса.
+     * @var string|array $get
      */
     public $get;
     /**
      * Post параметры запроса.
-     * @var string|array $post Post параметры запроса.
+     * @var string|array $post
      */
     public $post;
     /**
      * Отправляемые заголовки.
-     * @var string|array $header Отправляемые заголовки.
+     * @var string|array $header
      */
     public $header;
     /**
-     * Прикрепленные файла (url, путь к файлу на сервере либо содержимое файла).
-     * @var string $attach Прикрепленные файла (url, путь к файлу на сервере либо содержимое файла).
+     * Прикреплённый файл (url, путь к файлу на сервере либо содержимое файла).
+     * @var string $attach
      */
     public $attach;
     /**
+     * Тип передаваемого файла.
      * True если передается содержимое файла. По умолчанию: false.
-     * @var bool $isAttachContent True если передается содержимое файла. По умолчанию: false.
+     * @var bool $isAttachContent
      */
     public $isAttachContent;
     /**
      * Название параметра при отправке файла (По умолчанию file).
-     * @var string $attachName Название параметра при отправке файла (По умолчанию file).
+     * @var string $attachName
      */
     public $attachName;
     /**
      * Кастомный (Пользовательский) заголовок (DELETE и тд.).
-     * @var string $customRequest Кастомный (Пользовательский) заголовок (DELETE и тд.).
+     * @var string $customRequest
      */
     public $customRequest;
     /**
-     * Максимально время, за которое должен быть получен ответ. В мсек.
-     * @var int|null $maxTimeQuery Максимально время, за которое должен быть получен ответ. В мсек.
+     * Максимально время, за которое должены получить ответ. В мсек.
+     * @var int|null $maxTimeQuery
      */
     public $maxTimeQuery;
     /**
+     * Формат ответа.
      * True, если полученный ответ нужно преобразовать как json. По умолчанию true.
-     * @var bool $isConvertJson True, если полученный ответ нужно преобразовать как json. По умолчанию true.
+     * @var bool $isConvertJson
      */
     public $isConvertJson;
 
     /**
      * Ошибки при выполнении запросов.
-     * @var string $error Ошибки при выполнении запросов.
+     * @var string $error
      */
     private $error;
 
@@ -101,7 +103,7 @@ class Request
     }
 
     /**
-     * Возвращает текст с ошибкой, которая произошла при выполнении запроса.
+     * Возвращает текст с ошибкой, произошедшей при выполнении запроса.
      *
      * @return string
      * @api
@@ -112,7 +114,7 @@ class Request
     }
 
     /**
-     * Запуск отправки curl запроса.
+     * Начинаем отправку curl запроса.
      * В случае успеха возвращает содержимое запроса, в противном случае null.
      *
      * @return mixed
@@ -179,7 +181,7 @@ class Request
     }
 
     /**
-     * Отправка запрос.
+     * Отправка запроса.
      * Возвращает массив. В случае успеха свойство 'status' = true.
      *
      * @param string|null $url Адрес, на который отправляется запрос.

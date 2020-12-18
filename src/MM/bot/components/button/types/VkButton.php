@@ -26,7 +26,7 @@ class VkButton extends TemplateButtonTypes
     public const GROUP_NAME = '_group';
 
     /**
-     * Получить массив с кнопками для ответа пользователю.
+     * Получение массива с кнопками для ответа пользователю.
      *
      * @return array
      * @api

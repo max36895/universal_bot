@@ -18,25 +18,26 @@ use MM\bot\core\types\Vk;
 use MM\bot\models\UsersData;
 
 /**
- * Class Bot
+ * Класс отвечающий за запуск приложения.
+ * В нем происходит инициализации параметров, выбор типа приложения, запуск логики и возврат корректного результата.
  * @package bot\core
  */
 class Bot
 {
     /**
-     * Полученный запрос. В основном JSON.
-     * @var bool|string|null $content Полученный запрос. В основном JSON.
+     * Полученный запрос. В основном JSON или объект.
+     * @var bool|string|null $content
      */
     private $content;
     /**
-     * Логика приложения.
-     * @var BotController|null $botController Логика приложения.
+     * Контроллер с логикой приложения.
+     * @var BotController|null $botController
      * @see BotController Смотри тут
      */
     protected $botController;
     /**
      * Авторизационный токен если есть (Актуально для Алисы). Передастся в том случае, если пользователь произвел авторизацию в навыке.
-     * @var string|null $auth Авторизационный токен если есть (Актуально для Алисы). Передастся в том случае, если пользователь произвел авторизацию в навыке.
+     * @var string|null $auth
      */
     private $auth;
 
@@ -179,6 +180,12 @@ class Bot
                 $type = UsersData::T_MARUSIA;
                 break;
 
+            case T_SMARTAPP:
+                @header('Content-Type: application/json');
+                $botClass = new SmartApp();
+                $type = UsersData::T_SMART_APP;
+                break;
+
             case T_USER_APP:
                 if ($userBotClass) {
                     $botClass = $userBotClass;
@@ -219,8 +226,15 @@ class Bot
                         $userData->meta = $this->botController->userMeta;
                     }
                 }
+                if (!$this->botController->oldIntentName
+                    && $this->botController->userData && $this->botController->userData['oldIntentName']) {
+                    $this->botController->oldIntentName = $this->botController->userData['oldIntentName'];
+                }
 
                 $this->botController->run();
+                if ($this->botController->thisIntentName) {
+                    $this->botController->userData['oldIntentName'] = $this->botController->thisIntentName;
+                }
                 $content = $botClass->getContext();
                 if (!$isLocalStorage) {
                     $userData->data = $this->botController->userData;

@@ -10,6 +10,7 @@ namespace MM\bot\components\card;
 
 use MM\bot\components\button\Buttons;
 use MM\bot\components\card\types\AlisaCard;
+use MM\bot\components\card\types\SmartAppCard;
 use MM\bot\components\card\types\TelegramCard;
 use MM\bot\components\card\types\TemplateCardTypes;
 use MM\bot\components\card\types\ViberCard;
@@ -26,29 +27,30 @@ class Card
 {
     /**
      * Заголовок для карточки.
-     * @var string|null $title Заголовок для карточки.
+     * @var string|null $title
      */
     public $title;
     /**
-     * Описание карточки.
-     * @var string|null $desc Описание карточки.
+     * Описание для карточки.
+     * @var string|null $desc
      */
     public $desc;
     /**
      * Массив с картинками или элементами карточки.
-     * @var Image[]|null $images Массив с картинками или элементами карточки.
+     * @var Image[]|null $images
      * @see Image Смотри тут
      */
     public $images;
     /**
      * Кнопки для карточки.
-     * @var Buttons $button Кнопки для карточки.
+     * @var Buttons $button
      * @see Buttons Смотри тут
      */
     public $button;
     /**
+     * В карточке отобразить только 1 элемент/картинку.
      * True, если в любом случае отобразить только 1 изображение.
-     * @var bool $isOne True, если в любом случае отобразить только 1 изображение.
+     * @var bool $isOne
      */
     public $isOne;
 
@@ -63,7 +65,7 @@ class Card
     }
 
     /**
-     * Удалить все карточки с изображениями.
+     * Очистить все карточки с изображениями.
      * @api
      */
     public function clear()
@@ -89,7 +91,7 @@ class Card
     }
 
     /**
-     * Получить все элементы типа карточка.
+     * Получить все элементы карточки.
      *
      * @param TemplateCardTypes|null $userCard Пользовательский класс для отображения каточки.
      * @return array
@@ -119,6 +121,10 @@ class Card
                 $card = null;
                 break;
 
+            case T_SMARTAPP:
+                $card = new SmartAppCard();
+                break;
+
             case T_USER_APP:
                 $card = $userCard;
                 break;
@@ -133,14 +139,15 @@ class Card
     }
 
     /**
-     * Возвращает json строку с данными о карточке.
+     * Возвращает json строку со всеми элементами карточки.
      *
+     * @param TemplateCardTypes|null $userCard Пользовательский класс для отображения каточки.
      * @return string
      * @api
      */
-    public function getCardsJson(): string
+    public function getCardsJson(?TemplateCardTypes $userCard): string
     {
-        $json = $this->getCards();
+        $json = $this->getCards($userCard);
         return json_encode($json, JSON_UNESCAPED_UNICODE);
     }
 }

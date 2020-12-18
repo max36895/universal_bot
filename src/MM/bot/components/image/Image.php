@@ -19,34 +19,34 @@ use MM\bot\components\standard\Text;
 class Image
 {
     /**
-     * Кнопки, обрабатывающие действия на нажатие изображения или непосредственно кнопок.
-     * @var Buttons $button Кнопки, обрабатывающие действия на нажатие изображения или непосредственно кнопок.
+     * Кнопки, обрабатывающие действия на нажатие на изображение или кнопоку (Зависит от типа приложения).
+     * @var Buttons $button
      * @see Buttons Смотри тут
      */
     public $button;
     /**
      * Название картинки.
-     * @var string $title Название картинки.
+     * @var string $title
      */
     public $title;
     /**
-     * Описание картинки.
-     * @var string $desc Описание картинки.
+     * Описание для картинки.
+     * @var string $desc
      */
     public $desc;
     /**
      * Идентификатор картинки.
-     * @var string|null $imageToken Идентификатор картинки.
+     * @var string|null $imageToken
      */
     public $imageToken;
     /**
      * Расположение картинки в сети/директории.
-     * @var string|null $imageDir Расположение картинки в сети/директории.
+     * @var string|null $imageDir
      */
     public $imageDir;
     /**
      * True, если однозначно используется идентификатор/токен картинки. По умолчанию false.
-     * @var bool $isToken True, если однозначно используется идентификатор/токен картинки. По умолчанию false.
+     * @var bool $isToken
      */
     public $isToken;
 
@@ -64,7 +64,7 @@ class Image
     }
 
     /**
-     * Инициализация значений для картинки.
+     * Инициализация картинки.
      *
      * @param string|null $image Путь до картинки в сети/папке. Либо идентификатор картинки.
      * @param string $title Заголовок для картинки.

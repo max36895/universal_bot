@@ -21,21 +21,21 @@ class YandexRequest
 {
     /**
      * Отправка запроса.
-     * @var Request $request Отправка запроса.
+     * @var Request $request
      * @see Request Смотри тут
      */
     protected $request;
 
     /**
      * Авторизационный токен.
-     * @var string|null $oauth Авторизационный токен.
+     * @var string|null $oauth
      * О том как получить авторизационный токен сказано тут:
      * @see (https://yandex.ru/dev/dialogs/alice/doc/resource-upload-docpage/#http-images-load__auth) Смотри тут
      */
     protected $oauth;
     /**
      * Текст с ошибкой
-     * @var string|null $error Текст с ошибкой
+     * @var string|null $error
      */
     protected $error;
 
@@ -79,8 +79,8 @@ class YandexRequest
     {
         $data = $this->request->send($url);
         if ($data['status']) {
-            if (isset($data['error'])) {
-                $this->error = json_encode($data['error'], JSON_UNESCAPED_UNICODE);
+            if (isset($data['data']['error'])) {
+                $this->error = json_encode($data['data']['error'], JSON_UNESCAPED_UNICODE);
             }
             return $data['data'];
         }

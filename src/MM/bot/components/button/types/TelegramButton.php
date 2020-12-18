@@ -15,7 +15,7 @@ namespace MM\bot\components\button\types;
 class TelegramButton extends TemplateButtonTypes
 {
     /**
-     * Получить массив с кнопками для ответа пользователю.
+     * Получение массива с кнопками для ответа пользователю.
      *
      * @return array
      * @api
