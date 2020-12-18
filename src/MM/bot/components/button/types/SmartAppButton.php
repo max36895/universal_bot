@@ -12,7 +12,7 @@ use MM\bot\components\standard\Text;
 
 /**
  * Класс отвечающий за отображение кнопок в Сбер SmartApp
- * Class AlisaButton
+ * Class SmartAppButton 
  * @package bot\components\button\types
  */
 class SmartAppButton extends TemplateButtonTypes
