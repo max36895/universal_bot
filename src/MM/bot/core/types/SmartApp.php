@@ -31,7 +31,7 @@ class SmartApp extends TemplateTypeModel
     protected $session;
 
     /**
-     * Получение данных, необходимых для постоения ответа пользователю.
+     * Получение данных, необходимых для построения ответа пользователю.
      *
      * @return array
      */

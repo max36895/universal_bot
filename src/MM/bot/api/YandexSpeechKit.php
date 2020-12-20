@@ -11,7 +11,7 @@ namespace MM\bot\api;
 use MM\bot\core\mmApp;
 
 /**
- * Класс для преобразования текста в аудио файл.
+ * Класс отвечающий за преобразование текста в аудио файл.
  * Преобразование осуществляется через сервис Yandex SpeechKit.
  *
  * Class YandexSpeechKit

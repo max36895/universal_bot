@@ -19,6 +19,8 @@ defined('WELCOME_INTENT_NAME') or define('WELCOME_INTENT_NAME', 'welcome'); // �
 defined('HELP_INTENT_NAME') or define('HELP_INTENT_NAME', 'help');          // Название интента для помощи
 
 /**
+ * Статический класс, хранящий состояние и параметры приложения.
+ *
  * Class mmApp
  * @package bot\core
  */

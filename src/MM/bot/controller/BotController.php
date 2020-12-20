@@ -154,7 +154,7 @@ abstract class BotController
     public $thisIntentName;
 
     /**
-     * Эмоция, с котороей будет общаться приложение. Актуально для Сбер.
+     * Эмоция, с которой будет общаться приложение. Актуально для Сбер.
      * @var string|null $emotion
      */
     public $emotion;
@@ -162,7 +162,7 @@ abstract class BotController
     /**
      * Манера общения с пользователем. Общаемся на "Вы" или на "ты".
      * Возможные значения:
-     * "official" - оффициальный тон общения(на Вы)
+     * "official" - официальный тон общения(на Вы)
      * "no_official" - Общаемся на ты
      * null - можно использовать любой тон
      * @var string|null $appeal

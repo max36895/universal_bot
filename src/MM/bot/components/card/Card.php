@@ -19,30 +19,30 @@ use MM\bot\components\image\Image;
 use MM\bot\core\mmApp;
 
 /**
- * Отвечает за отображение определенной карточки, в зависимости от типа приложения.
+ * Класс отвечающий за отображение определенной карточки, в зависимости от типа приложения.
  * Class Card
  * @package bot\components\card
  */
 class Card
 {
     /**
-     * Заголовок для карточки.
+     * Заголовок для элемента карточки.
      * @var string|null $title
      */
     public $title;
     /**
-     * Описание для карточки.
+     * Описание для элемента карточки.
      * @var string|null $desc
      */
     public $desc;
     /**
-     * Массив с картинками или элементами карточки.
+     * Массив с изображениями или элементами карточки.
      * @var Image[]|null $images
      * @see Image Смотри тут
      */
     public $images;
     /**
-     * Кнопки для карточки.
+     * Кнопки для элемента карточки.
      * @var Buttons $button
      * @see Buttons Смотри тут
      */
@@ -55,6 +55,12 @@ class Card
     public $isOne;
 
     /**
+     * Использование галереи изображений. Передайте true, если хотите отобразить галерею из изображений.
+     * @var bool $isUsedGallery
+     */
+    public $isUsedGallery = false;
+
+    /**
      * Card constructor.
      */
     public function __construct()
@@ -65,7 +71,7 @@ class Card
     }
 
     /**
-     * Очистить все карточки с изображениями.
+     * Очистить все элементы карточки.
      * @api
      */
     public function clear()
@@ -76,9 +82,9 @@ class Card
     /**
      * Вставить элемент в каточку|список.
      *
-     * @param string|null $image Идентификатор или расположение картинки.
-     * @param string $title Заголовок для картинки.
-     * @param string $desc Описание для картинки.
+     * @param string|null $image Идентификатор или расположение изображения.
+     * @param string $title Заголовок для изображения.
+     * @param string $desc Описание для изображения.
      * @param array|null $button Кнопки, обрабатывающие команды при нажатии на элемент.
      * @api
      */
@@ -91,7 +97,7 @@ class Card
     }
 
     /**
-     * Получить все элементы карточки.
+     * Получение всех элементов карточки.
      *
      * @param TemplateCardTypes|null $userCard Пользовательский класс для отображения каточки.
      * @return array
@@ -130,6 +136,7 @@ class Card
                 break;
         }
         if ($card) {
+            $card->isUsedGallery = $this->isUsedGallery;
             $card->images = $this->images;
             $card->button = $this->button;
             $card->title = $this->title;
@@ -139,7 +146,7 @@ class Card
     }
 
     /**
-     * Возвращает json строку со всеми элементами карточки.
+     * Возвращаем json строку со всеми элементами карточки.
      *
      * @param TemplateCardTypes|null $userCard Пользовательский класс для отображения каточки.
      * @return string

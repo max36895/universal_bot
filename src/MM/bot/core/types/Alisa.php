@@ -41,13 +41,13 @@ class Alisa extends TemplateTypeModel
      */
     protected $isState = false;
     /**
-     * Название хранилища. Зависит от того, от куда берутся данные(локально, глобально).
+     * Название хранилища. Зависит от того, от куда берутся данные (локально, глобально).
      * @var string|null $stateName
      */
     protected $stateName;
 
     /**
-     * Получение данных, необходимых для постоения ответа пользователю.
+     * Получение данных, необходимых для построения ответа пользователю.
      *
      * @return array
      */
@@ -139,6 +139,9 @@ class Alisa extends TemplateTypeModel
                 } elseif (isset($content['state']['session'])) {
                     $this->controller->state = $content['state']['session'];
                     $this->stateName = 'session_state';
+                } elseif (isset($content['state']['application'])) {
+                    $this->controller->state = $content['state']['application'];
+                    $this->stateName = 'application_state';
                 }
             }
 

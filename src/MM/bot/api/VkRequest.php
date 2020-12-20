@@ -12,7 +12,7 @@ use MM\bot\api\request\Request;
 use MM\bot\core\mmApp;
 
 /**
- * Отправка запросов на Vk сервер.
+ * Класс отвечающий за отправку запросов на Vk сервер.
  *
  * Документация по ВК api.
  * @see (https://vk.com/dev/bots_docs) Смотри тут

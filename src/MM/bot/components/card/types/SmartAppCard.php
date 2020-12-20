@@ -18,7 +18,7 @@ use MM\bot\components\image\Image;
 class SmartAppCard extends TemplateCardTypes
 {
     /**
-     * Получить элементы для карточки
+     * Получение элементов для карточки
      *
      * @param Image $image Объект с картинкой
      * @returns array

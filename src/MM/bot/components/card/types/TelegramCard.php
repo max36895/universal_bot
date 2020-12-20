@@ -23,7 +23,7 @@ class TelegramCard extends TemplateCardTypes
      * Получение карточки для отображения пользователю.
      *
      * todo подумать над корректным отображением.
-     * @param bool $isOne True, если отобразить только 1 картинку. Не используется.
+     * @param bool $isOne True, если нужно отобразить только 1 элемент. Не используется.
      * @return array
      * @api
      */

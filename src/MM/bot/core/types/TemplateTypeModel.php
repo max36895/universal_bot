@@ -84,7 +84,6 @@ abstract class TemplateTypeModel
      * @param string|null $content Запрос пользователя.
      * @param BotController $controller Ссылка на класс с логикой навык/бота.
      * @return bool
-     * @see TemplateTypeModel::init() Смотри тут
      * @api
      */
     public abstract function init(?string $content, BotController &$controller): bool;
@@ -110,7 +109,7 @@ abstract class TemplateTypeModel
     }
 
     /**
-     * Возвращает данные из хранилища.
+     * Возвращаем данные из хранилища.
      *
      * @return array|null
      * @api

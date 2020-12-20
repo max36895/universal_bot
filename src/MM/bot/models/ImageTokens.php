@@ -19,7 +19,7 @@ use mysqli_result;
  * Class ImageTokens
  * @package bot\models
  *
- * Модель для взаимодействия со всеми картинками.
+ * Модель для взаимодействия со всеми изображениями.
  */
 class ImageTokens extends Model
 {
@@ -30,12 +30,12 @@ class ImageTokens extends Model
     const T_MARUSIA = 3;
 
     /**
-     * Идентификатор/токен картинки.
+     * Идентификатор/токен изображения.
      * @var string|null $imageToken
      */
     public $imageToken;
     /**
-     * Расположение картинки (url/директория).
+     * Расположение изображения (url/директория).
      * @var string|null $path
      */
     public $path;
@@ -45,7 +45,7 @@ class ImageTokens extends Model
      */
     public $type;
     /**
-     * Описание картинки (Не обязательное поле).
+     * Описание изображения (Не обязательное поле).
      * @var string|null $caption
      */
     public $caption;

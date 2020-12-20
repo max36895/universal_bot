@@ -16,7 +16,7 @@ use MM\bot\components\button\types\VkButton;
 
 
 /**
- * Отвечает за отображение определенных кнопок, в зависимости от типа приложения.
+ * Класс отвечающий за отображение определенных кнопок, в зависимости от типа приложения.
  * Class Buttons
  * @package bot\components\button
  */
@@ -201,7 +201,7 @@ class Buttons
     }
 
     /**
-     * Возвращает массив с кнопками для ответа пользователю.
+     * Возвращаем массив с кнопками для ответа пользователю.
      *
      * @param string|null $type Тип кнопки.
      * @param TemplateButtonTypes|null $userButton Класс с пользовательскими кнопками.
@@ -261,7 +261,7 @@ class Buttons
     }
 
     /**
-     * Возвращает json строку c кнопками.
+     * Возвращаем json строку c кнопками.
      *
      * @param string|null $type Тип приложения.
      * @param TemplateButtonTypes|null $userButton Класс с пользовательскими кнопками.

@@ -12,7 +12,7 @@ use MM\bot\api\request\Request;
 use MM\bot\core\mmApp;
 
 /**
- * Отправка запросов на Yandex сервер.
+ * Класс отвечающий за отправку запросов на Yandex сервер.
  *
  * Class YandexRequest
  * @package bot\core\api

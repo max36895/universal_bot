@@ -7,7 +7,7 @@ use MM\bot\components\standard\Text;
 class UserSound extends TemplateSoundTypes
 {
     /**
-     * Возвращает массив с отображаемыми звуками.
+     * Возвращаем массив с отображаемыми звуками.
      * В случае если передается параметр text, то можно отправить запрос в Yandex SpeechKit, для преобразования текста в голос
      *
      * @param array $sounds Массив звуков

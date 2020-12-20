@@ -12,7 +12,7 @@ use MM\bot\api\request\Request;
 use MM\bot\core\mmApp;
 
 /**
- * Отправка запросов на telegram сервер.
+ * Класс отвечающий за отправку запросов на telegram сервер.
  *
  * Документация по telegram api.
  * @see (https://core.telegram.org/bots/api) Смотри тут
@@ -68,7 +68,7 @@ class TelegramRequest
     }
 
     /**
-     * Получить url, на который будет отправляться запрос.
+     * Получение url адреса, на который будет отправляться запрос.
      *
      * @return string
      */
@@ -78,9 +78,9 @@ class TelegramRequest
     }
 
     /**
-     * Отправка запросов на telegram сервер.
+     * Отправка запроса на telegram сервер.
      *
-     * @param string $method Отправляемый метод, что именно будет отправляться(Изображение, сообщение и тд).
+     * @param string $method Отправляемый метод, что именно будет отправляться (Изображение, сообщение и тд).
      * @return array|null
      * @api
      */
@@ -415,7 +415,7 @@ class TelegramRequest
     }
 
     /**
-     * Отправка Аудио файла пользователю.
+     * Отправка Аудиофайла пользователю.
      *
      * @param string|int $userId Идентификатор пользователя.
      * @param string $file Путь или содержимое файла.

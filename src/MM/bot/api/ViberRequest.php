@@ -13,7 +13,7 @@ use MM\bot\api\request\Request;
 use MM\bot\core\mmApp;
 
 /**
- * Отправка запросов на viber сервер.
+ * Класс отвечающий за отправку запросов на viber сервер.
  *
  * Документация по viber api.
  * @see (https://developers.viber.com/docs/api/rest-bot-api/) Смотри тут
@@ -70,7 +70,7 @@ class ViberRequest
     }
 
     /**
-     * Отправка запросов на viber сервер.
+     * Класс отвечающий за отправку запросов на viber сервер.
      *
      * @param string $method Название метода.
      * @return array|null

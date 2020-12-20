@@ -8,7 +8,7 @@ require_once __DIR__ . '/UserButton.php';
 class UserCard extends TemplateCardTypes
 {
     /**
-     * Получение массива для отображения карточки/картинки
+     * Получение массива для отображения карточки/изображения
      *
      * @param bool $isOne True, если отобразить только 1 картинку.
      * @return array
