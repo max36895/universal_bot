@@ -136,12 +136,12 @@ class Alisa extends TemplateTypeModel
                 if (isset($content['state']['user'])) {
                     $this->controller->state = $content['state']['user'];
                     $this->stateName = 'user_state_update';
-                } elseif (isset($content['state']['session'])) {
-                    $this->controller->state = $content['state']['session'];
-                    $this->stateName = 'session_state';
                 } elseif (isset($content['state']['application'])) {
                     $this->controller->state = $content['state']['application'];
                     $this->stateName = 'application_state';
+                } elseif (isset($content['state']['session'])) {
+                    $this->controller->state = $content['state']['session'];
+                    $this->stateName = 'session_state';
                 }
             }
 
