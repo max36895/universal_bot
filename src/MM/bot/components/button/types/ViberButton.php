@@ -31,7 +31,7 @@ class ViberButton extends TemplateButtonTypes
      */
     public function getButtons(): array
     {
-        $objects = [];
+        $object = [];
         $buttons = [];
         foreach ($this->buttons as $button) {
             $btn = [];
@@ -49,12 +49,12 @@ class ViberButton extends TemplateButtonTypes
         }
 
         if (count($buttons)) {
-            $objects = [
+            $object = [
                 'DefaultHeight' => true,
                 'BgColor' => '#FFFFFF',
                 'Buttons' => $buttons
             ];
         }
-        return $objects;
+        return $object;
     }
 }

@@ -2,4 +2,5 @@
 /logs/*
 /json/*
 /vendor/*
+/docs/*
 /composer.lock

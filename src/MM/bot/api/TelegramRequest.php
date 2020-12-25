@@ -78,6 +78,21 @@ class TelegramRequest
     }
 
     /**
+     * Заполняем данные для отправки файла
+     *
+     * @param string $type Тип отправляемого файла
+     * @param string $file Путь к файлу
+     */
+    protected function initPostFile(string $type, string $file): void
+    {
+        if (is_file($file)) {
+            $this->request->post[$type] = curl_file_create($file);
+        } else {
+            $this->request->post[$type] = $file;
+        }
+    }
+
+    /**
      * Отправка запроса на telegram сервер.
      *
      * @param string $method Отправляемый метод, что именно будет отправляться (Изображение, сообщение и тд).
@@ -324,11 +339,8 @@ class TelegramRequest
         $this->request->post = [
             'chat_id' => $userId
         ];
-        if (is_file($file)) {
-            $this->request->post['photo'] = curl_file_create($file);
-        } else {
-            $this->request->post['photo'] = $file;
-        }
+        $this->initPostFile('photo', $file);
+
         if ($desc) {
             $this->request->post['caption'] = $desc;
         }
@@ -403,11 +415,7 @@ class TelegramRequest
         $this->request->post = [
             'chat_id' => $userId
         ];
-        if (is_file($file)) {
-            $this->request->post['document'] = curl_file_create($file);
-        } else {
-            $this->request->post['document'] = $file;
-        }
+        $this->initPostFile('document', $file);
         if (count($params)) {
             $this->request->post = array_merge($params, $this->request->post);
         }
@@ -484,11 +492,7 @@ class TelegramRequest
         $this->request->post = [
             'chat_id' => $userId
         ];
-        if (is_file($file)) {
-            $this->request->post['audio'] = curl_file_create($file);
-        } else {
-            $this->request->post['audio'] = $file;
-        }
+        $this->initPostFile('audio', $file);
         if (count($params)) {
             $this->request->post = array_merge($params, $this->request->post);
         }
@@ -567,11 +571,7 @@ class TelegramRequest
         $this->request->post = [
             'chat_id' => $userId
         ];
-        if (is_file($file)) {
-            $this->request->post['video'] = curl_file_create($file);
-        } else {
-            $this->request->post['video'] = $file;
-        }
+        $this->initPostFile('video', $file);
         if (count($params)) {
             $this->request->post = array_merge($params, $this->request->post);
         }

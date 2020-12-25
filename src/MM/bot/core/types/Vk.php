@@ -68,6 +68,7 @@ class Vk extends TemplateTypeModel
                     echo mmApp::$params['vk_confirmation_token'];
                     die();
                     break;
+
                 case 'message_new':
                     if (isset($content['object'])) {
                         $object = $content['object'];

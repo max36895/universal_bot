@@ -142,14 +142,14 @@ class Bot
         $this->botController = $fn;
     }
 
+
     /**
-     * Запуск приложения.
+     * Возвращаем корректно заполенный типа приложения, а также класс, отвечающий за возврат результата.
      *
      * @param TemplateTypeModel|null $userBotClass Пользовательский класс для обработки команд.
-     * @return string
-     * @api
+     * @return array
      */
-    public function run(?TemplateTypeModel $userBotClass = null): string
+    protected function getBotClassAndType(?TemplateTypeModel $userBotClass = null): array
     {
         $botClass = $type = null;
         switch (mmApp::$appType) {
@@ -193,6 +193,24 @@ class Bot
                 }
                 break;
         }
+        return [
+            'botClass' => $botClass,
+            'type' => $type
+        ];
+    }
+
+    /**
+     * Запуск приложения.
+     *
+     * @param TemplateTypeModel|null $userBotClass Пользовательский класс для обработки команд.
+     * @return string
+     * @api
+     */
+    public function run(?TemplateTypeModel $userBotClass = null): string
+    {
+        $botClassAndType = $this->getBotClassAndType($userBotClass);
+        $botClass = $botClassAndType['botClass'];
+        $type = $botClassAndType['type'];
 
         if ($botClass) {
             if ($this->botController->userToken === null) {
@@ -312,13 +330,18 @@ class Bot
 
             switch (mmApp::$appType) {
                 case T_ALISA:
-                    $result = $result['response']['text'];
+                    if ($result['response']['text']) {
+                        $result = $result['response']['text'];
+                    } else {
+                        $result = $result['response']['tts'];
+                    }
                     break;
 
                 default:
                     $result = $this->botController->text;
                     break;
             }
+
             printf("Бот: > %s\n", $result);
             if ($isShowTime) {
                 $endTime = microtime(true) - $timeStart;

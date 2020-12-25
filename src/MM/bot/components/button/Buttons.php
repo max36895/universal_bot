@@ -198,6 +198,8 @@ class Buttons
                 $this->addLink((string)$this->links);
             }
         }
+        $this->btns = [];
+        $this->links = [];
     }
 
     /**

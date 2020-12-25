@@ -44,18 +44,18 @@ class VkButton extends TemplateButtonTypes
                     $button->type = Button::VK_TYPE_TEXT;
                 }
             }
-            $object = ['type' => $button->type];
+            $action = ['type' => $button->type];
             if ($button->url) {
-                $object['type'] = Button::VK_TYPE_LINK;
-                $object['link'] = $button->url;
+                $action['type'] = Button::VK_TYPE_LINK;
+                $action['link'] = $button->url;
             }
-            $object['label'] = $button->title;
+            $action['label'] = $button->title;
             if ($button->payload) {
-                $object['payload'] = $button->payload;
+                $action['payload'] = $button->payload;
             }
 
             $object = [
-                'action' => $object,
+                'action' => $action,
             ];
             if (isset($button->payload['color']) && !$button->url) {
                 $object['color'] = $button->payload['color'];
@@ -82,12 +82,9 @@ class VkButton extends TemplateButtonTypes
                 $index++;
             }
         }
-        $oneTime = false;
-        if (count($buttons)) {
-            $oneTime = true;
-        }
+
         return [
-            'one_time' => $oneTime,
+            'one_time' => count($buttons) ? true : false,
             'buttons' => $buttons
         ];
     }

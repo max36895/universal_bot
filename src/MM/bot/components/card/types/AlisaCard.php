@@ -98,7 +98,7 @@ class AlisaCard extends TemplateCardTypes
                         'description' => Text::resize($this->images[0]->desc, 256)
                     ];
                     if (count($button)) {
-                        $object['button'] = $button[0];
+                        $object['button'] = $button;
                     }
                     return $object;
                 }
@@ -117,11 +117,11 @@ class AlisaCard extends TemplateCardTypes
                         ]
                     ];
                     $object['items'] = $this->getItem();
-                    $btn = $this->button->getButtons();
-                    if (count($btn)) {
+                    $btn = $this->button->getButtons(Buttons::T_ALISA_CARD_BUTTON);
+                    if ($btn) {
                         $object['footer'] = [
-                            'text' => $btn[0]['text'],
-                            'button' => $btn[0]
+                            'text' => $btn['text'],
+                            'button' => $btn
                         ];
                     }
                     return $object;

@@ -80,20 +80,23 @@ class Card
     }
 
     /**
-     * Вставить элемент в каточку|список.
+     * Вставляем элемент в каточку|список. В сучае успеха вернет true.
      *
      * @param string|null $image Идентификатор или расположение изображения.
      * @param string $title Заголовок для изображения.
      * @param string $desc Описание для изображения.
      * @param array|null $button Кнопки, обрабатывающие команды при нажатии на элемент.
+     * @return bool
      * @api
      */
-    public function add(?string $image, string $title, string $desc = ' ', $button = null): void
+    public function add(?string $image, string $title, string $desc = ' ', $button = null): bool
     {
         $img = new Image();
         if ($img->init($image, $title, $desc, $button)) {
             $this->images[] = $img;
+            return true;
         }
+        return false;
     }
 
     /**

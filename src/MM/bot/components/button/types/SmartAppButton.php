@@ -12,7 +12,7 @@ use MM\bot\components\standard\Text;
 
 /**
  * Класс отвечающий за отображение кнопок в Сбер SmartApp
- * Class SmartAppButton 
+ * Class SmartAppButton
  * @package bot\components\button\types
  */
 class SmartAppButton extends TemplateButtonTypes
@@ -52,18 +52,20 @@ class SmartAppButton extends TemplateButtonTypes
     {
         $objects = [];
         if ($this->isCard) {
-            if ($this->buttons[0]->url) {
-                return [
-                    'deep_link' => $this->buttons[0]->url,
-                    'type' => 'deep_link'
-                ];
-            } else {
-                $text = Text::resize($this->buttons[0]->title, 64);
-                if ($text) {
+            if (count($this->buttons)) {
+                if ($this->buttons[0]->url) {
                     return [
-                        'text' => $text,
+                        'deep_link' => $this->buttons[0]->url,
                         'type' => 'deep_link'
                     ];
+                } else {
+                    $text = Text::resize($this->buttons[0]->title, 64);
+                    if ($text) {
+                        return [
+                            'text' => $text,
+                            'type' => 'deep_link'
+                        ];
+                    }
                 }
             }
         } else {

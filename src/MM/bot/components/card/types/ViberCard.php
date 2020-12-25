@@ -73,7 +73,9 @@ class ViberCard extends TemplateCardTypes
                 }
             } else {
                 foreach ($this->images as $image) {
-                    $object[] = $this->getElement($image, $countImage);
+                    if (count($object) <= $countImage) {
+                        $object[] = $this->getElement($image, $countImage);
+                    }
                 }
             }
         }

@@ -289,7 +289,7 @@ class Navigation
                     $buttons[] = $i + 1;
                 }
                 $count++;
-                if ($count > 5) {
+                if ($count > 4) {
                     break;
                 }
             }

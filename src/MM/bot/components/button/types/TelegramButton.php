@@ -22,7 +22,7 @@ class TelegramButton extends TemplateButtonTypes
      */
     public function getButtons(): array
     {
-        $objects = [];
+        $object = [];
         $inlines = [];
         $reply = [];
         foreach ($this->buttons as $button) {
@@ -43,15 +43,15 @@ class TelegramButton extends TemplateButtonTypes
         $rInline = count($inlines);
         if ($rCount || $rInline) {
             if ($rInline) {
-                $objects['inline_keyboard'] = $inlines;
+                $object['inline_keyboard'] = $inlines;
             }
             if ($rCount) {
-                $objects['keyboard'] = $reply;
+                $object['keyboard'] = $reply;
             }
         } else {
             // Удаляем клавиатуру из-за ненадобности
-            $objects = ['remove_keyboard' => true];
+            $object = ['remove_keyboard' => true];
         }
-        return $objects;
+        return $object;
     }
 }

@@ -79,6 +79,7 @@ class Viber extends TemplateTypeModel
                         $this->setNlu($content['sender']['name'] ?? '');
                         return true;
                         break;
+
                     case 'message':
                         $this->controller->userId = $content['sender']['id'];
                         mmApp::$params['user_id'] = $this->controller->userId;

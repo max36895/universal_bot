@@ -162,11 +162,8 @@ class Nlu
      */
     public function getFio(): array
     {
-        $status = false;
         $fio = $this->getData(self::T_FIO);
-        if ($fio) {
-            $status = true;
-        }
+        $status = $fio ? true : false;
         return ['status' => $status, 'result' => $fio];
     }
 
@@ -204,11 +201,8 @@ class Nlu
      */
     public function getGeo(): array
     {
-        $status = false;
         $geo = $this->getData(self::T_GEO);
-        if ($geo) {
-            $status = true;
-        }
+        $status = $geo ? true : false;
         return ['status' => $status, 'result' => $geo];
     }
 
@@ -256,12 +250,9 @@ class Nlu
      */
     public function getDateTime(): array
     {
-        $status = false;
-        $dataTime = $this->getData(self::T_DATETIME);
-        if ($dataTime) {
-            $status = true;
-        }
-        return ['status' => $status, 'result' => $dataTime];
+        $dateTime = $this->getData(self::T_DATETIME);
+        $status = $dateTime ? true : false;
+        return ['status' => $status, 'result' => $dateTime];
     }
 
     /**
@@ -293,11 +284,8 @@ class Nlu
      */
     public function getNumber(): array
     {
-        $status = false;
         $number = $this->getData(self::T_NUMBER);
-        if ($number) {
-            $status = true;
-        }
+        $status = $number ? true : false;
         return ['status' => $status, 'result' => $number];
     }
 

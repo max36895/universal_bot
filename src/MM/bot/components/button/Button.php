@@ -91,7 +91,7 @@ class Button
     {
         if ($title || $title == '') {
             $this->title = (string)$title;
-            if ($url && Text::isSayText(['http\:\/\/', 'https\:\/\/'], $url)) {
+            if ($url && Text::isSayText('((http|s:\/\/)[^( |\n)]+)', $url, true)) {
                 if (mmApp::$params['utm_text'] === null) {
                     if (!Text::isSayText('utm_source', $url)) {
                         if (strpos($url, '?') !== false) {
