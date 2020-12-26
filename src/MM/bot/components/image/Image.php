@@ -51,6 +51,34 @@ class Image
     public $isToken;
 
     /**
+     * Дополнительные параметры для изображения.
+     * [
+     *  string topTypeface Стиль верхнего текста
+     *  string topText_color Цвет верхнего текста
+     *  array topMargins Отступы верхнего текста
+     *      [
+     *          string left Размер отступа.
+     *          string top Размер отступа.
+     *          string right Размер отступа.
+     *          string bottom Размер отступа.
+     *      ]
+     *  int topMax_lines Максимальное количество строк верхнего текста
+     *  string bottomTypeface Стиль нижнего текста
+     *  string bottomText_color Цвет нижнего текста
+     *  array bottomMargins Отступы нижнего текста
+     *      [
+     *          string left Размер отступа.
+     *          string top Размер отступа.
+     *          string right Размер отступа.
+     *          string bottom Размер отступа.
+     *      ]
+     *  int bottomMax_lines Максимальное количество строк нижнего текста
+     * ]
+     * @var array $params
+     */
+    public $params;
+
+    /**
      * Image constructor.
      */
     public function __construct()
@@ -61,6 +89,7 @@ class Image
         $this->imageToken = null;
         $this->imageDir = null;
         $this->isToken = false;
+        $this->params = [];
     }
 
     /**

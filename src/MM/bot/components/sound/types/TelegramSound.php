@@ -21,7 +21,7 @@ use MM\bot\models\SoundTokens;
 class TelegramSound extends TemplateSoundTypes
 {
     /**
-     * Возвращаем массив с отображаемыми звуками.
+     * Возвращаем массив с воспроизводимыми звуками.
      * В случае если передается параметр text, то отправляется запрос в Yandex SpeechKit, для преобразования текста в голос.
      *
      * @param array|null $sounds Массив звуков.

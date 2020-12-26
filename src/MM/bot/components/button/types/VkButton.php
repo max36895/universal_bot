@@ -64,13 +64,12 @@ class VkButton extends TemplateButtonTypes
                 $object['hash'] = $button->payload['hash'] ?? null;
             }
             $object = mmApp::arrayMerge($object, $button->options);
-            if (isset($button->payload[self::GROUP_NAME])) {
-                unset($object['payload'][self::GROUP_NAME]);
+            if (isset($button->options[self::GROUP_NAME])) {
                 $object['payload'] = json_encode($object['payload']);
-                if (isset($groups[$button->payload[self::GROUP_NAME]])) {
-                    $buttons[$groups[$button->payload[self::GROUP_NAME]]][] = $object;
+                if (isset($groups[$button->options[self::GROUP_NAME]])) {
+                    $buttons[$groups[$button->options[self::GROUP_NAME]]][] = $object;
                 } else {
-                    $groups[$button->payload[self::GROUP_NAME]] = $index;
+                    $groups[$button->options[self::GROUP_NAME]] = $index;
                     $buttons[$index] = [$object];
                     $index++;
                 }

@@ -36,32 +36,36 @@ class Button
 
     /**
      * Тип кнопки.
-     * @var string|null $type Тип кнопки.
+     * @var string|null $type
      */
     public $type;
     /**
      * Текст на кнопке.
-     * @var string|null $title Текст на кнопке.
+     * @var string|null $title
      */
     public $title;
     /**
      * Ссылка для перехода при нажатии кнопки.
-     * @var string|null $url Ссылка для перехода при нажатии кнопки.
+     * @var string|null $url
      */
     public $url;
     /**
      * Произвольные данные, отправляемые при нажатии кнопки.
-     * @var string|array $payload Произвольные данные, отправляемые при нажатии кнопки.
+     * @var string|array $payload
      */
     public $payload;
     /**
      * True, чтобы отображать кнопку как сайджест.
-     * @var bool $hide True, чтобы отображать кнопку как сайджест.
+     * @var bool $hide
      */
     public $hide;
     /**
      * Дополнительные параметры для кнопки.
-     * @var array $options Дополнительные параметры кнопки.
+     * [
+     *  string _group: Задается в том случае, если нужно объеденить кнопку в группу.
+     *  Дополнительные опции для кнопки.
+     * ]
+     * @var array $options
      */
     public $options;
 

@@ -19,7 +19,7 @@ class SmartAppButton extends TemplateButtonTypes
 {
     /**
      * Использование кнопок для карточки
-     * True, если нужно отобразить кнопку для карточки. По умолчанию false По умолчанию false
+     * True, если нужно отобразить кнопку для карточки. По умолчанию false
      * @var bool $isCard
      */
     public $isCard;
