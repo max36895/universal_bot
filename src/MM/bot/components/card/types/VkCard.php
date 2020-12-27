@@ -19,9 +19,9 @@ use MM\bot\models\ImageTokens;
 class VkCard extends TemplateCardTypes
 {
     /**
-     * Получить карточку для отображения пользователю.
+     * Получение карточки для отображения пользователю.
      *
-     * @param bool $isOne True, если в любом случае использовать 1 картинку.
+     * @param bool $isOne True, если в любом случае отобразить 1 элемент карточки
      * @return array
      * @api
      */

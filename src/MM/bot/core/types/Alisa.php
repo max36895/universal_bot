@@ -32,22 +32,22 @@ class Alisa extends TemplateTypeModel
     private const MAX_TIME_REQUEST = 2.8;
     /**
      * Информация о сессии пользователя.
-     * @var array|null $session Информация о сессии пользователя.
+     * @var array|null $session
      */
     protected $session;
     /**
-     * Использование хранилища.
-     * @var bool $isState Использование хранилища.
+     * Использование хранилища. True - используется, false - нет.
+     * @var bool $isState
      */
     protected $isState = false;
     /**
-     * Название хранилища. Зависит от куда берутся данные(локально, глобально).
-     * @var string|null $stateName Название хранилища. Зависит от куда берутся данные(локально, глобально).
+     * Название хранилища. Зависит от того, от куда берутся данные (локально, глобально).
+     * @var string|null $stateName
      */
     protected $stateName;
 
     /**
-     * Получение ответа пользователю.
+     * Получение данных, необходимых для построения ответа пользователю.
      *
      * @return array
      */
@@ -68,7 +68,7 @@ class Alisa extends TemplateTypeModel
     }
 
     /**
-     * Инициализация параметров.
+     * Инициализация основных параметров. В случае успешной инициализации, вернет true, иначе false.
      *
      * @param string|null $content Запрос пользователя.
      * @param BotController $controller Ссылка на класс с логикой навык/бота.
@@ -136,6 +136,9 @@ class Alisa extends TemplateTypeModel
                 if (isset($content['state']['user'])) {
                     $this->controller->state = $content['state']['user'];
                     $this->stateName = 'user_state_update';
+                } elseif (isset($content['state']['application'])) {
+                    $this->controller->state = $content['state']['application'];
+                    $this->stateName = 'application_state';
                 } elseif (isset($content['state']['session'])) {
                     $this->controller->state = $content['state']['session'];
                     $this->stateName = 'session_state';
@@ -161,7 +164,7 @@ class Alisa extends TemplateTypeModel
     }
 
     /**
-     * Отправка ответа пользователю.
+     * Получение ответа, который отправится пользователю. В случае с Алисой, Марусей и Сбер, возвращается json. С остальными типами, ответ отправляется непосредственно на сервер.
      *
      * @return string
      * @see TemplateTypeModel::getContext() Смотри тут
@@ -199,7 +202,7 @@ class Alisa extends TemplateTypeModel
     }
 
     /**
-     * Получить данные из локального хранилища Алисы
+     * Получение данные из локального хранилища Алисы
      */
     public function getLocalStorage(): ?array
     {
@@ -207,7 +210,7 @@ class Alisa extends TemplateTypeModel
     }
 
     /**
-     * Проверка что используется локальное хранилище
+     * Проверка на использование локального хранилища
      */
     public function isLocalStorage(): bool
     {

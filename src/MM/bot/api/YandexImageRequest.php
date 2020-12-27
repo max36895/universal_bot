@@ -12,7 +12,7 @@ use MM\bot\api\request\Request;
 use MM\bot\core\mmApp;
 
 /**
- * Загрузка изображения в навык.
+ * Класс отвечающий за загрузку изображений в навык.
  * @see (https://yandex.ru/dev/dialogs/alice/doc/resource-upload-docpage/) Смотри тут
  *
  * Class YandexImageRequest
@@ -25,8 +25,8 @@ class YandexImageRequest extends YandexRequest
      */
     private const STANDARD_URL = 'https://dialogs.yandex.net/api/v1/';
     /**
-     * Идентификатор навыка, необходим для корректного сохранения изображения(Обязательный параметр)
-     * @var string|null $skillId Идентификатор навыка, необходим для корректного сохранения изображения(Обязательный параметр)
+     * Идентификатор навыка, необходимый для корректного сохранения изображения (Обязательный параметр)
+     * @var string|null $skillId
      * @see YandexRequest Смотри тут
      */
     public $skillId;
@@ -53,7 +53,7 @@ class YandexImageRequest extends YandexRequest
     }
 
     /**
-     * Получить адрес для загрузки изображения.
+     * Получение адреса для загрузки изображения.
      *
      * @return string
      */
@@ -64,10 +64,6 @@ class YandexImageRequest extends YandexRequest
 
     /**
      * Проверка занятого места.
-     *
-     * Возвращает массив
-     * - total - Все доступное место.
-     * - used - Занятое место.
      *
      * @return array|null
      * [
@@ -90,11 +86,7 @@ class YandexImageRequest extends YandexRequest
     /**
      * Загрузка изображения из интернета.
      *
-     * Возвращает массив
-     * - id - Идентификатор изображения.
-     * - origUrl - Адрес изображения.
-     *
-     * @param string $imageUrl Адрес картинки из интернета.
+     * @param string $imageUrl Адрес изображения из интернета.
      * @return array|null
      * [
      *  - string id: Идентификатор изображения.
@@ -125,11 +117,7 @@ class YandexImageRequest extends YandexRequest
     /**
      * Загрузка изображения из файла.
      *
-     * Возвращает массив
-     * - id - Идентификатор изображения.
-     * - origUrl - Адрес изображения.
-     *
-     * @param string $imageDir Адрес картинки из интернета.
+     * @param string $imageDir Адрес изображения из интернета.
      * @return array|null
      * [
      *  - string id: Идентификатор изображения.
@@ -184,10 +172,10 @@ class YandexImageRequest extends YandexRequest
     }
 
     /**
-     * Удаление выбранной картинки.
+     * Удаление выбранного изображения.
      * В случае успеха вернет 'ok'.
      *
-     * @param string $imageId Идентификатор картинки, которую необходимо удалить.
+     * @param string $imageId Идентификатор изображения, которое необходимо удалить.
      * @return string|null
      * @api
      */
@@ -213,9 +201,9 @@ class YandexImageRequest extends YandexRequest
     }
 
     /**
-     * Удаление всех картинок.
-     * Если при удалении произошел сбой, то картинка останется.
-     * Чтобы точно удалить все картинки лучше использовать грубое удаление.
+     * Удаление всех изображений.
+     * Если при удалении произошел сбой, то изображение останется.
+     * Чтобы точно удалить все изображения лучше использовать грубое удаление.
      *
      * @return bool
      * @api

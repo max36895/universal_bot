@@ -25,27 +25,28 @@ class UsersData extends Model
     const T_TELEGRAM = 2;
     const T_VIBER = 3;
     const T_MARUSIA = 4;
+    const T_SMART_APP = 5;
 
     const T_USER_APP = 512;
 
     /**
      * Идентификатор пользователя (Уникальный ключ).
-     * @var string|null $userId Идентификатор пользователя (Уникальный ключ).
+     * @var string|null $userId
      */
     public $userId;
     /**
      * Meta данные пользователя.
-     * @var string|array|null $meta Meta данные пользователя.
+     * @var string|array|null $meta
      */
     public $meta;
     /**
      * Пользовательские данные.
-     * @var string|array|null $data Пользовательские данные.
+     * @var string|array|null $data
      */
     public $data;
     /**
      * Тип записи (0 - Алиса; 1 - Vk; 2 - Telegram).
-     * @var int $type Тип записи (0 - Алиса; 1 - Vk; 2 - Telegram).
+     * @var int $type
      */
     public $type;
 
@@ -133,7 +134,7 @@ class UsersData extends Model
     }
 
     /**
-     * Выполнить запрос на поиск одного значения.
+     * Выполнение запроса на поиск одного значения.
      * В случае успешного поиска вернет true.
      *
      * @return bool

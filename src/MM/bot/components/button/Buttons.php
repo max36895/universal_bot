@@ -8,6 +8,7 @@
 namespace MM\bot\components\button;
 
 use MM\bot\components\button\types\AlisaButton;
+use MM\bot\components\button\types\SmartAppButton;
 use MM\bot\components\button\types\TelegramButton;
 use MM\bot\components\button\types\TemplateButtonTypes;
 use MM\bot\components\button\types\ViberButton;
@@ -15,49 +16,78 @@ use MM\bot\components\button\types\VkButton;
 
 
 /**
- * Отвечает за отображение определенных кнопок, в зависимости от типа приложения.
+ * Класс отвечающий за отображение определенных кнопок, в зависимости от типа приложения.
  * Class Buttons
  * @package bot\components\button
  */
 class Buttons
 {
+    /**
+     * Кнопки в Алисе.
+     */
     public const T_ALISA_BUTTONS = 'alisa_btn';
+    /**
+     * Кнопки в карточке Алисы.
+     */
     public const T_ALISA_CARD_BUTTON = 'alisa_card_btn';
+    /**
+     * Кнопки в vk.
+     */
     public const T_VK_BUTTONS = 'vk_btn';
+    /**
+     * Кнопки в Telegram.
+     */
     public const T_TELEGRAM_BUTTONS = 'telegram_btn';
+    /**
+     * Кнопки в viber.
+     */
     public const T_VIBER_BUTTONS = 'viber_btn';
+    /**
+     * Кнопки в Сбер SmartApp.
+     */
+    public const T_SMARTAPP_BUTTONS = 'smart-app_btn';
+    /**
+     * Кнопки в карточке Сбер SmartApp.
+     */
+    public const T_SMARTAPP_BUTTON_CARD = 'smart-app_card_btn';
+    /**
+     * Кнопки в пользовательском типе приложения.
+     */
     public const T_USER_APP_BUTTONS = 'user_app_btn';
 
     /**
      * Массив с различными кнопками.
-     * @var Button[]|null $buttons Массив с различными кнопками.
+     * @var Button[]|null $buttons
      * @see Button Смотри тут
      */
     public $buttons;
     /**
      * Массив из кнопок вида кнопка.
-     * @var array|string|null $btn
+     * @var array|string|null $btns
      *  - string Текст, отображаемый на кнопке.
      *  or
      *  - array
      *      - string title    Текст, отображаемый на кнопке.
      *      - string url      Ссылка, по которой перейдет пользователь после нажатия на кнопку.
      *      - string payload  Дополнительные параметры, передаваемые при нажатие на кнопку.
+     *      - array options   Дополнительные параметры для кнопки.
      */
-    public $btn;
+    public $btns;
     /**
      * Массив из кнопок вида ссылка.
-     * @var array|null $link
+     * @var array|null $links
      *  - string Текст, отображаемый на кнопке.
      *  or
      *  - array
      *      - string title    Текст, отображаемый на кнопке.
      *      - string url      Ссылка, по которой перейдет пользователь после нажатия на кнопку.
      *      - string payload  Дополнительные параметры, передаваемые при нажатие на кнопку.
+     *      - array options   Дополнительные параметры для кнопки.
      */
-    public $link;
+    public $links;
     /**
-     * @var string $type Тип кнопок(кнопка в Алисе, кнопка в карточке Алисы, кнопка в Vk, кнопка в Telegram).
+     * Тип кнопок(кнопка в Алисе, кнопка в карточке Алисы, кнопка в Vk, кнопка в Telegram и тд).
+     * @var string $type
      */
     public $type;
 
@@ -77,29 +107,31 @@ class Buttons
     public function clear(): void
     {
         $this->buttons = [];
-        $this->btn = [];
-        $this->link = [];
+        $this->btns = [];
+        $this->links = [];
     }
 
     /**
-     * Вставить кнопку.
+     * Добавить кнопку.
      *
      * @param string $title Текст на кнопке.
      * @param string|null $url Ссылка для перехода при нажатии на кнопку.
      * @param string|array|null $payload Произвольные данные, отправляемые при нажатии кнопки.
      * @param bool|null $hide True, если отображать кнопку как сайджест.
+     * @param array $options Дополнительные параметры для кнопки
+     * @see Button::options Описание опции options
      *
      * @return bool
      */
-    protected function add($title, ?string $url, $payload, ?bool $hide): bool
+    protected function add($title, ?string $url, $payload, ?bool $hide, array $options = []): bool
     {
         $button = new Button();
         if ($hide === Button::B_LINK) {
-            if (!$button->initLink($title, $url, $payload)) {
+            if (!$button->initLink($title, $url, $payload, $options)) {
                 $button = null;
             }
         } else {
-            if (!$button->initBtn($title, $url, $payload)) {
+            if (!$button->initBtn($title, $url, $payload, $options)) {
                 $button = null;
             }
         }
@@ -116,12 +148,14 @@ class Buttons
      * @param string $title Текст на кнопке.
      * @param string|null $url Ссылка для перехода при нажатии на кнопку.
      * @param string|array|null $payload Произвольные данные, отправляемые при нажатии кнопки.
+     * @param array $options Дополнительные параметры для кнопки
+     * @see Button::options Описание опции options
      * @return bool
      * @api
      */
-    public function addBtn($title, ?string $url = '', $payload = ''): bool
+    public function addBtn($title, ?string $url = '', $payload = '', array $options = []): bool
     {
-        return $this->add($title, $url, $payload, Button::B_BTN);
+        return $this->add($title, $url, $payload, Button::B_BTN, $options);
     }
 
     /**
@@ -130,12 +164,14 @@ class Buttons
      * @param string $title Текст на кнопке.
      * @param string|null $url Ссылка для перехода при нажатии на кнопку.
      * @param array|string|null $payload Произвольные данные, отправляемые при нажатии кнопки.
+     * @param array $options Дополнительные параметры для кнопки
+     * @see Button::options Описание опции options
      * @return bool
      * @api
      */
-    public function addLink($title, ?string $url = '', $payload = ''): bool
+    public function addLink($title, ?string $url = '', $payload = '', array $options = []): bool
     {
-        return $this->add($title, $url, $payload, Button::B_LINK);
+        return $this->add($title, $url, $payload, Button::B_LINK, $options);
     }
 
     /**
@@ -144,38 +180,42 @@ class Buttons
      */
     protected function processing(): void
     {
-        if (count($this->btn)) {
-            if (is_array($this->btn)) {
-                foreach ($this->btn as $btn) {
+        if (count($this->btns)) {
+            if (is_array($this->btns)) {
+                foreach ($this->btns as $btn) {
                     if (is_array($btn)) {
-                        $this->addBtn($btn['title'] ?? null, $btn['url'] ?? '', $btn['payload'] ?? null);
+                        $this->addBtn($btn['title'] ?? null, $btn['url'] ?? '',
+                            $btn['payload'] ?? null, $btn['options'] ?? []);
                     } else {
                         $this->addBtn($btn);
                     }
                 }
             } else {
-                $this->addBtn((string)$this->btn);
+                $this->addBtn((string)$this->btns);
             }
         }
-        if (count($this->link)) {
-            if (is_array($this->link)) {
-                foreach ($this->link as $link) {
+        if (count($this->links)) {
+            if (is_array($this->links)) {
+                foreach ($this->links as $link) {
                     if (is_array($link)) {
-                        $this->addLink($link['title'] ?? null, $link['url'] ?? '', $link['payload'] ?? null);
+                        $this->addLink($link['title'] ?? null, $link['url'] ?? '',
+                            $link['payload'] ?? null, $link['options'] ?? []);
                     } else {
                         $this->addLink($link);
                     }
                 }
             } else {
-                $this->addLink((string)$this->link);
+                $this->addLink((string)$this->links);
             }
         }
+        $this->btns = [];
+        $this->links = [];
     }
 
     /**
-     * Возвращает массив с кнопками для ответа пользователю.
+     * Возвращаем массив с кнопками для ответа пользователю.
      *
-     * @param string|null $type Тип приложения.
+     * @param string|null $type Тип кнопки.
      * @param TemplateButtonTypes|null $userButton Класс с пользовательскими кнопками.
      * @return array
      * @api
@@ -210,6 +250,16 @@ class Buttons
                 $button = new ViberButton();
                 break;
 
+            case self::T_SMARTAPP_BUTTONS:
+                $button = new SmartAppButton();
+                $button->isCard = false;
+                break;
+
+            case self::T_SMARTAPP_BUTTON_CARD:
+                $button = new SmartAppButton();
+                $button->isCard = true;
+                break;
+
             case self::T_USER_APP_BUTTONS:
                 $button = $userButton;
                 break;
@@ -223,15 +273,16 @@ class Buttons
     }
 
     /**
-     * Возвращает строку из json объекта кнопок.
+     * Возвращаем json строку c кнопками.
      *
      * @param string|null $type Тип приложения.
+     * @param TemplateButtonTypes|null $userButton Класс с пользовательскими кнопками.
      * @return string|null
      * @api
      */
-    public function getButtonJson(?string $type = null): ?string
+    public function getButtonJson(?string $type = null, ?TemplateButtonTypes $userButton): ?string
     {
-        $btn = $this->getButtons($type);
+        $btn = $this->getButtons($type, $userButton);
         if (count($btn)) {
             return json_encode($btn, JSON_UNESCAPED_UNICODE);
         }

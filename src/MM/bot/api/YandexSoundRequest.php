@@ -12,7 +12,7 @@ use MM\bot\api\request\Request;
 use MM\bot\core\mmApp;
 
 /**
- * Загрузка звуков для навыка.
+ * Класс отвечающий за загрузку аудиофайлов в навык
  * @see (https://yandex.ru/dev/dialogs/alice/doc/resource-sounds-upload-docpage/) Смотри тут
  *
  * Class YandexSoundRequest
@@ -25,8 +25,8 @@ class YandexSoundRequest extends YandexRequest
      */
     private const STANDARD_URL = 'https://dialogs.yandex.net/api/v1/';
     /**
-     * Идентификатор навыка, необходим для корректного сохранения изображения(Обязательный параметр).
-     * @var string|null $skillId Идентификатор навыка, необходим для корректного сохранения изображения(Обязательный параметр).
+     * Идентификатор навыка, необходимый для корректного сохранения аудиофайла (Обязательный параметр).
+     * @var string|null $skillId
      * @see YandexRequest Смотри тут
      */
     public $skillId;
@@ -34,7 +34,7 @@ class YandexSoundRequest extends YandexRequest
     /**
      * YandexSoundRequest constructor.
      *
-     * @param string|null $oauth Авторизационный токен для загрузки изображений.
+     * @param string|null $oauth Авторизационный токен для загрузки аудиофайлов.
      * @param string|null $skillId Идентификатор навыка.
      * @see (https://tech.yandex.ru/dialogs/alice/doc/resource-upload-docpage/) - Документация
      * @see (https://oauth.yandex.ru/verification_code) - Получение токена
@@ -53,7 +53,7 @@ class YandexSoundRequest extends YandexRequest
     }
 
     /**
-     * Получить адрес для загрузки звуков.
+     * Получение адреса для загрузки аудиофайлов.
      *
      * @return string
      * @api
@@ -67,10 +67,6 @@ class YandexSoundRequest extends YandexRequest
      * Проверить занятое место.
      *
      * Для каждого аккаунта на Яндексе действует лимит на загрузку аудиофайлов — вы можете хранить на Диалогах не больше 1 ГБ файлов. Обратите внимание, лимит учитывает размер сжатых аудиофайлов, а не размер оригиналов. Диалоги конвертируют загруженные аудиофайлы в формат OPUS и обрезают их до 120 секунд — размер этих файлов и будет учитываться в лимите.
-     *
-     * Вернет массив
-     * - total - Все доступное место.
-     * - used - Занятое место.
      *
      * @return array|null
      * [
@@ -94,7 +90,7 @@ class YandexSoundRequest extends YandexRequest
     /**
      * Загрузить аудиофайл.
      *
-     * @param string $soundDir Расположение картинки на сервере.
+     * @param string|null $soundDir Расположение аудиофайла на сервере.
      *
      * @return array|null
      * [
@@ -127,7 +123,7 @@ class YandexSoundRequest extends YandexRequest
     }
 
     /**
-     * Просмотр всех загруженных изображений.
+     * Просмотр всех загруженных аудиофайлов.
      *
      * @return array|null
      * [
@@ -156,10 +152,10 @@ class YandexSoundRequest extends YandexRequest
     }
 
     /**
-     * Удаление выбранного звука.
+     * Удаление выбранного аудиофайла.
      * В случае успеха вернет 'ok'.
      *
-     * @param string $soundId Идентификатор звука, который необходимо удалить.
+     * @param string $soundId Идентификатор аудиофайла, который необходимо удалить.
      *
      * @return string|null
      * @api
@@ -186,9 +182,9 @@ class YandexSoundRequest extends YandexRequest
     }
 
     /**
-     * Удаление всех звуков.
-     * Если при удалении произошел сбой, то картинка останется.
-     * Чтобы точно удалить все картинки лучше использовать грубое удаление.
+     * Удаление всех аудиофайла.
+     * Если при удалении произошел сбой, то аудиофайл останется.
+     * Чтобы точно удалить все аудиофайлы лучше использовать грубое удаление.
      *
      * @return bool
      * @api

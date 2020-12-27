@@ -11,13 +11,16 @@ defined('T_ALISA') or define('T_ALISA', 'alisa');           // Использу�
 defined('T_VK') or define('T_VK', 'vk');                    // Используется vk бот
 defined('T_TELEGRAM') or define('T_TELEGRAM', 'telegram');  // Используется telegram бот
 defined('T_VIBER') or define('T_VIBER', 'viber');           // Используется viber бот
-defined('T_MARUSIA') or define('T_MARUSIA', 'marusia');     // Используется Маруся бот
+defined('T_MARUSIA') or define('T_MARUSIA', 'marusia');     // Используется Маруся
+defined('T_SMARTAPP') or define('T_SMARTAPP', 'smart-app');     // Используется Сбер SmartApp
 defined('T_USER_APP') or define('T_USER_APP', 'user_application');  // Используется пользовательский тип приложения
 
 defined('WELCOME_INTENT_NAME') or define('WELCOME_INTENT_NAME', 'welcome'); // Название интенат для приветствия
 defined('HELP_INTENT_NAME') or define('HELP_INTENT_NAME', 'help');          // Название интента для помощи
 
 /**
+ * Статический класс, хранящий состояние и параметры приложения.
+ *
  * Class mmApp
  * @package bot\core
  */
@@ -67,6 +70,7 @@ class mmApp
      * - string|null vk_confirmation_token Код для проверки корректности Vk бота. Необходим для подтверждения бота.
      * - string|null vk_token Vk Токен для отправки сообщений, загрузки изображений и звуков.
      * - string|null yandex_token Яндекс Токен для загрузки изображений и звуков в навыке.
+     * - string|null yandex_speech_kit_token Токен для отправки запросов в Yandex speesh kit.
      * - bool y_isAuthUserАктуально для Алисы!
      *      - Использовать в качестве идентификатора пользователя Id в поле session->user.
      *      - Если true, то для всех пользователей, которые авторизованы в Яндекс будет использоваться один токен, а не разный.
@@ -107,6 +111,7 @@ class mmApp
         'vk_confirmation_token' => null,
         'vk_token' => null,
         'yandex_token' => null,
+        'yandex_speech_kit_token' => null,
         'y_isAuthUser' => false,
         'app_id' => null,
         'user_id' => null,
@@ -187,7 +192,7 @@ class mmApp
     }
 
     /**
-     * Сохранение json файла.
+     * Сохранение данных в json файл.
      *
      * @param string $fileName Название файла.
      * @param array|null $data Сохраняемые данные.

@@ -12,7 +12,7 @@ use MM\bot\api\request\Request;
 use MM\bot\core\mmApp;
 
 /**
- * Отправка запросов к telegram серверу.
+ * Класс отвечающий за отправку запросов на telegram сервер.
  *
  * Документация по telegram api.
  * @see (https://core.telegram.org/bots/api) Смотри тут
@@ -28,18 +28,18 @@ class TelegramRequest
     const API_ENDPOINT = 'https://api.telegram.org/bot';
     /**
      * Отправка запросов.
-     * @var Request $request Отправка запросов.
+     * @var Request $request
      * @see Request Смотри тут
      */
     protected $request;
     /**
      * Строка с ошибками.
-     * @var string|null $error Строка с ошибками.
+     * @var string|null $error
      */
     protected $error;
     /**
-     * Авторизационный токен бота, необходим для отправки данных.
-     * @var string|null $token Авторизационный токен бота, необходим для отправки данных.
+     * Авторизационный токен бота, необходимый для отправки данных.
+     * @var string|null $token
      */
     public $token;
 
@@ -52,7 +52,7 @@ class TelegramRequest
         $this->request->maxTimeQuery = 5500;
         $this->token = null;
         if (isset(mmApp::$params['telegram_token'])) {
-            $this->token = mmApp::$params['telegram_token'];
+            $this->initToken(mmApp::$params['telegram_token']);
         }
     }
 
@@ -68,7 +68,7 @@ class TelegramRequest
     }
 
     /**
-     * Получить url, на который будет отправляться запрос.
+     * Получение url адреса, на который будет отправляться запрос.
      *
      * @return string
      */
@@ -78,9 +78,24 @@ class TelegramRequest
     }
 
     /**
-     * Отправка запросов к telegram серверу.
+     * Заполняем данные для отправки файла
      *
-     * @param string $method Отправляемый метод, что именно будет отправляться(Изображение, сообщение и тд).
+     * @param string $type Тип отправляемого файла
+     * @param string $file Путь к файлу
+     */
+    protected function initPostFile(string $type, string $file): void
+    {
+        if (is_file($file)) {
+            $this->request->post[$type] = curl_file_create($file);
+        } else {
+            $this->request->post[$type] = $file;
+        }
+    }
+
+    /**
+     * Отправка запроса на telegram сервер.
+     *
+     * @param string $method Отправляемый метод, что именно будет отправляться (Изображение, сообщение и тд).
      * @return array|null
      * @api
      */
@@ -153,7 +168,6 @@ class TelegramRequest
      */
     public function sendMessage($chatId, string $message, array $params = []): ?array
     {
-        $method = 'sendMessage';
         $this->request->post = [
             'chat_id' => $chatId,
             'text' => $message
@@ -161,7 +175,7 @@ class TelegramRequest
         if (count($params)) {
             $this->request->post = array_merge($params, $this->request->post);
         }
-        return $this->call($method);
+        return $this->call('sendMessage');
     }
 
     /**
@@ -248,7 +262,7 @@ class TelegramRequest
                         }
                         $options = $tmp;
                     }
-                    $this->request->post['options'] = json_encode($options);;
+                    $this->request->post['options'] = json_encode($options);
                 } else {
                     $isSend = false;
                 }
@@ -260,7 +274,7 @@ class TelegramRequest
             }
             return $this->call('sendPoll');
         } else {
-            $this->log('Недостаточной количество вариантов. Должно быть от 2 - 10 вариантов!');
+            $this->log('Недостаточное количество вариантов. Должно быть от 2 - 10 вариантов!');
             return null;
         }
     }
@@ -325,11 +339,8 @@ class TelegramRequest
         $this->request->post = [
             'chat_id' => $userId
         ];
-        if (is_file($file)) {
-            $this->request->post['photo'] = curl_file_create($file);
-        } else {
-            $this->request->post['photo'] = $file;
-        }
+        $this->initPostFile('photo', $file);
+
         if ($desc) {
             $this->request->post['caption'] = $desc;
         }
@@ -404,11 +415,7 @@ class TelegramRequest
         $this->request->post = [
             'chat_id' => $userId
         ];
-        if (is_file($file)) {
-            $this->request->post['document'] = curl_file_create($file);
-        } else {
-            $this->request->post['document'] = $file;
-        }
+        $this->initPostFile('document', $file);
         if (count($params)) {
             $this->request->post = array_merge($params, $this->request->post);
         }
@@ -416,7 +423,7 @@ class TelegramRequest
     }
 
     /**
-     * Отправка Аудио файла пользователю.
+     * Отправка Аудиофайла пользователю.
      *
      * @param string|int $userId Идентификатор пользователя.
      * @param string $file Путь или содержимое файла.
@@ -485,11 +492,7 @@ class TelegramRequest
         $this->request->post = [
             'chat_id' => $userId
         ];
-        if (is_file($file)) {
-            $this->request->post['audio'] = curl_file_create($file);
-        } else {
-            $this->request->post['audio'] = $file;
-        }
+        $this->initPostFile('audio', $file);
         if (count($params)) {
             $this->request->post = array_merge($params, $this->request->post);
         }
@@ -568,11 +571,7 @@ class TelegramRequest
         $this->request->post = [
             'chat_id' => $userId
         ];
-        if (is_file($file)) {
-            $this->request->post['video'] = curl_file_create($file);
-        } else {
-            $this->request->post['video'] = $file;
-        }
+        $this->initPostFile('video', $file);
         if (count($params)) {
             $this->request->post = array_merge($params, $this->request->post);
         }

@@ -18,25 +18,26 @@ use MM\bot\core\types\Vk;
 use MM\bot\models\UsersData;
 
 /**
- * Class Bot
+ * Класс отвечающий за запуск приложения.
+ * В нем происходит инициализации параметров, выбор типа приложения, запуск логики и возврат корректного результата.
  * @package bot\core
  */
 class Bot
 {
     /**
-     * Полученный запрос. В основном JSON.
-     * @var bool|string|null $content Полученный запрос. В основном JSON.
+     * Полученный запрос. В основном JSON или объект.
+     * @var bool|string|null $content
      */
     private $content;
     /**
-     * Логика приложения.
-     * @var BotController|null $botController Логика приложения.
+     * Контроллер с логикой приложения.
+     * @var BotController|null $botController
      * @see BotController Смотри тут
      */
     protected $botController;
     /**
      * Авторизационный токен если есть (Актуально для Алисы). Передастся в том случае, если пользователь произвел авторизацию в навыке.
-     * @var string|null $auth Авторизационный токен если есть (Актуально для Алисы). Передастся в том случае, если пользователь произвел авторизацию в навыке.
+     * @var string|null $auth
      */
     private $auth;
 
@@ -85,7 +86,7 @@ class Bot
 
     /**
      * Инициализация типа бота через GET параметры.
-     * Если присутствует get['type'], и он корректен(Равен одному из типов бота), тогда инициализация пройдет успешно.
+     * Если присутствует get['type'], и он корректен (Равен одному из типов бота), тогда инициализация пройдет успешно.
      *
      * @return bool
      * @api
@@ -141,14 +142,14 @@ class Bot
         $this->botController = $fn;
     }
 
+
     /**
-     * Запуск приложения.
+     * Возвращаем корректно заполенный тип приложения, а также класс, отвечающий за возврат результата.
      *
      * @param TemplateTypeModel|null $userBotClass Пользовательский класс для обработки команд.
-     * @return string
-     * @api
+     * @return array
      */
-    public function run(?TemplateTypeModel $userBotClass = null): string
+    protected function getBotClassAndType(?TemplateTypeModel $userBotClass = null): array
     {
         $botClass = $type = null;
         switch (mmApp::$appType) {
@@ -179,6 +180,12 @@ class Bot
                 $type = UsersData::T_MARUSIA;
                 break;
 
+            case T_SMARTAPP:
+                @header('Content-Type: application/json');
+                $botClass = new SmartApp();
+                $type = UsersData::T_SMART_APP;
+                break;
+
             case T_USER_APP:
                 if ($userBotClass) {
                     $botClass = $userBotClass;
@@ -186,6 +193,24 @@ class Bot
                 }
                 break;
         }
+        return [
+            'botClass' => $botClass,
+            'type' => $type
+        ];
+    }
+
+    /**
+     * Запуск приложения.
+     *
+     * @param TemplateTypeModel|null $userBotClass Пользовательский класс для обработки команд.
+     * @return string
+     * @api
+     */
+    public function run(?TemplateTypeModel $userBotClass = null): string
+    {
+        $botClassAndType = $this->getBotClassAndType($userBotClass);
+        $botClass = $botClassAndType['botClass'];
+        $type = $botClassAndType['type'];
 
         if ($botClass) {
             if ($this->botController->userToken === null) {
@@ -219,8 +244,15 @@ class Bot
                         $userData->meta = $this->botController->userMeta;
                     }
                 }
+                if (!$this->botController->oldIntentName
+                    && $this->botController->userData && $this->botController->userData['oldIntentName']) {
+                    $this->botController->oldIntentName = $this->botController->userData['oldIntentName'];
+                }
 
                 $this->botController->run();
+                if ($this->botController->thisIntentName) {
+                    $this->botController->userData['oldIntentName'] = $this->botController->thisIntentName;
+                }
                 $content = $botClass->getContext();
                 if (!$isLocalStorage) {
                     $userData->data = $this->botController->userData;
@@ -250,7 +282,7 @@ class Bot
     /**
      * Тестирование навыка.
      * Отображает только ответы навыка.
-     * Никакой прочей информации (картинки, звуки, кнопки и тд) не отображаются!
+     * Никакой прочей информации (изображения, звуки, кнопки и тд) не отображаются!
      *
      * Для корректной работы, внутри логики навыка не должно быть пользовательских вызовов к серверу бота.
      *
@@ -298,13 +330,18 @@ class Bot
 
             switch (mmApp::$appType) {
                 case T_ALISA:
-                    $result = $result['response']['text'];
+                    if ($result['response']['text']) {
+                        $result = $result['response']['text'];
+                    } else {
+                        $result = $result['response']['tts'];
+                    }
                     break;
 
                 default:
                     $result = $this->botController->text;
                     break;
             }
+
             printf("Бот: > %s\n", $result);
             if ($isShowTime) {
                 $endTime = microtime(true) - $timeStart;
@@ -322,7 +359,7 @@ class Bot
     }
 
     /**
-     * Возвращает корректную конфигурацию для конкретного типа приложения.
+     * Возвращаем корректную конфигурацию для конкретного типа приложения.
      *
      * @param string $query Пользовательский запрос.
      * @param int $count Номер сообщения.

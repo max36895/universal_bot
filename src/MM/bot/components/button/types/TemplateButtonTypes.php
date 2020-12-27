@@ -14,19 +14,19 @@ use MM\bot\components\button\Button;
  * Class TemplateButtonTypes
  * @package bot\components\button\types
  *
- * Шаблонный класс для второстепенных классов.
+ * Шаблонный класс для кнопок.
  * Нужен для отображения кнопок в ответе пользователю.
  */
 abstract class TemplateButtonTypes
 {
     /**
      * Массив кнопок.
-     * @var Button[]|null $buttons Массив кнопок.
+     * @var Button[]|null $buttons
      */
     public $buttons;
 
     /**
-     * Получить массив с кнопками для ответа пользователю.
+     * Получение массива с кнопками для ответа пользователю.
      *
      * @return array
      */

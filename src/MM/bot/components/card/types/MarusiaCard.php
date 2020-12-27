@@ -24,9 +24,9 @@ class MarusiaCard extends TemplateCardTypes
     public const MARUSIA_MAX_IMAGES = 5;
 
     /**
-     * Получить карточку для отображения пользователю.
+     * Получение карточки для отображения пользователю.
      *
-     * @param bool $isOne True, если в любом случае использовать 1 картинку.
+     * @param bool $isOne True, если в любом случае отобразить 1 элемент карточки
      * @return array
      * @api
      */

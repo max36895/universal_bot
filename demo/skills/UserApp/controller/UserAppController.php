@@ -18,8 +18,8 @@ class UserAppController extends MM\bot\controller\BotController
         switch ($intentName) {
             case WELCOME_INTENT_NAME:
                 $this->text = 'Привет';
-                $this->buttons->btn = ['Пример кнопки галереи'];
-                $this->buttons->link = ['Пример ссылки для картинки'];
+                $this->buttons->btns = ['Пример кнопки галереи'];
+                $this->buttons->links = ['Пример ссылки для изображения'];
                 break;
 
             case HELP_INTENT_NAME:
@@ -29,14 +29,14 @@ class UserAppController extends MM\bot\controller\BotController
             case 'bigImage':
                 $this->text = '';
                 $this->tts = 'Большая картинка';
-                $this->card->add('565656/78878', 'Заголовок картинки', 'Описание картинки');
+                $this->card->add('565656/78878', 'Заголовок изображения', 'Описание изображения');
                 break;
 
             case 'list':
                 $this->tts = 'Галерея из нескольких изображений';
                 $this->card->title = 'Галерея';
-                $this->card->add('565656/78878', 'Элемент с картинкой"', 'Описание картинки');
-                $this->card->add(null, 'Элемент без картинки', 'Описание картинки');
+                $this->card->add('565656/78878', 'Элемент с картинкой"', 'Описание изображения');
+                $this->card->add(null, 'Элемент без изображения', 'Описание изображения');
                 $this->card->button->addBtn('Текст в footer');
                 break;
 

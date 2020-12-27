@@ -31,22 +31,22 @@ class SoundTokens extends Model
 
     /**
      * Идентификатор/токен мелодии.
-     * @var string|null $soundToken Идентификатор/токен мелодии.
+     * @var string|null $soundToken
      */
     public $soundToken;
     /**
      * Расположение звукового файла(url|/директория).
-     * @var string|null $path Расположение звукового файла(url|/директория).
+     * @var string|null $path
      */
     public $path;
     /**
      * Тип приложения, для которого загружена мелодия.
-     * @var string|int $type Тип приложения, для которого загружена мелодия.
+     * @var string|int $type
      */
     public $type;
     /**
      * True если передается содержимое файла. По умолчанию: false.
-     * @var bool $isAttachContent True если передается содержимое файла. По умолчанию: false.
+     * @var bool $isAttachContent
      */
     public $isAttachContent;
 
@@ -137,7 +137,7 @@ class SoundTokens extends Model
     }
 
     /**
-     * Получить идентификатор/токен мелодии.
+     * Получение идентификатора/токена мелодии.
      *
      * @return string|null
      * @api

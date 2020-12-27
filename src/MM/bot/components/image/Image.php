@@ -12,43 +12,71 @@ use MM\bot\components\button\Buttons;
 use MM\bot\components\standard\Text;
 
 /**
- * Класс отвечает за обработку и корректное отображение изображения, в зависимости от типа приложения.
+ * Класс отвечающий за обработку и корректное отображение изображения, в зависимости от типа приложения.
  * Class Image
  * @package bot\components\image
  */
 class Image
 {
     /**
-     * Кнопки, обрабатывающие действия на нажатие изображения или непосредственно кнопок.
-     * @var Buttons $button Кнопки, обрабатывающие действия на нажатие изображения или непосредственно кнопок.
+     * Кнопки, обрабатывающие действия на нажатие на изображение или кнопку (Зависит от типа приложения).
+     * @var Buttons $button
      * @see Buttons Смотри тут
      */
     public $button;
     /**
-     * Название картинки.
-     * @var string $title Название картинки.
+     * Название изображения.
+     * @var string $title
      */
     public $title;
     /**
-     * Описание картинки.
-     * @var string $desc Описание картинки.
+     * Описание для изображения.
+     * @var string $desc
      */
     public $desc;
     /**
-     * Идентификатор картинки.
-     * @var string|null $imageToken Идентификатор картинки.
+     * Идентификатор изображения.
+     * @var string|null $imageToken
      */
     public $imageToken;
     /**
-     * Расположение картинки в сети/директории.
-     * @var string|null $imageDir Расположение картинки в сети/директории.
+     * Расположение изображения в сети/директории.
+     * @var string|null $imageDir
      */
     public $imageDir;
     /**
-     * True, если однозначно используется идентификатор/токен картинки. По умолчанию false.
-     * @var bool $isToken True, если однозначно используется идентификатор/токен картинки. По умолчанию false.
+     * True, если однозначно используется идентификатор/токен изображения. По умолчанию false.
+     * @var bool $isToken
      */
     public $isToken;
+
+    /**
+     * Дополнительные параметры для изображения.
+     * [
+     *  string topTypeface Стиль верхнего текста
+     *  string topText_color Цвет верхнего текста
+     *  array topMargins Отступы верхнего текста
+     *      [
+     *          string left Размер отступа.
+     *          string top Размер отступа.
+     *          string right Размер отступа.
+     *          string bottom Размер отступа.
+     *      ]
+     *  int topMax_lines Максимальное количество строк верхнего текста
+     *  string bottomTypeface Стиль нижнего текста
+     *  string bottomText_color Цвет нижнего текста
+     *  array bottomMargins Отступы нижнего текста
+     *      [
+     *          string left Размер отступа.
+     *          string top Размер отступа.
+     *          string right Размер отступа.
+     *          string bottom Размер отступа.
+     *      ]
+     *  int bottomMax_lines Максимальное количество строк нижнего текста
+     * ]
+     * @var array $params
+     */
+    public $params;
 
     /**
      * Image constructor.
@@ -61,15 +89,16 @@ class Image
         $this->imageToken = null;
         $this->imageDir = null;
         $this->isToken = false;
+        $this->params = [];
     }
 
     /**
-     * Инициализация значений для картинки.
+     * Инициализация изображения.
      *
-     * @param string|null $image Путь до картинки в сети/папке. Либо идентификатор картинки.
-     * @param string $title Заголовок для картинки.
-     * @param string $desc Описание для картинки.
-     * @param array|string|null $button Возможные кнопки для картинки.
+     * @param string|null $image Путь до изображения в сети/папке. Либо идентификатор изображения.
+     * @param string $title Заголовок для изображения.
+     * @param string $desc Описание для изображения.
+     * @param array|string|null $button Возможные кнопки для изображения.
      * @return bool
      * @api
      */

@@ -12,7 +12,7 @@ use MM\bot\api\request\Request;
 use MM\bot\core\mmApp;
 
 /**
- * Отправка запросов к Vk серверу.
+ * Класс отвечающий за отправку запросов на Vk сервер.
  *
  * Документация по ВК api.
  * @see (https://vk.com/dev/bots_docs) Смотри тут
@@ -33,29 +33,30 @@ class VkRequest
 
     /**
      * Используемая версия Api.
-     * @var string $vkApiVersion Используемая версия Api.
+     * @var string $vkApiVersion
      */
     protected $vkApiVersion;
     /**
-     * Отправка запроса.
-     * @var Request $request Отправка запроса.
+     * Отправка запросов.
+     * @var Request $request
      * @see Request Смотри тут
      */
     protected $request;
     /**
      * Текст ошибки.
-     * @var string|null $error Текст ошибки.
+     * @var string|null $error
      */
     protected $error;
 
     /**
      * Vk токен, необходимый для отправки запросов на сервер.
-     * @var string|null $token Vk токен, необходимый для отправки запросов на сервер.
+     * @var string|null $token
      */
     public $token;
     /**
+     * Тип контента файла.
      * True если передается содержимое файла. По умолчанию: false.
-     * @var bool $isAttachContent True если передается содержимое файла. По умолчанию: false.
+     * @var bool $isAttachContent
      */
     public $isAttachContent;
 
@@ -74,7 +75,7 @@ class VkRequest
         }
         $this->token = null;
         if (isset(mmApp::$params['vk_token'])) {
-            $this->token = mmApp::$params['vk_token'];
+            $this->initToken(mmApp::$params['vk_token']);
         }
     }
 
@@ -198,19 +199,23 @@ class VkRequest
             'peer_id' => $peerId,
             'message' => $message
         ];
+
         if (!is_numeric($peerId)) {
             $this->request->post['domain'] = $peerId;
             unset($this->request->post['peer_id']);
         }
+
         if (isset($params['random_id'])) {
             $this->request->post['random_id'] = $params['random_id'];
         } else {
             $this->request->post['random_id'] = microtime(false);
         }
+
         if (isset($params['attachments'])) {
             $this->request->post['attachment'] = implode(',', $params['attachments']);
             unset($params['attachments']);
         }
+
         if (isset($params['template'])) {
             if (is_array($params['template'])) {
                 $params['template'] = json_encode($params['template']);
@@ -218,6 +223,7 @@ class VkRequest
             $this->request->post['template'] = $params['template'];
             unset($params['template']);
         }
+
         if (isset($params['keyboard'])) {
             if (isset($this->request->post['template'])) {
                 $this->call($method);
@@ -229,6 +235,7 @@ class VkRequest
             $this->request->post['keyboard'] = $params['keyboard'];
             unset($params['keyboard']);
         }
+
         if (count($params)) {
             $this->request->post = array_merge($params, $this->request->post);
         }

@@ -22,11 +22,54 @@ class AlisaCard extends TemplateCardTypes
     public const ALISA_CARD_BIG_IMAGE = 'BigImage';
     public const ALISA_CARD_ITEMS_LIST = 'ItemsList';
     public const ALISA_MAX_IMAGES = 5;
+    public const ALISA_MAX_GALLERY_IMAGES = 7;
 
     /**
-     * Получить карточку для отображения пользователю.
+     * Получаем элемент карточки
+     * @private
+     */
+    protected function getItem(): array
+    {
+        $items = [];
+        foreach ($this->images as $image) {
+            $maxCount = $this->isUsedGallery ? self::ALISA_MAX_GALLERY_IMAGES : self::ALISA_MAX_IMAGES;
+            if (count($items) <= $maxCount) {
+                $button = null;
+                if (!$this->isUsedGallery) {
+                    $button = $image->button->getButtons(Buttons::T_ALISA_CARD_BUTTON);
+                    if (!count($button)) {
+                        $button = null;
+                    }
+                }
+                if (!$image->imageToken) {
+                    if ($image->imageDir) {
+                        $mImage = new ImageTokens();
+                        $mImage->type = ImageTokens::T_ALISA;
+                        $image->imageToken = $mImage->getToken();
+                    }
+                }
+                $item = [
+                    'title' => Text::resize($image->title, 128),
+                ];
+                if (!$this->isUsedGallery) {
+                    $item['description'] = Text::resize($image->desc, 256);
+                }
+                if ($image->imageToken) {
+                    $item['image_id'] = $image->imageToken;
+                }
+                if ($button && !$this->isUsedGallery) {
+                    $item['button'] = $button[0];
+                }
+                $items[] = $item;
+            }
+        }
+        return $items;
+    }
+
+    /**
+     * Получение карточки для отображения пользователю.
      *
-     * @param bool $isOne True, если в любом случае использовать 1 картинку.
+     * @param bool $isOne True, если в любом случае отобразить 1 элемент карточки
      * @return array
      * @api
      */
@@ -55,56 +98,34 @@ class AlisaCard extends TemplateCardTypes
                         'description' => Text::resize($this->images[0]->desc, 256)
                     ];
                     if (count($button)) {
-                        $object['button'] = $button[0];
+                        $object['button'] = $button;
                     }
                     return $object;
                 }
             } else {
-                $object = [
-                    'type' => self::ALISA_CARD_ITEMS_LIST,
-                    'header' => [
-                        'text' => Text::resize($this->title, 64)
-                    ]
-                ];
-                $items = [];
-                foreach ($this->images as $image) {
-                    if (count($items) <= self::ALISA_MAX_IMAGES) {
-                        $button = $image->button->getButtons(Buttons::T_ALISA_CARD_BUTTON);
-                        if (!count($button)) {
-                            $button = null;
-                        }
-                        if (!$image->imageToken) {
-                            if ($image->imageDir) {
-                                $mImage = new ImageTokens();
-                                $mImage->type = ImageTokens::T_ALISA;
-                                $image->imageToken = $mImage->getToken();
-                            }
-                        }
-                        //if ($image->imageToken !== null) {
-                        $item = [
-                            'title' => Text::resize($image->title, 128),
-                            'description' => Text::resize($image->desc, 256),
-                        ];
-                        if ($image->imageToken) {
-                            $item['image_id'] = $image->imageToken;
-                        }
-                        if ($button) {
-                            $item['button'] = $button[0];
-                        }
-                        $items[] = $item;
-                    }
-                    //}
-                }
-                $object['items'] = $items;
-                $items = null;
-                $btn = $this->button->getButtons();
-                if (count($btn)) {
-                    $object['footer'] = [
-                        'text' => $btn[0]['text'],
-                        'button' => $btn[0]
+                if ($this->isUsedGallery) {
+                    $object = [
+                        'type' => 'ImageGallery',
                     ];
+                    $object['items'] = $this->getItem();
+                    return $object;
+                } else {
+                    $object = [
+                        'type' => self::ALISA_CARD_ITEMS_LIST,
+                        'header' => [
+                            'text' => Text::resize($this->title, 64)
+                        ]
+                    ];
+                    $object['items'] = $this->getItem();
+                    $btn = $this->button->getButtons(Buttons::T_ALISA_CARD_BUTTON);
+                    if ($btn) {
+                        $object['footer'] = [
+                            'text' => $btn['text'],
+                            'button' => $btn
+                        ];
+                    }
+                    return $object;
                 }
-                return $object;
             }
         }
         return [];

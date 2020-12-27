@@ -10,6 +10,7 @@ namespace MM\bot\components\card;
 
 use MM\bot\components\button\Buttons;
 use MM\bot\components\card\types\AlisaCard;
+use MM\bot\components\card\types\SmartAppCard;
 use MM\bot\components\card\types\TelegramCard;
 use MM\bot\components\card\types\TemplateCardTypes;
 use MM\bot\components\card\types\ViberCard;
@@ -18,39 +19,46 @@ use MM\bot\components\image\Image;
 use MM\bot\core\mmApp;
 
 /**
- * Отвечает за отображение определенной карточки, в зависимости от типа приложения.
+ * Класс отвечающий за отображение определенной карточки, в зависимости от типа приложения.
  * Class Card
  * @package bot\components\card
  */
 class Card
 {
     /**
-     * Заголовок для карточки.
-     * @var string|null $title Заголовок для карточки.
+     * Заголовок для элемента карточки.
+     * @var string|null $title
      */
     public $title;
     /**
-     * Описание карточки.
-     * @var string|null $desc Описание карточки.
+     * Описание для элемента карточки.
+     * @var string|null $desc
      */
     public $desc;
     /**
-     * Массив с картинками или элементами карточки.
-     * @var Image[]|null $images Массив с картинками или элементами карточки.
+     * Массив с изображениями или элементами карточки.
+     * @var Image[]|null $images
      * @see Image Смотри тут
      */
     public $images;
     /**
-     * Кнопки для карточки.
-     * @var Buttons $button Кнопки для карточки.
+     * Кнопки для элемента карточки.
+     * @var Buttons $button
      * @see Buttons Смотри тут
      */
     public $button;
     /**
+     * В карточке отобразить только 1 элемент/картинку.
      * True, если в любом случае отобразить только 1 изображение.
-     * @var bool $isOne True, если в любом случае отобразить только 1 изображение.
+     * @var bool $isOne
      */
     public $isOne;
+
+    /**
+     * Использование галереи изображений. Передайте true, если хотите отобразить галерею из изображений.
+     * @var bool $isUsedGallery
+     */
+    public $isUsedGallery = false;
 
     /**
      * Card constructor.
@@ -63,7 +71,7 @@ class Card
     }
 
     /**
-     * Удалить все карточки с изображениями.
+     * Очистить все элементы карточки.
      * @api
      */
     public function clear()
@@ -72,24 +80,27 @@ class Card
     }
 
     /**
-     * Вставить элемент в каточку|список.
+     * Вставляем элемент в каточку|список. В сучае успеха вернет true.
      *
-     * @param string|null $image Идентификатор или расположение картинки.
-     * @param string $title Заголовок для картинки.
-     * @param string $desc Описание для картинки.
+     * @param string|null $image Идентификатор или расположение изображения.
+     * @param string $title Заголовок для изображения.
+     * @param string $desc Описание для изображения.
      * @param array|null $button Кнопки, обрабатывающие команды при нажатии на элемент.
+     * @return bool
      * @api
      */
-    public function add(?string $image, string $title, string $desc = ' ', $button = null): void
+    public function add(?string $image, string $title, string $desc = ' ', $button = null): bool
     {
         $img = new Image();
         if ($img->init($image, $title, $desc, $button)) {
             $this->images[] = $img;
+            return true;
         }
+        return false;
     }
 
     /**
-     * Получить все элементы типа карточка.
+     * Получение всех элементов карточки.
      *
      * @param TemplateCardTypes|null $userCard Пользовательский класс для отображения каточки.
      * @return array
@@ -119,11 +130,16 @@ class Card
                 $card = null;
                 break;
 
+            case T_SMARTAPP:
+                $card = new SmartAppCard();
+                break;
+
             case T_USER_APP:
                 $card = $userCard;
                 break;
         }
         if ($card) {
+            $card->isUsedGallery = $this->isUsedGallery;
             $card->images = $this->images;
             $card->button = $this->button;
             $card->title = $this->title;
@@ -133,14 +149,15 @@ class Card
     }
 
     /**
-     * Возвращает json строку с данными о карточке.
+     * Возвращаем json строку со всеми элементами карточки.
      *
+     * @param TemplateCardTypes|null $userCard Пользовательский класс для отображения каточки.
      * @return string
      * @api
      */
-    public function getCardsJson(): string
+    public function getCardsJson(?TemplateCardTypes $userCard): string
     {
-        $json = $this->getCards();
+        $json = $this->getCards($userCard);
         return json_encode($json, JSON_UNESCAPED_UNICODE);
     }
 }

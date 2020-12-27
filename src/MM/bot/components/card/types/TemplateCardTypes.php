@@ -14,32 +14,38 @@ use MM\bot\components\image\Image;
  * Class TemplateCardTypes
  * @package bot\components\card\types
  *
- * Шаблонный класс для второстепенных классов.
+ * Шаблонный класс для карточек.
  * Нужен для отображения карточек в ответе пользователю.
  */
 abstract class TemplateCardTypes
 {
     /**
      * Массив изображений или элементов для карточки.
-     * @var Image[]|null $images Массив изображений или элементов для карточки.
+     * @var Image[]|null $images
      */
     public $images;
     /**
      * Кнопка для карточки.
-     * @var Buttons|null $button Кнопка для карточки.
+     * @var Buttons|null $button
      * @see Buttons Смотри тут
      */
     public $button;
     /**
      * Заголовок для карточки.
-     * @var string|null $title Заголовок для карточки.
+     * @var string|null $title
      */
     public $title;
 
     /**
-     * Получить карточку для отображения пользователю.
+     * Использование галереи изображений.
+     * @var bool $isUsedGallery
+     */
+    public $isUsedGallery = false;
+
+    /**
+     * Получение карточки для отображения пользователю.
      *
-     * @param bool $isOne True, если в любом случае использовать 1 картинку.
+     * @param bool $isOne True, если в любом случае отобразить 1 элемент карточки
      * @return array
      */
     public abstract function getCard(bool $isOne);

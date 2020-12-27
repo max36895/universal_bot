@@ -26,7 +26,7 @@ class VkButton extends TemplateButtonTypes
     public const GROUP_NAME = '_group';
 
     /**
-     * Получить массив с кнопками для ответа пользователю.
+     * Получение массива с кнопками для ответа пользователю.
      *
      * @return array
      * @api
@@ -44,18 +44,18 @@ class VkButton extends TemplateButtonTypes
                     $button->type = Button::VK_TYPE_TEXT;
                 }
             }
-            $object = ['type' => $button->type];
+            $action = ['type' => $button->type];
             if ($button->url) {
-                $object['type'] = Button::VK_TYPE_LINK;
-                $object['link'] = $button->url;
+                $action['type'] = Button::VK_TYPE_LINK;
+                $action['link'] = $button->url;
             }
-            $object['label'] = $button->title;
+            $action['label'] = $button->title;
             if ($button->payload) {
-                $object['payload'] = $button->payload;
+                $action['payload'] = $button->payload;
             }
 
             $object = [
-                'action' => $object,
+                'action' => $action,
             ];
             if (isset($button->payload['color']) && !$button->url) {
                 $object['color'] = $button->payload['color'];
@@ -64,13 +64,13 @@ class VkButton extends TemplateButtonTypes
                 $object['hash'] = $button->payload['hash'] ?? null;
             }
             $object = mmApp::arrayMerge($object, $button->options);
-            if (isset($button->payload[self::GROUP_NAME])) {
-                unset($object['payload'][self::GROUP_NAME]);
+            if (isset($button->options[self::GROUP_NAME])) {
+                unset($object[self::GROUP_NAME]);
                 $object['payload'] = json_encode($object['payload']);
-                if (isset($groups[$button->payload[self::GROUP_NAME]])) {
-                    $buttons[$groups[$button->payload[self::GROUP_NAME]]][] = $object;
+                if (isset($groups[$button->options[self::GROUP_NAME]])) {
+                    $buttons[$groups[$button->options[self::GROUP_NAME]]][] = $object;
                 } else {
-                    $groups[$button->payload[self::GROUP_NAME]] = $index;
+                    $groups[$button->options[self::GROUP_NAME]] = $index;
                     $buttons[$index] = [$object];
                     $index++;
                 }
@@ -82,12 +82,9 @@ class VkButton extends TemplateButtonTypes
                 $index++;
             }
         }
-        $oneTime = false;
-        if (count($buttons)) {
-            $oneTime = true;
-        }
+
         return [
-            'one_time' => $oneTime,
+            'one_time' => count($buttons) ? true : false,
             'buttons' => $buttons
         ];
     }

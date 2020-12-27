@@ -20,22 +20,22 @@ abstract class TemplateTypeModel
 {
     /**
      * Класс с логикой приложения.
-     * @var BotController|null $controller Класс с логикой приложения.
+     * @var BotController|null $controller
      */
     protected $controller;
     /**
-     * Строка с ошибками работы приложения.
-     * @var string|null $error Строка с ошибками работы приложения.
+     * Строка с ошибками, произошедшими при работе приложения.
+     * @var string|null $error
      */
     protected $error;
     /**
      * Время начала работы приложения.
-     * @var float|int|null $timeStart Время начала работы приложения.
+     * @var float|int|null $timeStart
      */
     protected $timeStart;
     /**
      * Использование локального хранилища как БД.
-     * @var bool $isUsedLocalStorage Использование локального хранилища как БД.
+     * @var bool $isUsedLocalStorage
      */
     public $isUsedLocalStorage;
 
@@ -79,16 +79,17 @@ abstract class TemplateTypeModel
     }
 
     /**
-     * Инициализация основных параметров и компонентов контроллера.
+     * Инициализация основных параметров. В случае успешной инициализации, вернет true, иначе false.
      *
-     * @param string|null $content Запрос пользователя. В основном json строка.
+     * @param string|null $content Запрос пользователя.
      * @param BotController $controller Ссылка на класс с логикой навык/бота.
      * @return bool
+     * @api
      */
     public abstract function init(?string $content, BotController &$controller): bool;
 
     /**
-     * Отправка ответа пользователю.
+     * Получение ответа, который отправится пользователю. В случае с Алисой, Марусей и Сбер, возвращается json. С остальными типами, ответ отправляется непосредственно на сервер.
      *
      * @return string
      */
@@ -108,7 +109,7 @@ abstract class TemplateTypeModel
     }
 
     /**
-     * Возвращает данные из хранилища.
+     * Возвращаем данные из хранилища.
      *
      * @return array|null
      * @api

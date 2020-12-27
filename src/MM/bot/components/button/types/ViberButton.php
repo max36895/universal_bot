@@ -24,14 +24,14 @@ class ViberButton extends TemplateButtonTypes
     const T_NONE = 'none';
 
     /**
-     * Получить массив с кнопками для ответа пользователю.
+     * Получение массива с кнопками для ответа пользователю.
      *
      * @return array
      * @api
      */
     public function getButtons(): array
     {
-        $objects = [];
+        $object = [];
         $buttons = [];
         foreach ($this->buttons as $button) {
             $btn = [];
@@ -49,12 +49,12 @@ class ViberButton extends TemplateButtonTypes
         }
 
         if (count($buttons)) {
-            $objects = [
+            $object = [
                 'DefaultHeight' => true,
                 'BgColor' => '#FFFFFF',
                 'Buttons' => $buttons
             ];
         }
-        return $objects;
+        return $object;
     }
 }

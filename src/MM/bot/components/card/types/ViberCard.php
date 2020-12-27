@@ -9,6 +9,7 @@ namespace MM\bot\components\card\types;
 
 
 use MM\bot\components\button\Buttons;
+use MM\bot\components\image\Image;
 
 /**
  * Класс отвечающий за отображение карточки в Viber.
@@ -18,9 +19,38 @@ use MM\bot\components\button\Buttons;
 class ViberCard extends TemplateCardTypes
 {
     /**
-     * Получить карточку для отображения пользователю.
+     * Получение элемента карточки.
+     * @param Image $image Объект с изображением
+     * @param int $countImage Количество изображений
+     * @return array
+     */
+    protected function getElement(Image $image, int $countImage = 1): array
+    {
+        if (!$image->imageToken) {
+            if ($image->imageDir) {
+                $image->imageToken = $image->imageDir;
+            }
+        }
+
+        $element = [
+            'Columns' => $countImage,
+            'Rows' => 6,
+        ];
+        if ($image->imageToken) {
+            $element['Image'] = $image->imageToken;
+        }
+        $btn = $image->button->getButtons(Buttons::T_VIBER_BUTTONS);
+        if (isset($btn['Buttons'])) {
+            $element = array_merge($element, $btn['Buttons'][0]);
+            $element['Text'] = "<font color=#000><b>{$image->title}</b></font><font color=#000>{$image->desc}</font>";
+        }
+        return $element;
+    }
+
+    /**
+     * Получение карточки для отображения пользователю.
      *
-     * @param bool $isOne True, если в любом случае использовать 1 картинку.
+     * @param bool $isOne True, если в любом случае отобразить 1 элемент карточки
      * @return array
      * @api
      */
@@ -39,38 +69,13 @@ class ViberCard extends TemplateCardTypes
                     }
                 }
                 if ($this->images[0]->imageToken) {
-                    $object = [
-                        'Columns' => 1,
-                        'Rows' => 6,
-                        'Image' => $this->images[0]->imageToken
-                    ];
-                    $btn = $this->images[0]->button->getButtons(Buttons::T_VIBER_BUTTONS);
-                    if (isset($btn['Buttons'])) {
-                        $object = array_merge($object, $btn['Buttons'][0]);
-                        $object['Text'] = "<font color=#000><b>{$this->images[0]->title}</b></font><font color=#000>{$this->images[0]->desc}</font>";
-                    }
+                    return $this->getElement($this->images[0]);
                 }
             } else {
                 foreach ($this->images as $image) {
-                    if (!$image->imageToken) {
-                        if ($image->imageDir) {
-                            $image->imageToken = $image->imageDir;
-                        }
+                    if (count($object) <= $countImage) {
+                        $object[] = $this->getElement($image, $countImage);
                     }
-
-                    $element = [
-                        'Columns' => $countImage,
-                        'Rows' => 6,
-                    ];
-                    if ($image->imageToken) {
-                        $element['Image'] = $image->imageToken;
-                    }
-                    $btn = $image->button->getButtons(Buttons::T_VIBER_BUTTONS);
-                    if (isset($btn['Buttons'])) {
-                        $element = array_merge($element, $btn['Buttons'][0]);
-                        $element['Text'] = "<font color=#000><b>{$image->title}</b></font><font color=#000>{$image->desc}</font>";
-                    }
-                    $object[] = $element;
                 }
             }
         }

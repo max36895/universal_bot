@@ -10,15 +10,15 @@ namespace MM\bot\components\nlu;
 use MM\bot\components\standard\Text;
 
 /**
- * Класс для обработки естественной речи. Осуществляет поиск различных сущностей в тексте.
+ * Класс отвечающий за обработку естественной речи. Осуществляет поиск различных сущностей в тексте.
  * Class Nlu
  * @package bot\components\nlu
  */
 class Nlu
 {
     /**
-     * Массив с обработанными данными.
-     * @var array $nlu Массив с обработанными данными.
+     * Массив с обработанным nlu.
+     * @var array $nlu
      */
     private $nlu;
     /**
@@ -69,18 +69,29 @@ class Nlu
     }
 
     /**
-     * Инициализация массива с nlu.
+     * Приводим nlu в пригодный для работы вид.
+     * @param array|null $nlu
+     * @return array|null
+     */
+    protected function serializeNlu(?array $nlu):?array
+    {
+        // todo добавить обработку
+        return $nlu;
+    }
+
+    /**
+     * Проинициализировать nlu данные.
      *
      * @param array|null $nlu Значение для nlu. В случае с Алисой передается в запросе. Для других типов инициируется самостоятельно.
      * @api
      */
     public function setNlu(?array $nlu): void
     {
-        $this->nlu = $nlu;
+        $this->nlu = $this->serializeNlu($nlu);
     }
 
     /**
-     * Получить обработанный nlu для определенного типа.
+     * Получение обработанного nlu для определенного типа.
      *
      * @param string $type Тип данных.
      * @return array|null
@@ -122,7 +133,7 @@ class Nlu
     }
 
     /**
-     * Получение ФИО из текста, как правило его сгенерировал Яндекс.
+     * Получение ФИО.
      *
      * Возвращается массив типа:
      * ['status'=>bool, 'result'=>array]
@@ -151,16 +162,13 @@ class Nlu
      */
     public function getFio(): array
     {
-        $status = false;
         $fio = $this->getData(self::T_FIO);
-        if ($fio) {
-            $status = true;
-        }
+        $status = $fio ? true : false;
         return ['status' => $status, 'result' => $fio];
     }
 
     /**
-     * Получение местоположение из текста, как правило его сгенерировал Яндекс.
+     * Получение местоположение.
      *
      * Возвращается массив типа:
      * ['status'=>bool, 'result'=>array]
@@ -193,16 +201,13 @@ class Nlu
      */
     public function getGeo(): array
     {
-        $status = false;
         $geo = $this->getData(self::T_GEO);
-        if ($geo) {
-            $status = true;
-        }
+        $status = $geo ? true : false;
         return ['status' => $status, 'result' => $geo];
     }
 
     /**
-     * Получение даты и времени из текста, как правило его сгенерировал Яндекс.
+     * Получение даты и времени.
      *
      * Возвращается массив типа:
      * ['status'=>bool, 'result'=>array]
@@ -245,16 +250,13 @@ class Nlu
      */
     public function getDateTime(): array
     {
-        $status = false;
-        $dataTime = $this->getData(self::T_DATETIME);
-        if ($dataTime) {
-            $status = true;
-        }
-        return ['status' => $status, 'result' => $dataTime];
+        $dateTime = $this->getData(self::T_DATETIME);
+        $status = $dateTime ? true : false;
+        return ['status' => $status, 'result' => $dateTime];
     }
 
     /**
-     * Получение числа в текста, как правило его сгенерировал Яндекс.
+     * Получение числа.
      *
      * Возвращается массив типа:
      * ['status'=>bool,'result'=>array]
@@ -282,16 +284,13 @@ class Nlu
      */
     public function getNumber(): array
     {
-        $status = false;
         $number = $this->getData(self::T_NUMBER);
-        if ($number) {
-            $status = true;
-        }
+        $status = $number ? true : false;
         return ['status' => $status, 'result' => $number];
     }
 
     /**
-     * Вернет true, если пользователь согласен.
+     * Вернет true, если пользователь даёт согласие.
      *
      * @param string $userCommand Фраза пользователя. Если нет совпадения по интенту, то поиск согласия идет по тексту.
      * @return bool
@@ -307,9 +306,9 @@ class Nlu
     }
 
     /**
-     * Вернет true, если пользователь не согласен.
+     * Вернет true, если пользователь не даёт согласие.
      *
-     * @param string $userCommand Фраза пользователя. Если нет совпадения по интенту, то поиск не согласия идет по тексту.
+     * @param string $userCommand Фраза пользователя. Если нет совпадения по интенту, то поиск несогласия идет по тексту.
      * @return bool
      * @api
      */
@@ -431,7 +430,7 @@ class Nlu
     }
 
     /**
-     * Получение всех e-mails в тексте.
+     * Получение всех e-mail в тексте.
      * Возвращает массив типа:
      * ['status' => bool, 'result' => array]
      *

@@ -22,7 +22,7 @@ use MM\bot\core\mmApp;
 class Viber extends TemplateTypeModel
 {
     /**
-     * Инициализация параметров.
+     * Инициализация основных параметров. В случае успешной инициализации, вернет true, иначе false.
      *
      * @param string|null $content Запрос пользователя.
      * @param BotController $controller Ссылка на класс с логикой навык/бота.
@@ -79,6 +79,7 @@ class Viber extends TemplateTypeModel
                         $this->setNlu($content['sender']['name'] ?? '');
                         return true;
                         break;
+
                     case 'message':
                         $this->controller->userId = $content['sender']['id'];
                         mmApp::$params['user_id'] = $this->controller->userId;
@@ -118,7 +119,7 @@ class Viber extends TemplateTypeModel
     }
 
     /**
-     * Отправка ответа пользователю.
+     * Получение ответа, который отправится пользователю. В случае с Алисой, Марусей и Сбер, возвращается json. С остальными типами, ответ отправляется непосредственно на сервер.
      *
      * @return string
      * @see TemplateTypeModel::getContext() Смотри тут
