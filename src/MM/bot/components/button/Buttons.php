@@ -70,6 +70,7 @@ class Buttons
      *      - string title    Текст, отображаемый на кнопке.
      *      - string url      Ссылка, по которой перейдет пользователь после нажатия на кнопку.
      *      - string payload  Дополнительные параметры, передаваемые при нажатие на кнопку.
+     *      - array options   Дополнительные параметры для кнопки.
      */
     public $btns;
     /**
@@ -81,6 +82,7 @@ class Buttons
      *      - string title    Текст, отображаемый на кнопке.
      *      - string url      Ссылка, по которой перейдет пользователь после нажатия на кнопку.
      *      - string payload  Дополнительные параметры, передаваемые при нажатие на кнопку.
+     *      - array options   Дополнительные параметры для кнопки.
      */
     public $links;
     /**
@@ -116,18 +118,20 @@ class Buttons
      * @param string|null $url Ссылка для перехода при нажатии на кнопку.
      * @param string|array|null $payload Произвольные данные, отправляемые при нажатии кнопки.
      * @param bool|null $hide True, если отображать кнопку как сайджест.
+     * @param array $options Дополнительные параметры для кнопки
+     * @see Button::options Описание опции options
      *
      * @return bool
      */
-    protected function add($title, ?string $url, $payload, ?bool $hide): bool
+    protected function add($title, ?string $url, $payload, ?bool $hide, array $options = []): bool
     {
         $button = new Button();
         if ($hide === Button::B_LINK) {
-            if (!$button->initLink($title, $url, $payload)) {
+            if (!$button->initLink($title, $url, $payload, $options)) {
                 $button = null;
             }
         } else {
-            if (!$button->initBtn($title, $url, $payload)) {
+            if (!$button->initBtn($title, $url, $payload, $options)) {
                 $button = null;
             }
         }
@@ -144,12 +148,14 @@ class Buttons
      * @param string $title Текст на кнопке.
      * @param string|null $url Ссылка для перехода при нажатии на кнопку.
      * @param string|array|null $payload Произвольные данные, отправляемые при нажатии кнопки.
+     * @param array $options Дополнительные параметры для кнопки
+     * @see Button::options Описание опции options
      * @return bool
      * @api
      */
-    public function addBtn($title, ?string $url = '', $payload = ''): bool
+    public function addBtn($title, ?string $url = '', $payload = '', array $options = []): bool
     {
-        return $this->add($title, $url, $payload, Button::B_BTN);
+        return $this->add($title, $url, $payload, Button::B_BTN, $options);
     }
 
     /**
@@ -158,12 +164,14 @@ class Buttons
      * @param string $title Текст на кнопке.
      * @param string|null $url Ссылка для перехода при нажатии на кнопку.
      * @param array|string|null $payload Произвольные данные, отправляемые при нажатии кнопки.
+     * @param array $options Дополнительные параметры для кнопки
+     * @see Button::options Описание опции options
      * @return bool
      * @api
      */
-    public function addLink($title, ?string $url = '', $payload = ''): bool
+    public function addLink($title, ?string $url = '', $payload = '', array $options = []): bool
     {
-        return $this->add($title, $url, $payload, Button::B_LINK);
+        return $this->add($title, $url, $payload, Button::B_LINK, $options);
     }
 
     /**
@@ -176,7 +184,8 @@ class Buttons
             if (is_array($this->btns)) {
                 foreach ($this->btns as $btn) {
                     if (is_array($btn)) {
-                        $this->addBtn($btn['title'] ?? null, $btn['url'] ?? '', $btn['payload'] ?? null);
+                        $this->addBtn($btn['title'] ?? null, $btn['url'] ?? '',
+                            $btn['payload'] ?? null, $btn['options'] ?? []);
                     } else {
                         $this->addBtn($btn);
                     }
@@ -189,7 +198,8 @@ class Buttons
             if (is_array($this->links)) {
                 foreach ($this->links as $link) {
                     if (is_array($link)) {
-                        $this->addLink($link['title'] ?? null, $link['url'] ?? '', $link['payload'] ?? null);
+                        $this->addLink($link['title'] ?? null, $link['url'] ?? '',
+                            $link['payload'] ?? null, $link['options'] ?? []);
                     } else {
                         $this->addLink($link);
                     }

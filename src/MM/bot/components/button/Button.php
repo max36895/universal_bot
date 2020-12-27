@@ -89,9 +89,11 @@ class Button
      * @param string|null $url Ссылка для перехода, при нажатии кнопки.
      * @param string|array|null $payload Произвольные данные, отправляемые при нажатии кнопки.
      * @param bool|null $hide True, чтобы отображать кнопку как сайджест.
+     * @param array $options Дополнительные параметры для кнопки.
+     * @see Button::options Описание опции options
      * @return bool
      */
-    private function init(string $title, ?string $url, $payload, $hide): bool
+    private function init(string $title, ?string $url, $payload, $hide, array $options = []): bool
     {
         if ($title || $title == '') {
             $this->title = (string)$title;
@@ -119,6 +121,7 @@ class Button
             $this->url = $url;
             $this->payload = $payload;
             $this->hide = $hide;
+            $this->options = $options;
             return true;
         }
         return false;
@@ -130,12 +133,14 @@ class Button
      * @param string $title Текст на кнопке.
      * @param string|null $url Ссылка для перехода, при нажатии кнопки.
      * @param string|array|null $payload Произвольные данные, отправляемые при нажатии кнопки.
+     * @param array $options Дополнительные параметры для кнопки
+     * @see Button::options Описание опции options
      * @return bool
      * @api
      */
-    public function initLink($title, ?string $url = '', $payload = null): bool
+    public function initLink($title, ?string $url = '', $payload = null, array $options = []): bool
     {
-        return $this->init($title, $url, $payload, self::B_LINK);
+        return $this->init($title, $url, $payload, self::B_LINK, $options);
     }
 
     /**
@@ -144,11 +149,13 @@ class Button
      * @param string $title Текст на кнопке.
      * @param string|null $url Ссылка для перехода, при нажатии кнопки.
      * @param string|array|null $payload Произвольные данные, отправляемые при нажатии кнопки.
+     * @param array $options Дополнительные параметры для кнопки
+     * @see Button::options Описание опции options
      * @return bool
      * @api
      */
-    public function initBtn($title, ?string $url = '', $payload = null): bool
+    public function initBtn($title, ?string $url = '', $payload = null, array $options = []): bool
     {
-        return $this->init($title, $url, $payload, self::B_BTN);
+        return $this->init($title, $url, $payload, self::B_BTN, $options);
     }
 }
