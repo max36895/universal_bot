@@ -281,6 +281,11 @@ class Navigation
                 $index = 0;
             }
             $count = 0;
+            if ($index === 1) {
+                $buttons[] = '1';
+            } elseif ($index) {
+                $buttons[] = '1 ...';
+            }
             for ($i = $index; $i < $maxPage; $i++) {
                 if ($i == $this->thisPage) {
                     $thisPage = $i + 1;
@@ -290,6 +295,11 @@ class Navigation
                 }
                 $count++;
                 if ($count > 4) {
+                if ($i === $maxPage - 2) {
+                    $buttons[] = "{$thisPage}";
+                } elseif ($i < $maxPage - 2) {
+                    $buttons[] = "... {$thisPage}";
+                }
                     break;
                 }
             }
