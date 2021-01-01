@@ -296,9 +296,9 @@ class Navigation
                 $count++;
                 if ($count > 4) {
                 if ($i === $maxPage - 2) {
-                    $buttons[] = "{$thisPage}";
+                    $buttons[] = "{$maxPage}";
                 } elseif ($i < $maxPage - 2) {
-                    $buttons[] = "... {$thisPage}";
+                    $buttons[] = "... {$maxPage}";
                 }
                     break;
                 }
