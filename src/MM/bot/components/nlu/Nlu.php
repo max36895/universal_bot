@@ -374,7 +374,7 @@ class Nlu
      * ]
      * @api
      */
-    public function getIntent($intentName): ?array
+    public function getIntent(string $intentName): ?array
     {
         $intents = $this->getIntents();
         if ($intents) {

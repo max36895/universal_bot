@@ -34,7 +34,7 @@ class __className__Controller extends MM\bot\controller\BotController
      *
      * @param int $id Идентификатор записи
      */
-    protected function setQuestionText($id)
+    protected function setQuestionText(int $id)
     {
         if (!isset($this->question[$id])) {
             $id = 0;
@@ -51,7 +51,7 @@ class __className__Controller extends MM\bot\controller\BotController
      * @param string $text пользовательский ответ
      * @param int $questionId номер вопроса
      */
-    protected function isSuccess($text, $questionId)
+    protected function isSuccess(string $text, int $questionId)
     {
         if (Text::isSayText($this->question[$questionId]['success'], $text)) {
             $successTexts = [
@@ -101,7 +101,7 @@ class __className__Controller extends MM\bot\controller\BotController
      *
      * @param string|null $intentName Название действия.
      */
-    public function action($intentName): void
+    public function action(?string $intentName): void
     {
         switch ($intentName) {
             case WELCOME_INTENT_NAME:

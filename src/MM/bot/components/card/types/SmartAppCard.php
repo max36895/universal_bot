@@ -21,7 +21,7 @@ class SmartAppCard extends TemplateCardTypes
      * Получение элементов для карточки
      *
      * @param Image $image Объект с картинкой
-     * @returns array
+     * @return array
      * @private
      */
     protected function getCardItem(Image $image): array
@@ -53,7 +53,7 @@ class SmartAppCard extends TemplateCardTypes
         return $cardItem;
     }
 
-    public function getCard(bool $isOne): array
+    public function getCard(bool $isOne): ?array
     {
         $countImage = count($this->images);
         if ($countImage) {

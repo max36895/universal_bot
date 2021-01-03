@@ -206,7 +206,6 @@ class SoundTokens extends Model
 
             case self::T_MARUSIA:
                 return null;
-                break;
         }
         return null;
     }

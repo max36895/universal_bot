@@ -156,18 +156,16 @@ abstract class Model
      * @param string $type Тип поля.
      * @return string|null
      */
-    protected function getVal($val, $type): ?string
+    protected function getVal($val, string $type): ?string
     {
         switch ($type) {
             case 'string':
             case 'text':
                 return '"' . $val . '"';
-                break;
             case 'int':
             case 'integer':
             case 'bool':
                 return $val;
-                break;
         }
         return null;
     }

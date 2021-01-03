@@ -11,6 +11,7 @@ namespace MM\bot\core;
 use MM\bot\controller\BotController;
 use MM\bot\core\types\Alisa;
 use MM\bot\core\types\Marusia;
+use MM\bot\core\types\SmartApp;
 use MM\bot\core\types\Telegram;
 use MM\bot\core\types\TemplateTypeModel;
 use MM\bot\core\types\Viber;
@@ -227,7 +228,7 @@ class Bot
 
                 $isNew = true;
                 if ($isLocalStorage) {
-                    $botClass->isUsedLocalStorage = $isLocalStorage;
+                    $botClass->isUsedLocalStorage = true;
                     $this->botController->userData = $botClass->getLocalStorage();
                 } else {
                     $sql = "`userId`=\"{$userData->escapeString($this->botController->userId)}\"";

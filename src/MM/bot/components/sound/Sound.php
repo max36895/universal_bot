@@ -73,9 +73,6 @@ class Sound
                 break;
 
             case T_MARUSIA:
-                $sound = null;
-                break;
-
             case T_SMARTAPP:
                 $sound = null;
                 break;
