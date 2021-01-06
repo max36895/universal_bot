@@ -123,7 +123,7 @@ class Buttons
      *
      * @return bool
      */
-    protected function add($title, ?string $url, $payload, ?bool $hide, array $options = []): bool
+    protected function add(string $title, ?string $url, $payload, ?bool $hide, array $options = []): bool
     {
         $button = new Button();
         if ($hide === Button::B_LINK) {
@@ -153,7 +153,7 @@ class Buttons
      * @return bool
      * @api
      */
-    public function addBtn($title, ?string $url = '', $payload = '', array $options = []): bool
+    public function addBtn(string $title, ?string $url = '', $payload = '', array $options = []): bool
     {
         return $this->add($title, $url, $payload, Button::B_BTN, $options);
     }
@@ -169,7 +169,7 @@ class Buttons
      * @return bool
      * @api
      */
-    public function addLink($title, ?string $url = '', $payload = '', array $options = []): bool
+    public function addLink(string $title, ?string $url = '', $payload = '', array $options = []): bool
     {
         return $this->add($title, $url, $payload, Button::B_LINK, $options);
     }
@@ -280,7 +280,7 @@ class Buttons
      * @return string|null
      * @api
      */
-    public function getButtonJson(?string $type = null, ?TemplateButtonTypes $userButton): ?string
+    public function getButtonJson(?string $type = null, ?TemplateButtonTypes $userButton = null): ?string
     {
         $btn = $this->getButtons($type, $userButton);
         if (count($btn)) {

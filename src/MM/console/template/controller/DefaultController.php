@@ -16,7 +16,7 @@ class __className__Controller extends MM\bot\controller\BotController
      *
      * @param string|null $intentName Название действия.
      */
-    public function action($intentName): void
+    public function action(?string $intentName): void
     {
         // TODO: Implement action() method.
     }

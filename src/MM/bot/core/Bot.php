@@ -11,6 +11,7 @@ namespace MM\bot\core;
 use MM\bot\controller\BotController;
 use MM\bot\core\types\Alisa;
 use MM\bot\core\types\Marusia;
+use MM\bot\core\types\SmartApp;
 use MM\bot\core\types\Telegram;
 use MM\bot\core\types\TemplateTypeModel;
 use MM\bot\core\types\Viber;
@@ -227,7 +228,7 @@ class Bot
 
                 $isNew = true;
                 if ($isLocalStorage) {
-                    $botClass->isUsedLocalStorage = $isLocalStorage;
+                    $botClass->isUsedLocalStorage = true;
                     $this->botController->userData = $botClass->getLocalStorage();
                 } else {
                     $sql = "`userId`=\"{$userData->escapeString($this->botController->userId)}\"";
@@ -252,6 +253,8 @@ class Bot
                 $this->botController->run();
                 if ($this->botController->thisIntentName) {
                     $this->botController->userData['oldIntentName'] = $this->botController->thisIntentName;
+                } else {
+                    unset($this->botController->userData['oldIntentName']);
                 }
                 $content = $botClass->getContext();
                 if (!$isLocalStorage) {
@@ -286,7 +289,7 @@ class Bot
      *
      * Для корректной работы, внутри логики навыка не должно быть пользовательских вызовов к серверу бота.
      *
-     * @param bool $isShowResult Отображать полный навыка.
+     * @param bool $isShowResult Отображать полный ответ навыка.
      * @param bool $isShowStorage Отображать данные из хранилища.
      * @param bool $isShowTime Отображать время выполнения запроса.
      * @param TemplateTypeModel|null $userBotClass Пользовательский класс для обработки команд.

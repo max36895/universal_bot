@@ -78,7 +78,6 @@ class Viber extends TemplateTypeModel
                         mmApp::$params['viber_api_version'] = $content['user']['api_version'] ?? 2;
                         $this->setNlu($content['sender']['name'] ?? '');
                         return true;
-                        break;
 
                     case 'message':
                         $this->controller->userId = $content['sender']['id'];
@@ -91,7 +90,6 @@ class Viber extends TemplateTypeModel
 
                         $this->setNlu($content['sender']['name'] ?? '');
                         return true;
-                        break;
                 }
             }
         } else {

@@ -93,7 +93,7 @@ class Button
      * @see Button::options Описание опции options
      * @return bool
      */
-    private function init(string $title, ?string $url, $payload, $hide, array $options = []): bool
+    private function init(string $title, ?string $url, $payload, bool $hide, array $options = []): bool
     {
         if ($title || $title == '') {
             $this->title = (string)$title;
@@ -138,7 +138,7 @@ class Button
      * @return bool
      * @api
      */
-    public function initLink($title, ?string $url = '', $payload = null, array $options = []): bool
+    public function initLink(string $title, ?string $url = '', $payload = null, array $options = []): bool
     {
         return $this->init($title, $url, $payload, self::B_LINK, $options);
     }
@@ -154,7 +154,7 @@ class Button
      * @return bool
      * @api
      */
-    public function initBtn($title, ?string $url = '', $payload = null, array $options = []): bool
+    public function initBtn(string $title, ?string $url = '', $payload = null, array $options = []): bool
     {
         return $this->init($title, $url, $payload, self::B_BTN, $options);
     }

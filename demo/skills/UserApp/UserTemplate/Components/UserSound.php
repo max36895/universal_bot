@@ -10,11 +10,11 @@ class UserSound extends TemplateSoundTypes
      * Возвращаем массив с воспроизводимыми звуками.
      * В случае если передается параметр text, то можно отправить запрос в Yandex SpeechKit, для преобразования текста в голос
      *
-     * @param array $sounds Массив звуков
+     * @param array|null $sounds Массив звуков
      * @param string $text Исходный текст
      * @return array
      */
-    public function getSounds($sounds, $text = ''): array
+    public function getSounds(?array $sounds, $text = ''): array
     {
         if ($sounds && is_array($sounds)) {
             foreach ($sounds as $sound) {
