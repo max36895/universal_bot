@@ -253,6 +253,8 @@ class Bot
                 $this->botController->run();
                 if ($this->botController->thisIntentName) {
                     $this->botController->userData['oldIntentName'] = $this->botController->thisIntentName;
+                } else {
+                    unset($this->botController->userData['oldIntentName']);
                 }
                 $content = $botClass->getContext();
                 if (!$isLocalStorage) {
@@ -287,7 +289,7 @@ class Bot
      *
      * Для корректной работы, внутри логики навыка не должно быть пользовательских вызовов к серверу бота.
      *
-     * @param bool $isShowResult Отображать полный навыка.
+     * @param bool $isShowResult Отображать полный ответ навыка.
      * @param bool $isShowStorage Отображать данные из хранилища.
      * @param bool $isShowTime Отображать время выполнения запроса.
      * @param TemplateTypeModel|null $userBotClass Пользовательский класс для обработки команд.
