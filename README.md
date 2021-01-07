@@ -1,6 +1,6 @@
 Универсальное приложение для создания навыков и ботов
 =====================================================
-![PHP Composer](https://github.com/max36895/universal_bot/workflows/PHP%20Composer/badge.svg?branch=master)
+[![PHP Composer](https://github.com/max36895/universal_bot/workflows/PHP%20Composer/badge.svg?branch=master)](https://packagist.org/packages/m-m/u_bot)
 
 <b>Версия 1.0</b>
 
