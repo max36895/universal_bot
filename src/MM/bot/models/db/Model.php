@@ -111,7 +111,7 @@ abstract class Model
                             break;
                     }
                     foreach ($rule[0] as $data) {
-                        if ($type == 'string') {
+                        if ($type === 'string') {
                             if (isset($rule['max'])) {
                                 $this->$data = Text::resize($this->$data, $rule['max']);
                             }
@@ -140,7 +140,7 @@ abstract class Model
                     $rule[0] = [$rule[0]];
                 }
                 foreach ($rule[0] as $data) {
-                    if ($data == $index) {
+                    if ($data === $index) {
                         return $rule[1];
                     }
                 }
@@ -178,7 +178,7 @@ abstract class Model
     protected function getId()
     {
         foreach ($this->attributeLabels() as $index => $label) {
-            if ($label == 'ID' || $label == 'id') {
+            if ($label === 'ID' || $label === 'id') {
                 return $index;
             }
         }
@@ -302,7 +302,7 @@ abstract class Model
                 $into = '';
                 $value = '';
                 foreach ($this->attributeLabels() as $index => $label) {
-                    if ($index == $idName && !$this->$index) {
+                    if ($index === $idName && !$this->$index) {
                         continue;
                     }
                     if ($into) {
@@ -384,7 +384,7 @@ abstract class Model
                     $isSelected = false;
                     foreach (($data[2] ?? []) as $index => $val) {
                         $val = str_replace('`', '', $val);
-                        if (($value[$val] ?? null) == str_replace('"', '', $data[3][$index])) {
+                        if (($value[$val] ?? null) === str_replace('"', '', $data[3][$index])) {
                             $isSelected = true;
                         } else {
                             $isSelected = false;

@@ -178,7 +178,8 @@ class Navigation
         $this->nextPage($text);
         $this->oldPage($text);
         $start = $this->thisPage * $this->maxVisibleElements;
-        for ($i = $start; $i < ($start + $this->maxVisibleElements); $i++) {
+        $end = $start + $this->maxVisibleElements;
+        for ($i = $start; $i < $end; $i++) {
             if (isset($this->elements[$i])) {
                 $showElements[] = $this->elements[$i];
             }
@@ -213,12 +214,13 @@ class Navigation
         $index = 1;
         $selectElement = null;
         $maxPercent = 0;
-        for ($i = $start; $i < ($start + $this->maxVisibleElements); $i++) {
+        $end = $start + $this->maxVisibleElements;
+        for ($i = $start; $i < $end; $i++) {
             if (isset($this->elements[$i])) {
-                if ($index == $number) {
+                if ($index === $number) {
                     return $this->elements[$i];
                 }
-                if ($key == null) {
+                if ($key === null) {
                     $r = Text::textSimilarity($this->elements[$i], $text, 75);
                     if ($r['status'] && $r['percent'] > $maxPercent) {
                         $selectElement = $this->elements[$i];
@@ -268,7 +270,7 @@ class Navigation
             $this->thisPage = $maxPage - 1;
         }
         $buttons = [];
-        if ($isNumber == false) {
+        if ($isNumber === false) {
             if ($this->thisPage) {
                 $buttons[] = '👈 Назад';
             }
@@ -287,7 +289,7 @@ class Navigation
                 $buttons[] = '1 ...';
             }
             for ($i = $index; $i < $maxPage; $i++) {
-                if ($i == $this->thisPage) {
+                if ($i === $this->thisPage) {
                     $thisPage = $i + 1;
                     $buttons[] = "[{$thisPage}]";
                 } else {

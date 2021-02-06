@@ -101,7 +101,7 @@ class Nlu
     {
         $data = null;
         foreach ($this->nlu['entities'] as $entity) {
-            if (($entity['type'] ?? null) && $entity['type'] == $type) {
+            if (($entity['type'] ?? null) && $entity['type'] === $type) {
                 if ($data === null) {
                     $data = [];
                 }

@@ -105,7 +105,7 @@ class TelegramRequest
             if ($method) {
                 $data = $this->request->send($this->getUrl() . $method);
                 if ($data['status']) {
-                    if ($data['data']['ok'] == false) {
+                    if ($data['data']['ok'] === false) {
                         $this->error = $data['data']['description'];
                         $this->log('');
                         return null;

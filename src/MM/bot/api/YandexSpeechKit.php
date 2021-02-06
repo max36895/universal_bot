@@ -153,7 +153,7 @@ class YandexSpeechKit extends YandexRequest
             }
             $this->request->post['speed'] = (string)$this->speed;
         }
-        if ($this->format == self::F_LPCM && $this->sampleRateHertz) {
+        if ($this->format === self::F_LPCM && $this->sampleRateHertz) {
             $this->request->post['sampleRateHertz'] = $this->sampleRateHertz;
         }
         if ($this->folderId) {
