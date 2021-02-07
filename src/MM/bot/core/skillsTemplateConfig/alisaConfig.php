@@ -25,7 +25,7 @@ return [
         'session_id' => 'local',
         'skill_id' => 'local_test',
         'user_id' => $userId,
-        'new' => ($count == 0)
+        'new' => ($count === 0)
     ],
     'request' => [
         'command' => strtolower($query),

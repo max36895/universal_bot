@@ -95,7 +95,7 @@ class Button
      */
     private function init(string $title, ?string $url, $payload, bool $hide, array $options = []): bool
     {
-        if ($title || $title == '') {
+        if ($title || $title === '') {
             $this->title = (string)$title;
             if ($url && Text::isSayText('((http|s:\/\/)[^( |\n)]+)', $url, true)) {
                 if (mmApp::$params['utm_text'] === null) {

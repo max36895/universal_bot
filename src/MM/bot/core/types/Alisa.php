@@ -92,7 +92,7 @@ class Alisa extends TemplateTypeModel
             $this->controller = &$controller;
             $this->controller->requestObject = $content;
 
-            if ($content['request']['type'] == 'SimpleUtterance') {
+            if ($content['request']['type'] === 'SimpleUtterance') {
                 $this->controller->userCommand = trim($content['request']['command'] ?? '');
                 $this->controller->originalUserCommand = trim($content['request']['original_utterance'] ?? '');
             } else {
@@ -118,7 +118,7 @@ class Alisa extends TemplateTypeModel
                 }
             }
 
-            if ($userId == null) {
+            if ($userId === null) {
                 if (isset($this->session['application'], $this->session['application']['application_id'])) {
                     $userId = $this->session['application']['application_id'];
                 } else {
@@ -151,7 +151,7 @@ class Alisa extends TemplateTypeModel
              * Раз в какое-то время Яндекс отправляет запрос ping, для проверки корректности работы навыка.
              * @see (https://yandex.ru/dev/dialogs/alice/doc/health-check-docpage/) Смотри тут
              */
-            if ($this->controller->originalUserCommand == 'ping') {
+            if ($this->controller->originalUserCommand === 'ping') {
                 $this->controller->text = 'pong';
                 echo $this->getContext();
                 die();

@@ -60,7 +60,7 @@ class VkButton extends TemplateButtonTypes
             if (isset($button->payload['color']) && !$button->url) {
                 $object['color'] = $button->payload['color'];
             }
-            if ($button->type == Button::VK_TYPE_PAY) {
+            if ($button->type === Button::VK_TYPE_PAY) {
                 $object['hash'] = $button->payload['hash'] ?? null;
             }
             $object = mmApp::arrayMerge($object, $button->options);

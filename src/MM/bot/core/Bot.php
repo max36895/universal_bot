@@ -52,7 +52,7 @@ class Bot
         $this->initAuth();
 
         $this->botController = null;
-        if ($type == null) {
+        if ($type === null) {
             mmApp::$appType = T_ALISA;
         } else {
             mmApp::$appType = $type;
@@ -71,7 +71,7 @@ class Bot
             {
                 $headers = [];
                 foreach ($_SERVER as $name => $value) {
-                    if (substr($name, 0, 5) == 'HTTP_') {
+                    if (substr($name, 0, 5) === 'HTTP_') {
                         $headers[str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))))] = $value;
                     }
                 }
@@ -305,12 +305,12 @@ class Bot
         $count = 0;
         $state = [];
         do {
-            if ($count == 0) {
+            if ($count === 0) {
                 echo "Для выхода напишите exit\n";
                 $query = 'Привет';
             } else {
                 $query = trim(fgets(STDIN));
-                if ($query == 'exit') {
+                if ($query === 'exit') {
                     break;
                 }
             }

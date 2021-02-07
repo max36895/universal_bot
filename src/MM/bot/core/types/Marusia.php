@@ -96,7 +96,7 @@ class Marusia extends TemplateTypeModel
             $this->controller = &$controller;
             $this->controller->requestObject = $content;
 
-            if ($content['request']['type'] == 'SimpleUtterance') {
+            if ($content['request']['type'] === 'SimpleUtterance') {
                 $this->controller->userCommand = trim($content['request']['command'] ?? '');
                 $this->controller->originalUserCommand = trim($content['request']['original_utterance'] ?? '');
             } else {

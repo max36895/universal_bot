@@ -185,7 +185,7 @@ class Text
         $origText = mb_strtolower($origText);
         foreach ($text as $index => $res) {
             $res = mb_strtolower($res);
-            if ($res == $origText) {
+            if ($res === $origText) {
                 return ['status' => true, 'index' => $index, 'text' => $res, 'percent' => 100];
             }
             $per = 0;
