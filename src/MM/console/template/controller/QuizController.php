@@ -41,8 +41,8 @@ class __className__Controller extends MM\bot\controller\BotController
         }
         $this->userData['question_id'] = $id;
         $this->text .= $this->question[$id]['text'];
-        $this->buttons->btn = $this->question[$id]['variants'];
-        array_shift($this->buttons->btn); // Для интереса перемешиваем кнопки
+        $this->buttons->btns = $this->question[$id]['variants'];
+        array_shift($this->buttons->btns); // Для интереса перемешиваем кнопки
     }
 
     /**
@@ -106,7 +106,7 @@ class __className__Controller extends MM\bot\controller\BotController
         switch ($intentName) {
             case WELCOME_INTENT_NAME:
                 $this->userData['prevCommand'] = self::START_QUESTION;
-                $this->buttons->btn = ['Да', 'Нет'];
+                $this->buttons->btns = ['Да', 'Нет'];
                 break;
 
             case 'replay':
@@ -126,7 +126,7 @@ class __className__Controller extends MM\bot\controller\BotController
                             $this->isEnd = true;
                         } else {
                             $this->text = 'Скажи, ты готов начать игру?';
-                            $this->buttons->btn = ['Да', 'Нет'];
+                            $this->buttons->btns = ['Да', 'Нет'];
                         }
                         break;
 

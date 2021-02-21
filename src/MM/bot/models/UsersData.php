@@ -1,9 +1,4 @@
 <?php
-/**
- * Универсальное приложение по созданию навыков и ботов.
- * @version 1.0
- * @author Maxim-M maximco36895@yandex.ru
- */
 
 namespace MM\bot\models;
 
@@ -142,18 +137,11 @@ class UsersData extends Model
      */
     public function getOne(): bool
     {
-        $one = $this->selectOne();
-        if (mmApp::$isSaveDb) {
-            if ($one && $one->num_rows) {
-                $this->init($one->fetch_array(MYSQLI_NUM));
-                $one->free_result();
-                return true;
-            }
-        } else {
-            if ($one) {
-                $this->init($one);
-                return true;
-            }
+        $query = $this->selectOne();
+        if($query && $query['status']) {
+            $data = $this->dbController->getValue($query);
+            $this->init($data);
+            return true;
         }
         return false;
     }

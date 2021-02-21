@@ -1,9 +1,4 @@
 <?php
-/**
- * Универсальное приложение по созданию навыков и ботов.
- * @version 1.0
- * @author Maxim-M maximco36895@yandex.ru
- */
 
 namespace MM\bot\components\card\types;
 
@@ -52,20 +47,25 @@ class VkCard extends TemplateCardTypes
                         }
                     }
                     if ($image->imageToken) {
-                        $element = [
-                            'title' => $image->title,
-                            'description' => $image->desc,
-                            'photo_id' => str_replace('photo', '', $image->imageToken)
-                        ];
-                        $button = $image->button->getButtons(Buttons::T_VK_BUTTONS);
-                        /**
-                         * У карточки в любом случае должна быть хоть одна кнопка.
-                         * Максимальное количество кнопок 3
-                         */
-                        if ($button['one_time'] ?? false) {
-                            $element['buttons'] = array_splice($button['buttons'], 0, 3);
-                            $element['action'] = ['type' => 'open_photo'];
-                            $elements[] = $element;
+                        if ($this->isUsedGallery) {
+                            $object[] = $image->imageToken;
+
+                        } else {
+                            $element = [
+                                'title' => $image->title,
+                                'description' => $image->desc,
+                                'photo_id' => str_replace('photo', '', $image->imageToken)
+                            ];
+                            $button = $image->button->getButtons(Buttons::T_VK_BUTTONS);
+                            /**
+                             * У карточки в любом случае должна быть хоть одна кнопка.
+                             * Максимальное количество кнопок 3
+                             */
+                            if ($button['one_time'] ?? false) {
+                                $element['buttons'] = array_splice($button['buttons'], 0, 3);
+                                $element['action'] = ['type' => 'open_photo'];
+                                $elements[] = $element;
+                            }
                         }
                     }
                 }

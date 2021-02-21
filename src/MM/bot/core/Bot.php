@@ -1,9 +1,4 @@
 <?php
-/**
- * Универсальное приложение по созданию навыков и ботов.
- * @version 1.0
- * @author Maxim-M maximco36895@yandex.ru
- */
 
 namespace MM\bot\core;
 
@@ -231,9 +226,11 @@ class Bot
                     $botClass->isUsedLocalStorage = true;
                     $this->botController->userData = $botClass->getLocalStorage();
                 } else {
-                    $sql = "`userId`=\"{$userData->escapeString($this->botController->userId)}\"";
+                    $sql = [
+                        'userId' => $userData->escapeString($this->botController->userId)
+                    ];
                     if ($this->auth) {
-                        $sql = "`userId`=\"{$userData->escapeString($this->botController->userToken)}\"";
+                        $sql['userId'] = $userData->escapeString($this->botController->userToken);
                     }
 
                     if ($userData->whereOne($sql)) {
