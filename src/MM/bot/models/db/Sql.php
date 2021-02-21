@@ -166,6 +166,7 @@ class Sql
      *
      * @param string $errorMsg Текст ошибки.
      * @return bool
+     * @throws Exception
      */
     private function saveLog(string $errorMsg): bool
     {

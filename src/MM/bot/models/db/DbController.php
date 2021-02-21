@@ -2,8 +2,10 @@
 
 namespace MM\bot\models\db;
 
+use Exception;
 use MM\bot\components\standard\Text;
 use MM\bot\core\mmApp;
+use mysqli_result;
 
 
 class DbController extends DbControllerModel
@@ -34,13 +36,13 @@ class DbController extends DbControllerModel
      * где key - порядковый номер поля(0, 1... 3), либо название поля. Рекомендуется использовать имя поля. Важно чтобы имя поля было указано в rules, имена не входящие в rules будут проигнорированы.
      * value - значение поля.
      *
-     * @param array $res Результат выполнения запроса
-     * @see select
+     * @param array|null $res Результат выполнения запроса
      * @return mixed|null
+     * @see select
      */
-    public function getValue($res)
+    public function getValue(?array $res)
     {
-        if($res && $res['status']){
+        if ($res && $res['status']) {
             if (mmApp::$isSaveDb) {
                 $data = $res['data'];
                 if ($data && $data->num_rows) {
@@ -70,7 +72,8 @@ class DbController extends DbControllerModel
      * Выполнение запроса на добавление записи в таблицу
      *
      * @param QueryData $insertQuery Данные для добавления записи
-     * @return bool|\mysqli_result|null
+     * @return bool|mysqli_result|null
+     * @throws Exception
      */
     public function insert(QueryData $insertQuery)
     {
@@ -115,7 +118,8 @@ class DbController extends DbControllerModel
      * Выполнение запроса на обновление записи в таблице
      *
      * @param QueryData $updateQuery Данные для обновления записи
-     * @return bool|\mysqli_result|null
+     * @return bool|mysqli_result|null
+     * @throws Exception
      */
     public function update(QueryData $updateQuery)
     {
@@ -166,7 +170,7 @@ class DbController extends DbControllerModel
      *
      * @param QueryData $queryData Данные для сохранения записи
      * @param bool $isNew В любом случае выполнить добавление записи
-     * @return bool|\mysqli_result|null
+     * @return bool|mysqli_result|null
      */
     public function save(QueryData $queryData, bool $isNew = false)
     {
@@ -297,7 +301,7 @@ class DbController extends DbControllerModel
      * Выполнение произвольного запроса к таблице
      *
      * @param string $sql Запрос, который необходимо выполнить
-     * @return bool|\mysqli_result|null
+     * @return bool|mysqli_result|null
      * @api
      */
     public function query(string $sql)
@@ -312,7 +316,8 @@ class DbController extends DbControllerModel
      * Выполнение запроса на удаление записи в таблице
      *
      * @param QueryData $queryDelete Данные для удаления записи
-     * @return bool|\mysqli_result|null
+     * @return bool|mysqli_result|null
+     * @throws Exception
      */
     public function delete(QueryData $queryDelete)
     {

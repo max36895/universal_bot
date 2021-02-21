@@ -3,6 +3,7 @@
 namespace MM\bot\api;
 
 
+use Exception;
 use MM\bot\api\request\Request;
 use MM\bot\core\mmApp;
 
@@ -577,6 +578,7 @@ class TelegramRequest
      * Сохранение логов в файл.
      *
      * @param string $error Текст ошибки.
+     * @throws Exception
      */
     protected function log(string $error): void
     {

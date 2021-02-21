@@ -5,6 +5,7 @@ namespace MM\bot\core\types;
 use MM\bot\components\button\Buttons;
 use MM\bot\components\standard\Text;
 use MM\bot\controller\BotController;
+use MM\bot\core\mmApp;
 
 /**
  * Класс, отвечающий за корректную инициализацию и отправку ответа для Сбер SmartApp

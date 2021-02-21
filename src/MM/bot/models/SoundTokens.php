@@ -2,6 +2,7 @@
 
 namespace MM\bot\models;
 
+use Exception;
 use MM\bot\api\TelegramRequest;
 use MM\bot\api\VkRequest;
 use MM\bot\api\YandexSoundRequest;
@@ -135,6 +136,7 @@ class SoundTokens extends Model
      * Получение идентификатора/токена мелодии.
      *
      * @return string|null
+     * @throws Exception
      * @api
      */
     public function getToken(): ?string

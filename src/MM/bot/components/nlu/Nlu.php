@@ -68,7 +68,7 @@ class Nlu
      * @param array|null $nlu
      * @return array|null
      */
-    protected function serializeNlu(?array $nlu):?array
+    protected function serializeNlu(?array $nlu): ?array
     {
         // todo добавить обработку
         return $nlu;

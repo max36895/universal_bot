@@ -138,7 +138,7 @@ class UsersData extends Model
     public function getOne(): bool
     {
         $query = $this->selectOne();
-        if($query && $query['status']) {
+        if ($query && $query['status']) {
             $data = $this->dbController->getValue($query);
             $this->init($data);
             return true;

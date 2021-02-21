@@ -80,11 +80,11 @@ abstract class DbControllerModel
      * ]
      * где key - порядковый номер поля(0, 1... 3), либо название поля. Рекомендуется использовать имя поля. Важно чтобы имя поля было указано в rules, имена не входящие в rules будут проигнорированы.
      * value - значение поля.
-     * @param array $res Результат выполнения запроса
-     * @see select
+     * @param array|null $res Результат выполнения запроса
      * @return mixed
+     * @see select
      */
-    public abstract function getValue($res);
+    public abstract function getValue(?array $res);
 
     /**
      * Выполнение запроса на поиск записей в таблице
@@ -108,7 +108,7 @@ abstract class DbControllerModel
      *      'error': string
      * ]
      */
-    public abstract function select(array $select, bool $isOne = false):array ;
+    public abstract function select(array $select, bool $isOne = false): array;
 
     /**
      * Выполнение запроса на добавление записи в таблицу

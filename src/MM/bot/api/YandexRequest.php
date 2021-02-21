@@ -3,6 +3,7 @@
 namespace MM\bot\api;
 
 
+use Exception;
 use MM\bot\api\request\Request;
 use MM\bot\core\mmApp;
 
@@ -87,6 +88,7 @@ class YandexRequest
      * Сохранение логов
      *
      * @param string $error Текст ошибки
+     * @throws Exception
      * @api
      */
     protected function log(string $error): void

@@ -3,6 +3,7 @@
 namespace MM\bot\api;
 
 
+use Exception;
 use MM\bot\api\request\Request;
 use MM\bot\components\standard\Text;
 use MM\bot\core\mmApp;
@@ -290,6 +291,7 @@ class ViberRequest
      * Запись логов.
      *
      * @param string $error Текст ошибки.
+     * @throws Exception
      */
     protected function log(string $error): void
     {

@@ -2,6 +2,7 @@
 
 namespace MM\bot\core;
 
+use Exception;
 use MM\bot\models\db\DbControllerModel;
 
 defined('T_ALISA') or define('T_ALISA', 'alisa');           // Используется Алиса
@@ -202,7 +203,7 @@ class mmApp
      * @param string $fileName Название файла.
      * @param array|null $data Сохраняемые данные.
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      * @api
      */
     public static function saveJson(string $fileName, ?array $data): bool
@@ -220,7 +221,7 @@ class mmApp
         } else {
             $error = "mmApp::saveJson(): Не удалось создать/открыть файл: {$path}/{$fileName}\n";
             echo $error;
-            throw new \Exception($error);
+            throw new Exception($error);
         }
     }
 
@@ -230,7 +231,7 @@ class mmApp
      * @param string $fileName Название файла.
      * @param string $errorText Текст ошибки.
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      * @api
      */
     public static function saveLog(string $fileName, string $errorText): bool
@@ -248,7 +249,7 @@ class mmApp
         } else {
             $error = "mmApp::saveJson(): Не удалось создать/открыть файл: {$path}/{$fileName}\n";
             echo $error;
-            throw new \Exception($error);
+            throw new Exception($error);
         }
     }
 }

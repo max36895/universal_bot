@@ -3,6 +3,7 @@
 namespace MM\bot\core;
 
 
+use Exception;
 use MM\bot\controller\BotController;
 use MM\bot\core\types\Alisa;
 use MM\bot\core\types\Marusia;
@@ -197,82 +198,88 @@ class Bot
 
     /**
      * Запуск приложения.
+     * В случае ошибки кинет исключение
      *
      * @param TemplateTypeModel|null $userBotClass Пользовательский класс для обработки команд.
      * @return string
+     * @throws Exception
      * @api
      */
     public function run(?TemplateTypeModel $userBotClass = null): string
     {
-        $botClassAndType = $this->getBotClassAndType($userBotClass);
-        $botClass = $botClassAndType['botClass'];
-        $type = $botClassAndType['type'];
+        try {
+            $botClassAndType = $this->getBotClassAndType($userBotClass);
+            $botClass = $botClassAndType['botClass'];
+            $type = $botClassAndType['type'];
 
-        if ($botClass) {
-            if ($this->botController->userToken === null) {
-                $this->botController->userToken = $this->auth;
-            }
-            if ($botClass->init($this->content, $this->botController)) {
-                $userData = new UsersData();
-                $this->botController->userId = $userData->escapeString($this->botController->userId);
-                if ($type) {
-                    $userData->type = $type;
+            if ($botClass) {
+                if ($this->botController->userToken === null) {
+                    $this->botController->userToken = $this->auth;
                 }
-
-                $isLocalStorage = (mmApp::$config['isLocalStorage'] && $botClass->isLocalStorage());
-
-                $isNew = true;
-                if ($isLocalStorage) {
-                    $botClass->isUsedLocalStorage = true;
-                    $this->botController->userData = $botClass->getLocalStorage();
-                } else {
-                    $sql = [
-                        'userId' => $userData->escapeString($this->botController->userId)
-                    ];
-                    if ($this->auth) {
-                        $sql['userId'] = $userData->escapeString($this->botController->userToken);
+                if ($botClass->init($this->content, $this->botController)) {
+                    $userData = new UsersData();
+                    $this->botController->userId = $userData->escapeString($this->botController->userId);
+                    if ($type) {
+                        $userData->type = $type;
                     }
 
-                    if ($userData->whereOne($sql)) {
-                        $this->botController->userData = $userData->data;
-                        $isNew = false;
+                    $isLocalStorage = (mmApp::$config['isLocalStorage'] && $botClass->isLocalStorage());
+
+                    $isNew = true;
+                    if ($isLocalStorage) {
+                        $botClass->isUsedLocalStorage = true;
+                        $this->botController->userData = $botClass->getLocalStorage();
                     } else {
-                        $this->botController->userData = null;
-                        $userData->userId = $this->botController->userId;
-                        $userData->meta = $this->botController->userMeta;
+                        $sql = [
+                            'userId' => $userData->escapeString($this->botController->userId)
+                        ];
+                        if ($this->auth) {
+                            $sql['userId'] = $userData->escapeString($this->botController->userToken);
+                        }
+
+                        if ($userData->whereOne($sql)) {
+                            $this->botController->userData = $userData->data;
+                            $isNew = false;
+                        } else {
+                            $this->botController->userData = null;
+                            $userData->userId = $this->botController->userId;
+                            $userData->meta = $this->botController->userMeta;
+                        }
                     }
-                }
-                if (!$this->botController->oldIntentName
-                    && $this->botController->userData && $this->botController->userData['oldIntentName']) {
-                    $this->botController->oldIntentName = $this->botController->userData['oldIntentName'];
-                }
+                    if (!$this->botController->oldIntentName
+                        && $this->botController->userData && $this->botController->userData['oldIntentName']) {
+                        $this->botController->oldIntentName = $this->botController->userData['oldIntentName'];
+                    }
 
-                $this->botController->run();
-                if ($this->botController->thisIntentName) {
-                    $this->botController->userData['oldIntentName'] = $this->botController->thisIntentName;
-                } else {
-                    unset($this->botController->userData['oldIntentName']);
-                }
-                $content = $botClass->getContext();
-                if (!$isLocalStorage) {
-                    $userData->data = $this->botController->userData;
-
-                    if ($isNew) {
-                        $userData->save(true);
+                    $this->botController->run();
+                    if ($this->botController->thisIntentName) {
+                        $this->botController->userData['oldIntentName'] = $this->botController->thisIntentName;
                     } else {
-                        $userData->update();
+                        unset($this->botController->userData['oldIntentName']);
                     }
-                }
+                    $content = $botClass->getContext();
+                    if (!$isLocalStorage) {
+                        $userData->data = $this->botController->userData;
 
-                if ($botClass->getError()) {
+                        if ($isNew) {
+                            $userData->save(true);
+                        } else {
+                            $userData->update();
+                        }
+                    }
+
+                    if ($botClass->getError()) {
+                        mmApp::saveLog('bot.log', $botClass->getError());
+                    }
+                    return $content;
+                } else {
                     mmApp::saveLog('bot.log', $botClass->getError());
                 }
-                return $content;
             } else {
-                mmApp::saveLog('bot.log', $botClass->getError());
+                mmApp::saveLog('bot.log', 'Не удалось определить тип бота!');
             }
-        } else {
-            mmApp::saveLog('bot.log', 'Не удалось определить тип бота!');
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
         }
         @header('HTTP/1.0 404 Not Found');
         @header('Status: 404 Not Found');
@@ -365,7 +372,8 @@ class Bot
      * @param int $count Номер сообщения.
      * @param array|null $state Данные из хранилища.
      * @param string|null $userBotConfig Шаблон с пользовательским типом приложения
-     * @return array|mixed
+     * @return array
+     * @throws Exception
      */
     protected function getSkillContent(string $query, int $count, ?array $state, ?string $userBotConfig): array
     {

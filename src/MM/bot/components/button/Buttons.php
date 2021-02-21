@@ -114,9 +114,9 @@ class Buttons
      * @param string|array|null $payload Произвольные данные, отправляемые при нажатии кнопки.
      * @param bool|null $hide True, если отображать кнопку как сайджест.
      * @param array $options Дополнительные параметры для кнопки
+     * @return bool
      * @see Button::options Описание опции options
      *
-     * @return bool
      */
     protected function add(string $title, ?string $url, $payload, ?bool $hide, array $options = []): bool
     {
@@ -144,8 +144,8 @@ class Buttons
      * @param string|null $url Ссылка для перехода при нажатии на кнопку.
      * @param string|array|null $payload Произвольные данные, отправляемые при нажатии кнопки.
      * @param array $options Дополнительные параметры для кнопки
-     * @see Button::options Описание опции options
      * @return bool
+     * @see Button::options Описание опции options
      * @api
      */
     public function addBtn(string $title, ?string $url = '', $payload = '', array $options = []): bool
@@ -160,8 +160,8 @@ class Buttons
      * @param string|null $url Ссылка для перехода при нажатии на кнопку.
      * @param array|string|null $payload Произвольные данные, отправляемые при нажатии кнопки.
      * @param array $options Дополнительные параметры для кнопки
-     * @see Button::options Описание опции options
      * @return bool
+     * @see Button::options Описание опции options
      * @api
      */
     public function addLink(string $title, ?string $url = '', $payload = '', array $options = []): bool

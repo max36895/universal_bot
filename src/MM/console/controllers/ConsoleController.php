@@ -2,6 +2,8 @@
 
 namespace MM\console\controllers;
 
+use Exception;
+
 require_once __DIR__ . '/../../bot/components/standard/Text.php';
 require_once __DIR__ . '/../../bot/core/mmApp.php';
 require_once __DIR__ . '/../../bot/models/db/Sql.php';
@@ -14,7 +16,7 @@ class ConsoleController
 {
     /**
      * @param array $param
-     * @throws \Exception
+     * @throws Exception
      */
     public function run($param = ['appName' => null, 'command' => null])
     {
@@ -41,7 +43,7 @@ class ConsoleController
                         if (in_array($pType, [CreateController::T_DEFAULT, CreateController::T_QUIZ])) {
                             $type = $pType;
                         } else {
-                            throw new \Exception('Указан не поддерживаемый тип для создания шаблона!');
+                            throw new Exception('Указан не поддерживаемый тип для создания шаблона!');
                         }
                     }
                     $create->init($param['appName'] ?? null, $type);
