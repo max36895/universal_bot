@@ -1,7 +1,7 @@
 <?php
 /**
  * Универсальное приложение по созданию навыков и ботов.
- * @version 1.0
+ * @version 1.1.0
  * @author Maxim-M maximco36895@yandex.ru
  */
 
@@ -59,6 +59,9 @@ require_once __DIR__ . '/core/types/Vk.php';
 require_once __DIR__ . '/models/db/DB.php';
 require_once __DIR__ . '/models/db/Sql.php';
 require_once __DIR__ . '/models/db/Model.php';
+require_once __DIR__ . '/models/db/QueryData.php';
+require_once __DIR__ . '/models/db/DbController.php';
+require_once __DIR__ . '/models/db/DbControllerModel.php';
 require_once __DIR__ . '/models/ImageTokens.php';
 require_once __DIR__ . '/models/SoundTokens.php';
 require_once __DIR__ . '/models/UsersData.php';

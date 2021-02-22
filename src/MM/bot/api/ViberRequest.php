@@ -1,15 +1,11 @@
 <?php
-/**
- * Универсальное приложение по созданию навыков и ботов.
- * @version 1.0
- * @author Maxim-M maximco36895@yandex.ru
- */
 
 namespace MM\bot\api;
 
 
-use MM\bot\components\standard\Text;
+use Exception;
 use MM\bot\api\request\Request;
+use MM\bot\components\standard\Text;
 use MM\bot\core\mmApp;
 
 /**
@@ -295,6 +291,7 @@ class ViberRequest
      * Запись логов.
      *
      * @param string $error Текст ошибки.
+     * @throws Exception
      */
     protected function log(string $error): void
     {

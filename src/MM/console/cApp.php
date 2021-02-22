@@ -2,7 +2,7 @@
 /**
  * Универсальное приложение по созданию навыков и ботов.
  * Скрипт позволяет создавать/удалять БД, а также создавать шаблон для приложения.
- * @version 1.0
+ * @version 1.1.0
  * @author Maxim-M maximco36895@yandex.ru
  */
 require_once __DIR__ . '/controllers/ConsoleController.php';

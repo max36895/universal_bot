@@ -1,16 +1,11 @@
 <?php
-/**
- * Универсальное приложение по созданию навыков и ботов.
- * @version 1.0
- * @author Maxim-M maximco36895@yandex.ru
- */
 
 namespace MM\bot\core\types;
 
 
+use MM\bot\api\ViberRequest;
 use MM\bot\components\button\Buttons;
 use MM\bot\controller\BotController;
-use MM\bot\api\ViberRequest;
 use MM\bot\core\mmApp;
 
 /**
