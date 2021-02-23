@@ -267,7 +267,7 @@ class DbController extends DbControllerModel
             foreach ($content as $key => $value) {
                 $isSelected = false;
                 foreach ($select as $index => $val) {
-                    if (($value[$val] ?? null) === str_replace('"', '', $val)) {
+                    if (($value[$index] ?? null) === str_replace('"', '', $val)) {
                         $isSelected = true;
                     } else {
                         $isSelected = false;
