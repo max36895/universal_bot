@@ -91,7 +91,7 @@ class Text
                         }
                         $pattern .= "({$value})";
                     } else {
-                        if (strpos($text, $find) !== false) {
+                        if (strpos($text, $value) !== false) {
                             return true;
                         }
                         //$pattern .= "(\\b{$value}(|[^\\s]+)\\b)";

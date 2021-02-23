@@ -247,7 +247,8 @@ class Bot
                         }
                     }
                     if (!$this->botController->oldIntentName
-                        && $this->botController->userData && $this->botController->userData['oldIntentName']) {
+                        && $this->botController->userData && isset($this->botController->userData['oldIntentName'])
+                        && $this->botController->userData['oldIntentName']) {
                         $this->botController->oldIntentName = $this->botController->userData['oldIntentName'];
                     }
 
