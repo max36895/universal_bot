@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Максим
- * Date: 03.03.2021
- * Time: 22:30
- */
 require_once __DIR__ . '/../../src/MM/bot/init.php';
 
 use MM\bot\controller\BotController;

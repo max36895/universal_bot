@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Максим
- * Date: 03.03.2021
- * Time: 15:28
- */
 require_once __DIR__ . '/../../src/MM/bot/components/standard/Text.php';
 require_once __DIR__ . '/../../src/MM/bot/components/standard/Navigation.php';
 

@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Максим
- * Date: 03.03.2021
- * Time: 15:28
- */
 require_once __DIR__ . '/../../src/MM/bot/init.php';
 
 use MM\bot\components\image\Image;
