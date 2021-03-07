@@ -61,7 +61,9 @@ class VkButton extends TemplateButtonTypes
             $object = mmApp::arrayMerge($object, $button->options);
             if (isset($button->options[self::GROUP_NAME])) {
                 unset($object[self::GROUP_NAME]);
-                $object['payload'] = json_encode($object['payload']);
+                if(isset($object['payload'])) {
+                    $object['payload'] = json_encode($object['payload']);
+                }
                 if (isset($groups[$button->options[self::GROUP_NAME]])) {
                     $buttons[$groups[$button->options[self::GROUP_NAME]]][] = $object;
                 } else {
@@ -73,7 +75,7 @@ class VkButton extends TemplateButtonTypes
                 if (isset($object['payload'])) {
                     $object['payload'] = json_encode($object['payload']);
                 }
-                $buttons[$index] = [$object];
+                $buttons[$index] = $object;
                 $index++;
             }
         }

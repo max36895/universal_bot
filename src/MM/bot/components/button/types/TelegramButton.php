@@ -31,7 +31,7 @@ class TelegramButton extends TemplateButtonTypes
                     $inlines[] = $inline;
                 }
             } else {
-                $reply[] = [$button->title];
+                $reply[] = $button->title;
             }
         }
         $rCount = count($reply);

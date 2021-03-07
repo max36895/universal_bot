@@ -58,14 +58,14 @@ class __className__Controller extends MM\bot\controller\BotController
                 "Совершенно верно!\n"
             ];
             $this->text = Text::getText($successTexts);
-            $this->tts = $text . MM\bot\components\sound\types\AlisaSound::S_AUDIO_GAME_WIN;
+            $this->tts = $this->text . MM\bot\components\sound\types\AlisaSound::S_AUDIO_GAME_WIN;
             $questionId++;
         } else {
             $failTexts = [
                 "Ты ошибся... Попробуй ещё раз!\n"
             ];
-            $this->tts = $text . MM\bot\components\sound\types\AlisaSound::S_AUDIO_GAME_LOSS;
             $this->text = Text::getText($failTexts);
+            $this->tts = $this->text . MM\bot\components\sound\types\AlisaSound::S_AUDIO_GAME_LOSS;
         }
         $this->setQuestionText($questionId);
     }
@@ -87,7 +87,7 @@ class __className__Controller extends MM\bot\controller\BotController
      */
     protected function help()
     {
-        $this->text = MM\bot\core\mmApp::$params['help_text'];
+        $this->text = Text::getText(MM\bot\core\mmApp::$params['help_text']);
     }
 
     /**

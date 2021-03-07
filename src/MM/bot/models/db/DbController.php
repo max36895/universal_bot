@@ -36,15 +36,15 @@ class DbController extends DbControllerModel
      * где key - порядковый номер поля(0, 1... 3), либо название поля. Рекомендуется использовать имя поля. Важно чтобы имя поля было указано в rules, имена не входящие в rules будут проигнорированы.
      * value - значение поля.
      *
-     * @param array|null $res Результат выполнения запроса
+     * @param IModelRes $res Результат выполнения запроса
      * @return mixed|null
      * @see select
      */
-    public function getValue(?array $res)
+    public function getValue(?IModelRes $res)
     {
-        if ($res && $res['status']) {
+        if ($res && $res->status) {
             if (mmApp::$isSaveDb) {
-                $data = $res['data'];
+                $data = $res->data;
                 if ($data && $data->num_rows) {
                     $result = $data->fetch_array(MYSQLI_NUM);
                     $data->free_result();
@@ -52,7 +52,7 @@ class DbController extends DbControllerModel
                 }
                 return null;
             } else {
-                return $res['data'];
+                return $res->data;
             }
         }
         return null;
@@ -198,9 +198,9 @@ class DbController extends DbControllerModel
     protected function isSelected(array $select): bool
     {
         $res = $this->select($select, true);
-        if ($res && $res['status']) {
+        if ($res && $res->status) {
             if (mmApp::$isSaveDb) {
-                if ($res['data']->num_rows) {
+                if ($res->data->num_rows) {
                     return true;
                 }
             } else {
@@ -225,14 +225,9 @@ class DbController extends DbControllerModel
      *
      * @param array $select Данные для поиска значения
      * @param bool $isOne Вывести только 1 запись.
-     * @return array
-     * [
-     *      'status': bool,
-     *      'data': mixed,
-     *      'error': string
-     * ]
+     * @return IModelRes
      */
-    public function select(array $select, bool $isOne = false): array
+    public function select(array $select, bool $isOne = false): IModelRes
     {
         if (mmApp::$isSaveDb) {
             $where = '';
@@ -252,15 +247,9 @@ class DbController extends DbControllerModel
             $sql = "SELECT * FROM {$this->getTableName()} WHERE {$where}";
             $data = $this->db->query($sql);
             if ($data) {
-                return [
-                    'status' => true,
-                    'data' => $data
-                ];
+                return new IModelRes(true, $data);
             }
-            return [
-                'status' => false,
-                'error' => 'Не удалось получить данные'
-            ];
+            return new IModelRes(false, null, 'Не удалось получить данные');
         } else {
             $content = $this->getFileData();
             $result = [];
@@ -276,25 +265,16 @@ class DbController extends DbControllerModel
                 }
                 if ($isSelected) {
                     if ($isOne) {
-                        return [
-                            'status' => true,
-                            'data' => $value
-                        ];
+                        return new IModelRes(true, $value);
                     }
                     $result[] = $value;
                 }
             }
             if (count($result)) {
-                return [
-                    'status' => true,
-                    'data' => $result
-                ];
+                return new IModelRes(true, $result);
             }
         }
-        return [
-            'status' => false,
-            'error' => 'Не удалось получить данные'
-        ];
+        return new IModelRes(false, null, 'Не удалось получить данные');
     }
 
     /**

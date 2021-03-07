@@ -2,8 +2,6 @@
 =====================================================
 [![PHP Composer](https://github.com/max36895/universal_bot/workflows/PHP%20Composer/badge.svg?branch=master)](https://packagist.org/packages/m-m/u_bot)
 
-<b>Версия 1.1.0</b>
-
 Установка
 ---------
 Установите движок:
@@ -275,7 +273,6 @@ class UserApp extends TemplateTypeModel
         return 'ok';
     }
 }
-
 ```
 Класс отвечающий за инициализацию основных параметров приложения.
 1. Устанавливается идентификатор пользователя
@@ -315,7 +312,6 @@ class UserButton extends TemplateButtonTypes
         return $objects;
     }
 }
-
 ```
 Пример для отображения карточки:
 ```php
@@ -384,7 +380,6 @@ class UserCard extends TemplateCardTypes
         return $object;
     }
 }
-
 ```
 Пример для воспроизведения звука:
 ```php
@@ -434,9 +429,22 @@ class UserSound extends TemplateSoundTypes
         return [];
     }
 }
-
 ```
 
+UnitTest
+--------
+Для запуска unit тестов установите все зависимости через composer
+```bash
+composer install
+```
+После установки зависимостей запустите unit тесты, использую одну из команд
+```bash
+.\vendor\bin\phpunit 
+```
+или
+```bash
+phpunit
+```
 
 # SSL
 Для работы некоторых приложений, необходимо иметь ssl сертификат. Поэтому стоит его получить. Для этого можно воспользоваться acme.

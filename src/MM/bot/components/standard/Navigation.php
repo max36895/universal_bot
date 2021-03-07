@@ -104,7 +104,7 @@ class Navigation
     {
         @preg_match_all('/((-|)\d) страни/umi', $text, $data);
         if (isset($data[0][0])) {
-            $this->thisPage = $data[0][0] - 1;
+            $this->thisPage = ((int)$data[0][0]) - 1;
             $maxPage = $this->getMaxPage();
             if ($this->thisPage >= $maxPage) {
                 $this->thisPage = $maxPage - 1;
@@ -212,19 +212,21 @@ class Navigation
         $end = $start + $this->maxVisibleElements;
         for ($i = $start; $i < $end; $i++) {
             if (isset($this->elements[$i])) {
-                if ($index === $number) {
+                if ($index == $number) {
                     return $this->elements[$i];
                 }
                 if ($key === null) {
-                    $r = Text::textSimilarity($this->elements[$i], $text, 75);
-                    if ($r['status'] && $r['percent'] > $maxPercent) {
-                        $selectElement = $this->elements[$i];
+                    if(is_string($this->elements[$i])) {
+                        $r = Text::textSimilarity($this->elements[$i], $text, 75);
+                        if ($r['status'] && $r['percent'] > $maxPercent) {
+                            $selectElement = $this->elements[$i];
+                        }
                     }
                 } else {
                     if (is_array($key)) {
                         foreach ($key as $k) {
                             if (isset($this->elements[$i][$k])) {
-                                $r = Text::textSimilarity($this->elements[$i][$k], $text, 75);
+                                $r = Text::textSimilarity((string)$this->elements[$i][$k], $text, 75);
                                 if ($r['status'] && $r['percent'] > $maxPercent) {
                                     $selectElement = $this->elements[$i];
                                 }
@@ -232,7 +234,7 @@ class Navigation
                         }
                     } else {
                         if (isset($this->elements[$i][$key])) {
-                            $r = Text::textSimilarity($this->elements[$i][$key], $text, 75);
+                            $r = Text::textSimilarity((string)$this->elements[$i][$key], $text, 75);
                             if ($r['status'] && $r['percent'] > $maxPercent) {
                                 $selectElement = $this->elements[$i];
                             }
