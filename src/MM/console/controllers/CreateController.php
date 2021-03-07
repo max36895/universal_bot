@@ -186,7 +186,7 @@ class CreateController
             
             $this->_print("Проект успешно создан, и находится в директории: {$this->path}");
         } else {
-            $this->_print('Не удалось созадать проект!',true);
+            $this->_print('Не удалось создать проект!', true);
         }
     }
 
