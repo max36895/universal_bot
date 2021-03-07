@@ -27,7 +27,7 @@
     "issues": "https://github.com/max36895/universal_bot/issues"
   },
   "bin": [
-    "src/MM/console/cApp"
+    "src/MM/console/ubot"
   ],
   "require": {
     "php": ">=7.2",
