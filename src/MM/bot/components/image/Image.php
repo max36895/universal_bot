@@ -102,7 +102,7 @@ class Image
         if ($this->isToken) {
             $this->imageToken = $image;
         } else {
-            if ($image && (Text::isSayText(['http\:\/\/', 'https\:\/\/'], $image) || is_file($image))) {
+            if ($image && (Text::isSayText(['http://', 'https://'], $image) || is_file($image))) {
                 $this->imageDir = $image;
                 $this->imageToken = null;
             } else {
@@ -119,9 +119,9 @@ class Image
                 if (is_string($button)) {
                     $this->button->addBtn($button);
                 } else {
-                    $title = ($button['text'] ?? ($button[0] ?? null));
-                    $url = ($button['link'] ?? ($button[1] ?? null));
-                    $payload = ($button['payload'] ?? ($button[2] ?? null));
+                    $title = ($button['title'] ?? ($button['text'] ?? null));
+                    $url = ($button['link'] ?? ($button['url'] ?? null));
+                    $payload = ($button['payload'] ?? null);
                     $this->button->addBtn($title, $url, $payload);
                 }
             }

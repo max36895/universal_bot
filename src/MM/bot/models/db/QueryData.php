@@ -51,8 +51,8 @@ class QueryData
         if (isset($data[0][0])) {
             $result = [];
             foreach (($data[2] ?? []) as $index => $val) {
-                $index = str_replace('`', '', $val);
-                $result[$index] = str_replace('"', '', $data[3][$index]);
+                $indexKey = str_replace('`', '', $val);
+                $result[$indexKey] = str_replace('"', '', $data[3][$index]);
             }
             return $result;
         }

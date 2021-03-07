@@ -5,14 +5,35 @@ namespace MM\console\controllers;
 
 use MM\bot\core\mmApp;
 
+/**
+ * Класс, позволяющий создать проект
+ * Class CreateController
+ * @package MM\console\controllers
+ */
 class CreateController
 {
+    /**
+     * Создает пустой проект
+     */
     const T_DEFAULT = 'Default';
+    /**
+     * Создает викторину
+     */
     const T_QUIZ = 'Quiz';
 
     protected $path;
     protected $name;
+    /**
+     * Параметры для создания приложения
+     * @var array
+     */
     public $params;
+
+    private function _print(string $str, bool $isError = false)
+    {
+        $handler = $isError ? STDERR : STDOUT;
+        fwrite($handler, "{$str}\n");
+    }
 
     protected function getFileContent($file)
     {
@@ -55,7 +76,7 @@ class CreateController
 
     protected function initParams($defaultParams)
     {
-        $params = mmApp::arrayMerge($defaultParams, $this->params['params']);
+        $params = mmApp::arrayMerge($defaultParams, $this->params['params'] ?? null);
 
         $content = $this->getHeaderContent();
         $content .= "return ";
@@ -67,7 +88,7 @@ class CreateController
 
     protected function initConfig($defaultConfig)
     {
-        $config = mmApp::arrayMerge($defaultConfig, $this->params['config']);
+        $config = mmApp::arrayMerge($defaultConfig, $this->params['config'] ?? null);
 
         $content = $this->getHeaderContent();
         $content .= "return ";
@@ -89,10 +110,14 @@ class CreateController
             '{{}}',
         ];
         $name = (mb_strtoupper(mb_substr($this->name, 0, 1))) . (mb_substr($this->name, 1));
+        $dir = __DIR__ . '/../../bot/init.php';
+        if (defined('U_BOT_COMPOSER_INSTALL')) {
+            $dir = U_BOT_COMPOSER_INSTALL;
+        }
         $replace = [
             date('d.m.Y'),
             date('H:i'),
-            __DIR__ . '/../../bot',
+            $dir,
             $this->name,
             $name
         ];
@@ -104,24 +129,29 @@ class CreateController
 
     protected function getConfigFile(string $path, string $type)
     {
+        $this->_print('Создается файл с конфигурацией приложения: ...');
         $configFile = "{$this->path}/config/{{name}}Config.php";
         if (is_file("{$path}/config/{$type}Config.php")) {
             $configContent = $this->initConfig(include "{$path}/config/{$type}Config.php");
         } else {
-            $configContent = $this->getFileContent("{$path}/config/{$type}Config.php");
+            $configContent = '';
         }
         $this->generateFile($configContent, $configFile);
+        $this->_print('Файл с конфигурацией успешно создан!');
     }
 
     protected function getParamsFile(string $path)
     {
+        $this->_print('Создается файл с параметрами приложения: ...');
+
         $paramsFile = "{$this->path}/config/{{name}}Params.php";
         if (is_file("{$path}/config/defaultParams.php")) {
             $paramsContent = $this->initConfig(include "{$path}/config/defaultParams.php");
         } else {
-            $paramsContent = $this->getFileContent("{$path}/config/defaultParams.php");
+            $paramsContent = '';
         }
         $this->generateFile($paramsContent, $paramsFile);
+        $this->_print('Файл с параметрами успешно создан!');
     }
 
     protected function create($type = self::T_DEFAULT)
@@ -141,16 +171,30 @@ class CreateController
             if (!is_dir($controllerFile)) {
                 mkdir($controllerFile);
             }
+
+            $this->_print('Создается класс с логикой приложения: ...');
             $controllerFile .= '/{{className}}Controller.php';
             $controllerContent = $this->getFileContent("{$standardPath}/controller/{$type}Controller.php");
             $this->generateFile($controllerContent, $controllerFile);
+            $this->_print('Класс с логикой приложения успешно создан!');
 
+            $this->_print('Создается index файл: ...');
             $indexFile = "{$this->path}/index.php";
             $indexContent = $this->getFileContent("{$standardPath}/index.php");
             $this->generateFile($indexContent, $indexFile);
+            $this->_print('Index файл успешно создан!');
+            
+            $this->_print("Проект успешно создан, и находится в директории: {$this->path}");
+        } else {
+            $this->_print('Не удалось созадать проект!',true);
         }
     }
 
+    /**
+     * Инициализация параметров проекта
+     * @param null $name Имя проекта
+     * @param string $type Тип проекта
+     */
     public function init($name = null, $type = self::T_DEFAULT)
     {
         if ($name) {

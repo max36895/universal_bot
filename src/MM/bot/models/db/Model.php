@@ -116,10 +116,10 @@ abstract class Model
     /**
      * Выполнение запроса с поиском по уникальному ключу.
      *
-     * @return bool|mysqli_result|array|null
+     * @return IModelRes
      * @api
      */
-    public function selectOne()
+    public function selectOne(): IModelRes
     {
         $idName = $this->dbController->getPrimaryKeyName();
         $this->queryData->setQuery([$idName => $this->$idName]);
@@ -208,10 +208,10 @@ abstract class Model
      *
      * @param array|string|null $where Запрос к таблице.
      * @param bool $isOne Вывести только 1 результат. Используется только при поиске по файлу.
-     * @return bool|mysqli_result|array|null
+     * @return IModelRes
      * @api
      */
-    public function where($where = null, bool $isOne = false)
+    public function where($where = null, bool $isOne = false): IModelRes
     {
         if (is_string($where)) {
             $where = QueryData::getQueryData($where);
