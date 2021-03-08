@@ -59,6 +59,7 @@ class Sql
      *
      * @return bool
      * @api
+     * @throws Exception
      */
     public function standardInit(): bool
     {
@@ -108,6 +109,7 @@ class Sql
      *
      * @return bool
      * @api
+     * @throws Exception
      */
     public function connect(): bool
     {

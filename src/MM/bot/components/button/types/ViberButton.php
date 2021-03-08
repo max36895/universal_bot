@@ -43,7 +43,7 @@ class ViberButton extends TemplateButtonTypes
             $buttons[] = $btn;
         }
 
-        if (count($buttons)) {
+        if (!empty($buttons)) {
             $object = [
                 'DefaultHeight' => true,
                 'BgColor' => '#FFFFFF',

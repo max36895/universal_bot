@@ -59,7 +59,7 @@ class Telegram extends TemplateTypeModel
              *  - array shipping_query: Новый входящий запрос на доставку. Только для счетов-фактур с гибкой ценой. @see (https://core.telegram.org/bots/api#shippingquery) Смотри тут
              *  - array pre_checkout_query: Новый входящий запрос предварительной проверки. Содержит полную информацию о кассе. @see (https://core.telegram.org/bots/api#precheckoutquery) Смотри тут
              *  - array poll: Новое состояние опроса. Боты получают только обновления о остановленных опросах и опросах, которые отправляются ботом. @see (https://core.telegram.org/bots/api#poll) Смотри тут
-             *  - array poll_answer: Пользователь изменил свой ответ в неанонимном опросе. Боты получают новые голоса только в опросах, которые были отправлены самим ботом. @see (https://core.telegram.org/bots/api#poll_answer) Смотри тут
+             *  - array poll_answer: Пользователь изменил свой ответ в не анонимном опросе. Боты получают новые голоса только в опросах, которые были отправлены самим ботом. @see (https://core.telegram.org/bots/api#poll_answer) Смотри тут
              */
             $content = json_decode($content, true);
             $this->controller = &$controller;
@@ -107,14 +107,14 @@ class Telegram extends TemplateTypeModel
 
             $telegramApi->sendMessage($this->controller->userId, $this->controller->text, $params);
 
-            if (count($this->controller->card->images)) {
+            if (!empty($this->controller->card->images)) {
                 $res = $this->controller->card->getCards();
-                if (count($res)) {
+                if (!empty($res)) {
                     $telegramApi->sendPoll($this->controller->userId, $res['question'], $res['options']);
                 }
             }
 
-            if (count($this->controller->sound->sounds)) {
+            if (!empty($this->controller->sound->sounds)) {
                 $this->controller->sound->getSounds($this->controller->tts);
             }
         }

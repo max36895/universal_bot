@@ -36,7 +36,7 @@ class DbController extends DbControllerModel
      * где key - порядковый номер поля(0, 1... 3), либо название поля. Рекомендуется использовать имя поля. Важно чтобы имя поля было указано в rules, имена не входящие в rules будут проигнорированы.
      * value - значение поля.
      *
-     * @param IModelRes $res Результат выполнения запроса
+     * @param IModelRes|null $res Результат выполнения запроса
      * @return mixed|null
      * @see select
      */
@@ -171,6 +171,7 @@ class DbController extends DbControllerModel
      * @param QueryData $queryData Данные для сохранения записи
      * @param bool $isNew В любом случае выполнить добавление записи
      * @return bool|mysqli_result|null
+     * @throws Exception
      */
     public function save(QueryData $queryData, bool $isNew = false)
     {
@@ -270,7 +271,7 @@ class DbController extends DbControllerModel
                     $result[] = $value;
                 }
             }
-            if (count($result)) {
+            if (!empty($result)) {
                 return new IModelRes(true, $result);
             }
         }

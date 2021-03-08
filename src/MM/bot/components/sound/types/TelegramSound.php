@@ -2,6 +2,7 @@
 
 namespace MM\bot\components\sound\types;
 
+use Exception;
 use MM\bot\api\TelegramRequest;
 use MM\bot\api\YandexSpeechKit;
 use MM\bot\components\standard\Text;
@@ -23,6 +24,7 @@ class TelegramSound extends TemplateSoundTypes
      * @param string $text Исходный текст.
      * @return array
      * @api
+     * @throws Exception
      */
     public function getSounds(?array $sounds, string $text = ''): array
     {

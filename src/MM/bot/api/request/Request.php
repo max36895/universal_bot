@@ -146,7 +146,7 @@ class Request
                 }
                 $post = array_merge($post, $this->post);
             }
-            if (count($post)) {
+            if (!empty($post)) {
                 //$post = json_encode($post);
                 curl_setopt($curl, CURLOPT_POST, 1);
                 curl_setopt($curl, CURLOPT_POSTFIELDS, $post);

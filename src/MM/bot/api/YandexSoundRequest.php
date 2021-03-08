@@ -3,6 +3,7 @@
 namespace MM\bot\api;
 
 
+use Exception;
 use MM\bot\api\request\Request;
 use MM\bot\core\mmApp;
 
@@ -69,6 +70,7 @@ class YandexSoundRequest extends YandexRequest
      * - int used: Занятое место.
      * ]
      * @api
+     * @throws Exception
      */
     public function checkOutPlace(): ?array
     {
@@ -98,6 +100,7 @@ class YandexSoundRequest extends YandexRequest
      *  - string|null error: Текст ошибки.
      * ]
      * @api
+     * @throws Exception
      */
     public function downloadSoundFile(string $soundDir): ?array
     {
@@ -133,6 +136,7 @@ class YandexSoundRequest extends YandexRequest
      *  ]
      * ]
      * @api
+     * @throws Exception
      */
     public function getLoadedSounds(): ?array
     {
@@ -154,6 +158,7 @@ class YandexSoundRequest extends YandexRequest
      *
      * @return string|null
      * @api
+     * @throws Exception
      */
     public function deleteSound(string $soundId): ?string
     {
@@ -183,6 +188,7 @@ class YandexSoundRequest extends YandexRequest
      *
      * @return bool
      * @api
+     * @throws Exception
      */
     public function deleteSounds(): bool
     {

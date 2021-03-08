@@ -71,6 +71,7 @@ class ViberRequest
      * @param string $method Название метода.
      * @return array|null
      * @api
+     * @throws Exception
      */
     public function call(string $method): ?array
     {
@@ -81,7 +82,7 @@ class ViberRequest
                 ];
                 $this->request->post['min_api_version'] = mmApp::$params['viber_api_version'] ?? 2;
                 $data = $this->request->send(self::API_ENDPOINT . $method)['data'] ?? [];
-                if (isset($data['failed_list']) && count($data['failed_list'])) {
+                if (isset($data['failed_list']) && !empty($data['failed_list'])) {
                     $this->error = json_encode($data['failed_list'], JSON_UNESCAPED_UNICODE);
                     $this->log($data['status_message']);
                 }
@@ -126,6 +127,7 @@ class ViberRequest
      *  ]
      * ]
      * @api
+     * @throws Exception
      */
     public function getUserDetails(string $id)
     {
@@ -155,7 +157,7 @@ class ViberRequest
      *  - string tracking_data: Разрешить учетной записи отслеживать сообщения и ответы пользователя. Отправлено tracking_data значение будет передано обратно с ответом пользователя.
      *  - string min_api_version: Минимальная версия API, необходимая клиентам для этого сообщения (по умолчанию 1).
      *  - string $text Текст сообщения. (Обязательный параметр).
-     *  - string media: Url адрес отправляемого контента. Атуально при отправке файлов.
+     *  - string media: Url адрес отправляемого контента. Актуально при отправке файлов.
      *  - string thumbnail: URL-адрес изображения уменьшенного размера. Актуально при отправке файлов.
      *  - int size: Размер файла в байтах.
      *  - int duration: Продолжительность видео или аудио в секундах. Будет отображаться на приемнике.
@@ -174,6 +176,7 @@ class ViberRequest
      * ]
      * @return array|null
      * @api
+     * @throws Exception
      */
     public function sendMessage(string $receiver, $sender, string $text, array $params = []): ?array
     {
@@ -187,7 +190,7 @@ class ViberRequest
         }
         $this->request->post['text'] = $text;
         $this->request->post['type'] = 'text';
-        if (count($params)) {
+        if (!empty($params)) {
             $this->request->post = mmApp::arrayMerge($this->request->post, $params);
         }
         return $this->call('send_message');
@@ -197,10 +200,11 @@ class ViberRequest
      * Установка webhook для vider.
      * @see (https://developers.viber.com/docs/api/rest-bot-api/#webhooks) Смотри тут
      *
-     * @param string $url Адресс webhook`а.
+     * @param string $url Адрес webhook`а.
      * @param array $params Дополнительные параметры.
      * @return array|null
      * @api
+     * @throws Exception
      */
     public function setWebhook(string $url, array $params = []): ?array
     {
@@ -223,7 +227,7 @@ class ViberRequest
                 'url' => ''
             ];
         }
-        if (count($params)) {
+        if (!empty($params)) {
             $this->request->post = mmApp::arrayMerge($this->request->post, $params);
         }
         return $this->call('set_webhook');
@@ -239,6 +243,7 @@ class ViberRequest
      * @return array|null
      * @see sendMessage() Смотри тут
      * @api
+     * @throws Exception
      */
     public function richMedia(string $receiver, array $richMedia, array $params = []): ?array
     {
@@ -253,7 +258,7 @@ class ViberRequest
                 'Buttons' => $richMedia
             ]
         ];
-        if (count($params)) {
+        if (!empty($params)) {
             $this->request->post = mmApp::arrayMerge($this->request->post, $params);
         }
         return $this->call('send_message');
@@ -268,6 +273,7 @@ class ViberRequest
      * @return array|null
      * @see sendMessage() Смотри тут
      * @api
+     * @throws Exception
      */
     public function sendFile(string $receiver, string $file, array $params = [])
     {
@@ -279,7 +285,7 @@ class ViberRequest
             $this->request->post['media'] = $file;
             $this->request->post['size'] = 10e4;
             $this->request->post['file_name'] = Text::resize($file, 150);
-            if (count($params)) {
+            if (!empty($params)) {
                 $this->request->post = mmApp::arrayMerge($this->request->post, $params);
             }
             return $this->call('send_message');

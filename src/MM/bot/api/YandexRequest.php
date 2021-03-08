@@ -70,6 +70,7 @@ class YandexRequest
      * @param string|null $url Адрес запроса.
      * @return mixed
      * @api
+     * @throws Exception
      */
     public function call(?string $url = null)
     {

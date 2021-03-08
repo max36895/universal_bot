@@ -63,7 +63,7 @@ class SmartApp extends TemplateTypeModel
         }
 
         if ($this->controller->isScreen) {
-            if (count($this->controller->card->images)) {
+            if (!empty($this->controller->card->images)) {
                 if (isset($payload['items'])) {
                     $payload['items'] = [];
                 }
@@ -90,7 +90,7 @@ class SmartApp extends TemplateTypeModel
         if ($content) {
             $content = json_decode($content, true);
 
-            $this->controller = $controller;
+            $this->controller = &$controller;
             $this->controller->requestObject = $content;
 
             switch ($content['messageName']) {
@@ -160,7 +160,7 @@ class SmartApp extends TemplateTypeModel
             'uuid' => $this->session['uuid']
         ];
 
-        if (count($this->controller->sound->sounds) || $this->controller->sound->isUsedStandardSound) {
+        if (!empty($this->controller->sound->sounds) || $this->controller->sound->isUsedStandardSound) {
             if ($this->controller->tts === null) {
                 $this->controller->tts = $this->controller->text;
             }

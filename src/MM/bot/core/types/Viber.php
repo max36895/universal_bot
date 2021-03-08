@@ -131,14 +131,14 @@ class Viber extends TemplateTypeModel
 
             $viberApi->sendMessage($this->controller->userId, mmApp::$params['viber_sender'], $this->controller->text, $params);
 
-            if (count($this->controller->card->images)) {
+            if (!empty($this->controller->card->images)) {
                 $res = $this->controller->card->getCards();
-                if (count($res)) {
+                if (!empty($res)) {
                     $viberApi->richMedia($this->controller->userId, $res);
                 }
             }
 
-            if (count($this->controller->sound->sounds)) {
+            if (!empty($this->controller->sound->sounds)) {
                 $this->controller->sound->getSounds($this->controller->tts);
             }
         }

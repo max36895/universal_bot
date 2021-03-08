@@ -3,6 +3,7 @@
 namespace MM\bot\models\db;
 
 
+use Exception;
 use MM\bot\core\mmApp;
 use mysqli_result;
 
@@ -154,7 +155,7 @@ abstract class Model
      * Обновление значения в таблице.
      *
      * @return bool|mysqli_result|null
-     * @api
+     * @throws Exception
      */
     public function update()
     {
@@ -175,7 +176,7 @@ abstract class Model
      * Добавление значения в таблицу.
      *
      * @return bool|mysqli_result|null
-     * @api
+     * @throws Exception
      */
     public function add()
     {
@@ -194,6 +195,7 @@ abstract class Model
      *
      * @return bool|mysqli_result|null
      * @api
+     * @throws Exception
      */
     public function delete()
     {

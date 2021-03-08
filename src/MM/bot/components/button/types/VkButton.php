@@ -81,7 +81,7 @@ class VkButton extends TemplateButtonTypes
         }
 
         return [
-            'one_time' => count($buttons) ? true : false,
+            'one_time' => !empty($buttons),
             'buttons' => $buttons
         ];
     }

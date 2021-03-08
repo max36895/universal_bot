@@ -112,7 +112,7 @@ class Vk extends TemplateTypeModel
             if ($keyboard) {
                 $params['keyboard'] = $keyboard;
             }
-            if (count($this->controller->card->images)) {
+            if (!empty($this->controller->card->images)) {
                 $attach = $this->controller->card->getCards();
                 if (isset($attach['type'])) {
                     $params['template'] = $attach;
@@ -120,7 +120,7 @@ class Vk extends TemplateTypeModel
                     $params['attachments'] = $attach;
                 }
             }
-            if (count($this->controller->sound->sounds)) {
+            if (!empty($this->controller->sound->sounds)) {
                 $attach = $this->controller->sound->getSounds($this->controller->tts);
                 $params['attachments'] = array_merge($attach, $params['attachments']);
             }

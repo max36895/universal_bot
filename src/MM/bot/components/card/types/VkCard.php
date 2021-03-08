@@ -69,7 +69,7 @@ class VkCard extends TemplateCardTypes
                         }
                     }
                 }
-                if (count($elements)) {
+                if (!empty($elements)) {
                     $object = [
                         'type' => 'carousel',
                         'elements' => $elements

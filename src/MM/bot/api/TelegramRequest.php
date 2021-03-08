@@ -94,6 +94,7 @@ class TelegramRequest
      * @param string $method Отправляемый метод, что именно будет отправляться (Изображение, сообщение и тд).
      * @return array|null
      * @api
+     * @throws Exception
      */
     public function call(string $method): ?array
     {
@@ -168,7 +169,7 @@ class TelegramRequest
             'chat_id' => $chatId,
             'text' => $message
         ];
-        if (count($params)) {
+        if (!empty($params)) {
             $this->request->post = array_merge($params, $this->request->post);
         }
         return $this->call('sendMessage');
@@ -233,6 +234,7 @@ class TelegramRequest
      *  ]
      * ]
      * @api
+     * @throws Exception
      */
     public function sendPoll($chatId, string $question, $options, array $params = []): ?array
     {
@@ -265,7 +267,7 @@ class TelegramRequest
             }
         }
         if ($isSend) {
-            if (count($params)) {
+            if (!empty($params)) {
                 $this->request->post = array_merge($params, $this->request->post);
             }
             return $this->call('sendPoll');
@@ -329,6 +331,7 @@ class TelegramRequest
      *  - 'description' => string
      * ]
      * @api
+     * @throws Exception
      */
     public function sendPhoto($userId, string $file, ?string $desc = null, array $params = []): ?array
     {
@@ -340,7 +343,7 @@ class TelegramRequest
         if ($desc) {
             $this->request->post['caption'] = $desc;
         }
-        if (count($params)) {
+        if (!empty($params)) {
             $this->request->post = array_merge($params, $this->request->post);
         }
         return $this->call('sendPhoto');
@@ -405,6 +408,7 @@ class TelegramRequest
      *  - 'description' => string
      * ]
      * @api
+     * @throws Exception
      */
     public function sendDocument($userId, string $file, array $params = []): ?array
     {
@@ -412,7 +416,7 @@ class TelegramRequest
             'chat_id' => $userId
         ];
         $this->initPostFile('document', $file);
-        if (count($params)) {
+        if (!empty($params)) {
             $this->request->post = array_merge($params, $this->request->post);
         }
         return $this->call('sendDocument');
@@ -482,6 +486,7 @@ class TelegramRequest
      *  - 'description' => string
      * ]
      * @api
+     * @throws Exception
      */
     public function sendAudio($userId, string $file, array $params = []): ?array
     {
@@ -489,7 +494,7 @@ class TelegramRequest
             'chat_id' => $userId
         ];
         $this->initPostFile('audio', $file);
-        if (count($params)) {
+        if (!empty($params)) {
             $this->request->post = array_merge($params, $this->request->post);
         }
         return $this->call('sendAudio');
@@ -561,6 +566,7 @@ class TelegramRequest
      *  - 'description' => string
      * ]
      * @api
+     * @throws Exception
      */
     public function sendVideo($userId, string $file, array $params = []): ?array
     {
@@ -568,7 +574,7 @@ class TelegramRequest
             'chat_id' => $userId
         ];
         $this->initPostFile('video', $file);
-        if (count($params)) {
+        if (!empty($params)) {
             $this->request->post = array_merge($params, $this->request->post);
         }
         return $this->call('sendVideo');
