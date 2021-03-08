@@ -3,6 +3,7 @@
 namespace MM\bot\api;
 
 
+use Exception;
 use MM\bot\api\request\Request;
 use MM\bot\core\mmApp;
 
@@ -66,6 +67,7 @@ class YandexImageRequest extends YandexRequest
      *  - int used: Занятое место.
      * ]
      * @api
+     * @throws Exception
      */
     public function checkOutPlace(): ?array
     {
@@ -90,6 +92,7 @@ class YandexImageRequest extends YandexRequest
      *  - int createdAt: Дата загрузки.
      * ]
      * @api
+     * @throws Exception
      */
     public function downloadImageUrl(string $imageUrl): ?array
     {
@@ -121,6 +124,7 @@ class YandexImageRequest extends YandexRequest
      *  - int createdAt: Дата загрузки.
      * ]
      * @api
+     * @throws Exception
      */
     public function downloadImageFile(string $imageDir): ?array
     {
@@ -153,6 +157,7 @@ class YandexImageRequest extends YandexRequest
      *  ]
      * ]
      * @api
+     * @throws Exception
      */
     public function getLoadedImages(): ?array
     {
@@ -173,6 +178,7 @@ class YandexImageRequest extends YandexRequest
      * @param string $imageId Идентификатор изображения, которое необходимо удалить.
      * @return string|null
      * @api
+     * @throws Exception
      */
     public function deleteImage(string $imageId): ?string
     {
@@ -202,6 +208,7 @@ class YandexImageRequest extends YandexRequest
      *
      * @return bool
      * @api
+     * @throws Exception
      */
     public function deleteImages(): bool
     {

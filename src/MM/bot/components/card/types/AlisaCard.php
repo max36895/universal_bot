@@ -32,7 +32,7 @@ class AlisaCard extends TemplateCardTypes
                 $button = null;
                 if (!$this->isUsedGallery) {
                     $button = $image->button->getButtons(Buttons::T_ALISA_CARD_BUTTON);
-                    if (!count($button)) {
+                    if (empty($button)) {
                         $button = null;
                     }
                 }
@@ -75,7 +75,7 @@ class AlisaCard extends TemplateCardTypes
         if ($countImage) {
             if ($isOne) {
                 $button = $this->images[0]->button->getButtons(Buttons::T_ALISA_CARD_BUTTON);
-                if (!count($button)) {
+                if (empty($button)) {
                     $button = $this->button->getButtons();
                 }
                 if (!$this->images[0]->imageToken) {
@@ -92,7 +92,7 @@ class AlisaCard extends TemplateCardTypes
                         'title' => Text::resize($this->images[0]->title, 128),
                         'description' => Text::resize($this->images[0]->desc, 256)
                     ];
-                    if (count($button)) {
+                    if (!empty($button)) {
                         $object['button'] = $button;
                     }
                     return $object;

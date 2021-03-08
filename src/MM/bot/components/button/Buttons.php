@@ -175,7 +175,7 @@ class Buttons
      */
     protected function processing(): void
     {
-        if (count($this->btns)) {
+        if (!empty($this->btns)) {
             if (is_array($this->btns)) {
                 foreach ($this->btns as $btn) {
                     if (is_array($btn)) {
@@ -189,7 +189,7 @@ class Buttons
                 $this->addBtn((string)$this->btns);
             }
         }
-        if (count($this->links)) {
+        if (!empty($this->links)) {
             if (is_array($this->links)) {
                 foreach ($this->links as $link) {
                     if (is_array($link)) {
@@ -278,7 +278,7 @@ class Buttons
     public function getButtonJson(?string $type = null, ?TemplateButtonTypes $userButton = null): ?string
     {
         $btn = $this->getButtons($type, $userButton);
-        if (count($btn)) {
+        if (!empty($btn)) {
             return json_encode($btn, JSON_UNESCAPED_UNICODE);
         }
         return null;

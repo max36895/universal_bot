@@ -92,6 +92,7 @@ class VkRequest
      * @param string $method Название метода.
      * @return array|null
      * @api
+     * @throws Exception
      */
     public function call(string $method): ?array
     {
@@ -132,6 +133,7 @@ class VkRequest
      *  - 'file' => array
      * ]
      * @api
+     * @throws Exception
      */
     public function upload(string $url, string $file): ?array
     {
@@ -187,6 +189,7 @@ class VkRequest
      *  - 'error' => array
      * ]]
      * @api
+     * @throws Exception
      */
     public function messagesSend($peerId, string $message, array $params = [])
     {
@@ -232,7 +235,7 @@ class VkRequest
             unset($params['keyboard']);
         }
 
-        if (count($params)) {
+        if (!empty($params)) {
             $this->request->post = array_merge($params, $this->request->post);
         }
         return $this->call($method);
@@ -258,6 +261,7 @@ class VkRequest
      *  - 'can_access_closed' => bool Может ли текущий пользователь видеть профиль при is_closed = 1 (например, он есть в друзьях).
      * ]
      * @api
+     * @throws Exception
      */
     public function usersGet($userId, array $params = []): ?array
     {
@@ -281,6 +285,7 @@ class VkRequest
      *  - 'group_id' => int Идентификатор сообщества
      * ]
      * @api
+     * @throws Exception
      */
     public function photosGetMessagesUploadServer($peerId): ?array
     {
@@ -309,6 +314,7 @@ class VkRequest
      * ]
      * @see upload() Смотри тут
      * @api
+     * @throws Exception
      */
     public function photosSaveMessagesPhoto(string $photo, string $server, string $hash): ?array
     {
@@ -330,6 +336,7 @@ class VkRequest
      *  - 'upload_url' => url Адрес сервера для загрузки документа
      * ]
      * @api
+     * @throws Exception
      */
     public function docsGetMessagesUploadServer($peerId, string $type): ?array
     {
@@ -405,6 +412,7 @@ class VkRequest
      *  - 'link_mp3' => url .mp3 файла(Для Голосового сообщения)
      * ]
      * @api
+     * @throws Exception
      */
     public function docsSave(string $file, string $title, ?string $tags = null): ?array
     {

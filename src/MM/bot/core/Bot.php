@@ -141,7 +141,7 @@ class Bot
 
 
     /**
-     * Возвращаем корректно заполенный тип приложения, а также класс, отвечающий за возврат результата.
+     * Возвращаем корректно заполненный тип приложения, а также класс, отвечающий за возврат результата.
      *
      * @param TemplateTypeModel|null $userBotClass Пользовательский класс для обработки команд.
      * @return array
@@ -300,6 +300,7 @@ class Bot
      * @param TemplateTypeModel|null $userBotClass Пользовательский класс для обработки команд.
      * @param string|null $userBotConfig Шаблон с пользовательским типом приложения
      * @api
+     * @throws Exception
      */
     public function test(bool $isShowResult = false,
                          bool $isShowStorage = false,

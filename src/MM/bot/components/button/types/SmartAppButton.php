@@ -47,7 +47,7 @@ class SmartAppButton extends TemplateButtonTypes
     {
         $objects = [];
         if ($this->isCard) {
-            if (count($this->buttons)) {
+            if (!empty($this->buttons)) {
                 if ($this->buttons[0]->url) {
                     return [
                         'deep_link' => $this->buttons[0]->url,

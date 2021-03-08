@@ -40,7 +40,7 @@ class InitController
     }
 
     /**
-     * Удаление Таблиз из бд
+     * Удаление Таблиц из бд
      */
     public function drop()
     {

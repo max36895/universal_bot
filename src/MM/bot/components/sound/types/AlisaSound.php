@@ -2,6 +2,7 @@
 
 namespace MM\bot\components\sound\types;
 
+use Exception;
 use MM\bot\components\standard\Text;
 use MM\bot\models\SoundTokens;
 
@@ -338,6 +339,7 @@ class AlisaSound extends TemplateSoundTypes
      * @param string $text Исходный текст.
      * @return string
      * @api
+     * @throws Exception
      */
     public function getSounds(?array $sounds, string $text): string
     {

@@ -74,7 +74,7 @@ class AlisaButton extends TemplateButtonTypes
     {
         $objects = [];
         if ($this->isCard) {
-            if (count($this->buttons)) {
+            if (!empty($this->buttons)) {
                 return $this->getButton($this->buttons[0]);
             }
         } else {

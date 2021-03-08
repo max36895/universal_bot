@@ -10,7 +10,7 @@ use MM\bot\controller\BotController;
 use MM\bot\core\mmApp;
 
 /**
- * Класс, отвечающий за корректную инициализацию и отправку ответа для Макруси.
+ * Класс, отвечающий за корректную инициализацию и отправку ответа для Маруси.
  * Class Marusia
  * @package bot\core\types
  * @see TemplateTypeModel Смотри тут
@@ -43,7 +43,7 @@ class Marusia extends TemplateTypeModel
         $response['tts'] = Text::resize($this->controller->tts, 1024);
 
         if ($this->controller->isScreen) {
-            if (count($this->controller->card->images)) {
+            if (!empty($this->controller->card->images)) {
                 $response['card'] = $this->controller->card->getCards();
             }
             $response['buttons'] = $this->controller->buttons->getButtons(Buttons::T_ALISA_BUTTONS);
