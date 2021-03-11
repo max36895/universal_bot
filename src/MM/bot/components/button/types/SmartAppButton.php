@@ -58,7 +58,7 @@ class SmartAppButton extends TemplateButtonTypes
                     if ($text) {
                         return [
                             'text' => $text,
-                            'type' => 'deep_link'
+                            'type' => 'text'
                         ];
                     }
                 }

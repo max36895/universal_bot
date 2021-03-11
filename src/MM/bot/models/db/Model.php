@@ -129,15 +129,9 @@ abstract class Model
     }
 
     /**
-     * Сохранение значения в базу данных.
-     * Если значение уже есть в базе данных, то данные обновятся. Иначе добавляется новое значение.
-     *
-     * @param bool $isNew Добавить новую запись в базу данных без поиска по ключу.
-     * @return bool|mysqli_result|null
-     * @api
+     * Инициализация параметров для запроса
      */
-    public function save(bool $isNew = false)
-    {
+    private function initData():void{
         $this->validate();
         $idName = $this->dbController->getPrimaryKeyName();
         $this->queryData->setQuery([$idName => $this->$idName]);
@@ -148,6 +142,20 @@ abstract class Model
             }
         }
         $this->queryData->setData($data);
+    }
+
+    /**
+     * Сохранение значения в базу данных.
+     * Если значение уже есть в базе данных, то данные обновятся. Иначе добавляется новое значение.
+     *
+     * @param bool $isNew Добавить новую запись в базу данных без поиска по ключу.
+     * @return bool|mysqli_result|null
+     * @throws Exception
+     * @api
+     */
+    public function save(bool $isNew = false)
+    {
+        $this->initData();
         return $this->dbController->save($this->queryData, $isNew);
     }
 
@@ -159,16 +167,7 @@ abstract class Model
      */
     public function update()
     {
-        $this->validate();
-        $idName = $this->dbController->getPrimaryKeyName();
-        $this->queryData->setQuery([$idName => $this->$idName]);
-        $data = [];
-        foreach ($this->attributeLabels() as $index => $label) {
-            if ($index !== $idName) {
-                $data[$index] = $this->$index;
-            }
-        }
-        $this->queryData->setData($data);
+        $this->initData();
         return $this->dbController->update($this->queryData);
     }
 

@@ -16,34 +16,120 @@ class SmartAppCard extends TemplateCardTypes
      * Получение элементов для карточки
      *
      * @param Image $image Объект с картинкой
+     * @param bool $isOne Получить результат для 1 карточки
      * @return array
      * @private
      */
-    protected function getCardItem(Image $image): array
+    protected function getCardItem(Image $image, bool $isOne = false): array
     {
+        if ($isOne) {
+            $res = [];
+            if ($image->imageDir) {
+                $res[] = [
+                    "type" => "image_cell_view",
+                    "content" => [
+                        "url" => $image->imageDir
+                    ]
+                ];
+            }
+            if ($image->title) {
+                $res[] = [
+                    "type" => "text_cell_view",
+                    "paddings" => [
+                        "top" => "6x",
+                        "left" => "8x",
+                        "right" => "8x"
+                    ],
+                    "content" => [
+                        "text" => $image->title,
+                        "typeface" => $image->params['titleTypeface'] ?? "title1",
+                        "text_color" => $image->params['titleText_color'] ?? "default"
+                    ]
+                ];
+            }
+            if ($image->desc) {
+                $res[] = [
+                    "type" => "text_cell_view",
+                    "paddings" => [
+                        "top" => "4x",
+                        "left" => "8x",
+                        "right" => "8x"
+                    ],
+                    "content" => [
+                        "text" => $image->desc,
+                        "typeface" => $image->params['descTypeface'] ?? "footnote1",
+                        "text_color" => $image->params['descText_color'] ?? "secondary"
+                    ]
+                ];
+            }
+
+            $button = $image->button->getButtons(Buttons::T_SMARTAPP_BUTTON_CARD);
+            if ($button) {
+                $res[] = [
+                    "type" => "text_cell_view",
+                    "paddings" => [
+                        "top" => "12x",
+                        "left" => "8x",
+                        "right" => "8x"
+                    ],
+                    "content" => [
+                        "actions" => [
+                            $button
+                        ],
+                        "text" => $button['text'],
+                        "typeface" => "button1",
+                        "text_color" => "brand"
+                    ]
+                ];
+            }
+            return $res;
+        }
         $cardItem = [
-            'type' => 'media_gallery_item',
-            'top_text' => [
-                'text' => $image->title,
-                'typeface' => $image->params['topTypeface'] ?? 'footnote1',
-                'text_color' => $image->params['topText_color'] ?? 'default',
-                'margins' => $image->params['topMargins'] ?? null,
-                'max_lines' => $image->params['topMax_lines'] ?? 0,
+            'type' => 'left_right_cell_view',
+            "paddings" => [
+                "left" => "4x",
+                "top" => "4x",
+                "right" => "4x",
+                "bottom" => "4x"
             ],
-            'bottom_text' => [
-                'text' => $image->desc,
-                'typeface' => $image->params['bottomTypeface'] ?? 'caption',
-                'text_color' => $image->params['bottomText_color'] ?? 'default',
-                'margins' => $image->params['bottomMargins'] ?? null,
-                'max_lines' => $image->params['bottomMax_lines'] ?? 0,
-            ],
-            'image' => [
-                'url' => $image->imageDir
+            'left' => [
+                'type' => 'fast_answer_left_view',
+                "icon_vertical_gravity" => "top",
+                'icon_and_value' => [
+                    'value' => [
+                        'text' => $image->desc,
+                        'typeface' => $image->params['descTypeface'] ?? 'body3',
+                        'text_color' => $image->params['descText_color'] ?? 'default',
+                        'max_lines' => $image->params['descMax_lines'] ?? 0,
+                    ]
+                ],
+                'label' => [
+                    'text' => $image->title,
+                    'typeface' => $image->params['titleTypeface'] ?? 'headline2',
+                    'text_color' => $image->params['titleText_color'] ?? 'default',
+                    'max_lines' => $image->params['titleMax_lines'] ?? 0,
+                ]
             ]
         ];
+        if($image->imageDir){
+            $cardItem['left']['icon_and_value']['icon'] = [
+                'address' => [
+                    'type' => 'url',
+                    'url' => $image->imageDir
+                ],
+                'size' => [
+                    "width" => "xlarge",
+                    "height" => "xlarge"
+                ],
+                'margin' => [
+                    "left" => "0x",
+                    "right" => "6x"
+                ]
+            ];
+        }
         $button = $image->button->getButtons(Buttons::T_SMARTAPP_BUTTON_CARD);
         if ($button) {
-            $cardItem['bottom_text']['actions'] = $button;
+            $cardItem['actions'] = [$button];
         }
         return $cardItem;
     }
@@ -54,22 +140,17 @@ class SmartAppCard extends TemplateCardTypes
         if ($countImage) {
             if ($isOne) {
                 $card = [
-                    'can_be_disabled' => false,
-                    'type' => 'gallery_card'
+                    'type' => 'list_card'
                 ];
-                $card['items'] = [
-                    $this->getCardItem($this->images[0])
-                ];
+                $card['sells'] = $this->getCardItem($this->images[0], true);
                 return ['card' => $card];
             } else {
                 $card = [
-                    'can_be_disabled' => false,
-                    'type' => 'gallery_card',
-                    'items' => []
+                    'type' => 'list_card',
+                    'cells' => []
                 ];
                 foreach ($this->images as $image) {
-
-                    $card['items'][] = $this->getCardItem($image);
+                    $card['cells'][] = $this->getCardItem($image);
                 }
                 return ['card' => $card];
             }

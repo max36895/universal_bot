@@ -136,7 +136,11 @@ class SmartApp extends TemplateTypeModel
             $this->controller->messageId = $content['messageId'];
 
             mmApp::$params['app_id'] = $content['payload']['app_info']['applicationId'];
-            $this->controller->isScreen = $content['payload']['device']['capabilities']['screen']['available'];
+            if (isset($content['payload']['device']['capabilities'], $content['payload']['device']['capabilities']['screen'])) {
+                $this->controller->isScreen = $content['payload']['device']['capabilities']['screen']['available'] ?? true;
+            } else {
+                $this->controller->isScreen = true;
+            }
             return true;
         } else {
             $this->error = 'SmartApp:init(): Отправлен пустой запрос!';
