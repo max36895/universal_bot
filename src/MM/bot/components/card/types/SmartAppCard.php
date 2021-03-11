@@ -111,7 +111,7 @@ class SmartAppCard extends TemplateCardTypes
                 ]
             ]
         ];
-        if($image->imageDir){
+        if ($image->imageDir) {
             $cardItem['left']['icon_and_value']['icon'] = [
                 'address' => [
                     'type' => 'url',
@@ -145,10 +145,26 @@ class SmartAppCard extends TemplateCardTypes
                 $card['sells'] = $this->getCardItem($this->images[0], true);
                 return ['card' => $card];
             } else {
+
                 $card = [
                     'type' => 'list_card',
                     'cells' => []
                 ];
+                if ($this->title) {
+                    $card['sells'][] = [
+                        "type" => "text_cell_view",
+                        "paddings" => [
+                            "top" => "4x",
+                            "left" => "2x",
+                            "right" => "2x"
+                        ],
+                        "content" => [
+                            "text" => $this->title,
+                            "typeface" => "title1",
+                            "text_color" => "default"
+                        ]
+                    ];
+                }
                 foreach ($this->images as $image) {
                     $card['cells'][] = $this->getCardItem($image);
                 }
