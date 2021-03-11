@@ -145,13 +145,12 @@ class SmartAppCard extends TemplateCardTypes
                 $card['sells'] = $this->getCardItem($this->images[0], true);
                 return ['card' => $card];
             } else {
-
                 $card = [
                     'type' => 'list_card',
                     'cells' => []
                 ];
                 if ($this->title) {
-                    $card['sells'][] = [
+                    $card['cells'][] = [
                         "type" => "text_cell_view",
                         "paddings" => [
                             "top" => "4x",
