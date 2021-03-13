@@ -38,6 +38,7 @@ class SmartApp extends TemplateTypeModel
             'device' => $this->session['device'],
             'intent' => $this->controller->thisIntentName,
             'projectName' => $this->session['projectName'],
+            'auto_listening' => !$this->controller->isEnd,
             'finished' => $this->controller->isEnd,
         ];
 
@@ -109,6 +110,8 @@ class SmartApp extends TemplateTypeModel
                     }
                     if ($content['messageName'] === 'RUN_APP') {
                         $this->controller->messageId = 0;
+                        $this->controller->originalUserCommand = $this->controller->userCommand;
+                        $this->controller->userCommand = '';
                     }
                     break;
             }
