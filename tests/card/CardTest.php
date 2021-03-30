@@ -14,7 +14,7 @@ class CardTest extends TestCase
      */
     protected $defaultCard;
 
-    protected function assertPreConditions()
+    protected function assertPreConditions(): void
     {
         $this->defaultCard = new \MM\bot\components\card\Card();
         \MM\bot\core\mmApp::$params['utm_text'] = '';

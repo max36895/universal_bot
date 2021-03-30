@@ -3,6 +3,7 @@
 namespace MM\bot\components\sound;
 
 
+use Exception;
 use MM\bot\components\sound\types\AlisaSound;
 use MM\bot\components\sound\types\TelegramSound;
 use MM\bot\components\sound\types\TemplateSoundTypes;
@@ -44,6 +45,7 @@ class Sound
      * @param string $text Исходный текст.
      * @param TemplateSoundTypes|null $userSound Пользовательский класс для обработки звуков.
      * @return string|array
+     * @throws Exception
      * @api
      */
     public function getSounds(string $text, ?TemplateSoundTypes $userSound = null)

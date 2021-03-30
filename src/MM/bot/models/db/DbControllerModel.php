@@ -116,10 +116,10 @@ abstract class DbControllerModel
     /**
      * Выполнение запроса на обновление записи в таблице
      *
-     * @param QueryData $insertData Данные для обновления записи
+     * @param QueryData $updateData Данные для обновления записи
      * @return mixed
      */
-    public abstract function update(QueryData $insertData);
+    public abstract function update(QueryData $updateData);
 
     /**
      * Выполнение запроса на сохранения записи.
@@ -135,10 +135,10 @@ abstract class DbControllerModel
     /**
      * Выполнение запроса на удаление записи в таблице
      *
-     * @param QueryData $insertData Данные для удаления записи
+     * @param QueryData $deleteData Данные для удаления записи
      * @return mixed
      */
-    public abstract function delete(QueryData $insertData);
+    public abstract function delete(QueryData $deleteData);
 
     /**
      * Выполнение произвольного запроса к таблице

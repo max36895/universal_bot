@@ -37,9 +37,6 @@ class YandexImageRequest extends YandexRequest
      */
     public function __construct(?string $oauth = null, ?string $skillId = null)
     {
-        if ($oauth === null) {
-            $oauth = mmApp::$params['yandex_token'] ?? null;
-        }
         if ($skillId === null) {
             $skillId = mmApp::$params['app_id'] ?? null;
         }

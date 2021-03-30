@@ -13,11 +13,11 @@ class ButtonTest extends TestCase
     const DEFAULT_URL = 'https://test.ru';
 
     /**
-     * @var \MM\bot\components\button\Buttons
+     * @var Buttons
      */
     protected $defaultButtons;
 
-    protected function assertPreConditions()
+    protected function assertPreConditions(): void
     {
         $this->defaultButtons = new Buttons();
         \MM\bot\core\mmApp::$params['utm_text'] = '';

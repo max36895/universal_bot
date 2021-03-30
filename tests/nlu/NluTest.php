@@ -11,7 +11,7 @@ class NluTest extends TestCase
      */
     protected $nlu;
 
-    protected function assertPreConditions()
+    protected function assertPreConditions(): void
     {
         $this->nlu = new Nlu();
         $nluContent = [

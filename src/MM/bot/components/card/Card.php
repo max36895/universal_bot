@@ -3,6 +3,7 @@
 namespace MM\bot\components\card;
 
 
+use Exception;
 use MM\bot\components\button\Buttons;
 use MM\bot\components\card\types\AlisaCard;
 use MM\bot\components\card\types\SmartAppCard;
@@ -107,6 +108,7 @@ class Card
      *
      * @param TemplateCardTypes|null $userCard Пользовательский класс для отображения каточки.
      * @return array
+     * @throws Exception
      * @api
      */
     public function getCards(?TemplateCardTypes $userCard = null): array
@@ -159,6 +161,7 @@ class Card
      *
      * @param TemplateCardTypes|null $userCard Пользовательский класс для отображения каточки.
      * @return string
+     * @throws Exception
      * @api
      */
     public function getCardsJson(?TemplateCardTypes $userCard): string

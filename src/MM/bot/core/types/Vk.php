@@ -3,6 +3,7 @@
 namespace MM\bot\core\types;
 
 
+use Exception;
 use MM\bot\api\VkRequest;
 use MM\bot\components\button\Buttons;
 use MM\bot\controller\BotController;
@@ -22,8 +23,9 @@ class Vk extends TemplateTypeModel
      * @param string|null $content Запрос пользователя.
      * @param BotController $controller Ссылка на класс с логикой навык/бота.
      * @return bool
-     * @see TemplateTypeModel::init() Смотри тут
+     * @throws Exception
      * @api
+     * @see TemplateTypeModel::init() Смотри тут
      */
     public function init(?string $content, BotController &$controller): bool
     {
@@ -101,8 +103,9 @@ class Vk extends TemplateTypeModel
      * Получение ответа, который отправится пользователю. В случае с Алисой, Марусей и Сбер, возвращается json. С остальными типами, ответ отправляется непосредственно на сервер.
      *
      * @return string
-     * @see TemplateTypeModel::getContext() Смотри тут
+     * @throws Exception
      * @api
+     * @see TemplateTypeModel::getContext() Смотри тут
      */
     public function getContext(): string
     {

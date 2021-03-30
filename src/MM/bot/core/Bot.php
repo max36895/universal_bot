@@ -273,6 +273,8 @@ class Bot
                         } else {
                             $userData->update();
                         }
+                    } else {
+                        $botClass->setLocalStorage($userData->data);
                     }
 
                     if ($botClass->getError()) {
@@ -305,8 +307,8 @@ class Bot
      * @param bool $isShowTime Отображать время выполнения запроса.
      * @param TemplateTypeModel|null $userBotClass Пользовательский класс для обработки команд.
      * @param string|null $userBotConfig Шаблон с пользовательским типом приложения
-     * @api
      * @throws Exception
+     * @api
      */
     public function test(bool $isShowResult = false,
                          bool $isShowStorage = false,

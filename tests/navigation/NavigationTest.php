@@ -12,7 +12,7 @@ class NavigationTest extends TestCase
     protected $navigation;
     protected $elements;
 
-    protected function assertPreConditions()
+    protected function assertPreConditions(): void
     {
         $this->navigation = new \MM\bot\components\standard\Navigation();
         $this->elements = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];

@@ -2,6 +2,7 @@
 
 namespace MM\bot\components\sound\types;
 
+use Exception;
 use MM\bot\api\ViberRequest;
 use MM\bot\components\standard\Text;
 use MM\bot\core\mmApp;
@@ -20,6 +21,7 @@ class ViberSound extends TemplateSoundTypes
      * @param array|null $sounds Массив звуков.
      * @param string $text Исходный текст.
      * @return array
+     * @throws Exception
      * @api
      */
     public function getSounds(?array $sounds, string $text = ''): array
