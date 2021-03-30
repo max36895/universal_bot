@@ -3,6 +3,7 @@
 namespace MM\bot\core\types;
 
 
+use Exception;
 use MM\bot\components\button\Buttons;
 use MM\bot\components\sound\types\AlisaSound;
 use MM\bot\components\standard\Text;
@@ -45,6 +46,7 @@ class Alisa extends TemplateTypeModel
      * Получение данных, необходимых для построения ответа пользователю.
      *
      * @return array
+     * @throws Exception
      */
     protected function getResponse(): array
     {
@@ -68,8 +70,9 @@ class Alisa extends TemplateTypeModel
      * @param string|null $content Запрос пользователя.
      * @param BotController $controller Ссылка на класс с логикой навык/бота.
      * @return bool
-     * @see TemplateTypeModel::init() Смотри тут
+     * @throws Exception
      * @api
+     * @see TemplateTypeModel::init() Смотри тут
      */
     public function init(?string $content, BotController &$controller): bool
     {
@@ -162,8 +165,9 @@ class Alisa extends TemplateTypeModel
      * Получение ответа, который отправится пользователю. В случае с Алисой, Марусей и Сбер, возвращается json. С остальными типами, ответ отправляется непосредственно на сервер.
      *
      * @return string
-     * @see TemplateTypeModel::getContext() Смотри тут
+     * @throws Exception
      * @api
+     * @see TemplateTypeModel::getContext() Смотри тут
      */
     public function getContext(): string
     {

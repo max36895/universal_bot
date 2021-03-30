@@ -3,7 +3,7 @@
 Все заметные изменения в u_bot задокументированы в этом файле с использованием принципов [Keep a CHANGELOG](http://keepachangelog.com/).
 
 
-## [1.1.1] - 2021-03-29
+## [1.1.1] - 2021-03-30
 
 ### Добавлено
 
@@ -70,5 +70,5 @@
 ## [0.1-beta] - 2020-04-24
 Создание бета-версии
 
-[master]: https://github.com/max36895/universal_bot/compare/1.1...master
+[master]: https://github.com/max36895/universal_bot/compare/1.1.1...master
 [dev]: https://github.com/max36895/universal_bot/compare/master...dev
