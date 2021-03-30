@@ -7,7 +7,7 @@ use MM\bot\models\db\QueryData;
 class DbConnect extends \MM\bot\models\db\DbControllerModel
 {
     /**
-     * Переменная, отвечающая за отправке curl запросов
+     * Переменная, отвечающая за отправку curl запросов
      * @var Request
      */
     private $query;
