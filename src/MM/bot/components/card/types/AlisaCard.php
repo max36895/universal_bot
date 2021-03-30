@@ -3,6 +3,7 @@
 namespace MM\bot\components\card\types;
 
 
+use Exception;
 use MM\bot\components\button\Buttons;
 use MM\bot\components\standard\Text;
 use MM\bot\models\ImageTokens;
@@ -66,6 +67,7 @@ class AlisaCard extends TemplateCardTypes
      *
      * @param bool $isOne True, если в любом случае отобразить 1 элемент карточки
      * @return array
+     * @throws Exception
      * @api
      */
     public function getCard(bool $isOne): array

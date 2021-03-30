@@ -93,7 +93,13 @@ class Bot
         if (isset($_GET['type'])) {
             if (in_array(
                 $_GET['type'],
-                [T_TELEGRAM, T_ALISA, T_VIBER, T_VK, T_MARUSIA, T_USER_APP]
+                [T_TELEGRAM,
+                    T_ALISA,
+                    T_VIBER,
+                    T_VK,
+                    T_MARUSIA,
+                    T_SMARTAPP,
+                    T_USER_APP]
             )) {
                 mmApp::$appType = $_GET['type'];
                 return true;
@@ -267,6 +273,8 @@ class Bot
                         } else {
                             $userData->update();
                         }
+                    } else {
+                        $botClass->setLocalStorage($userData->data);
                     }
 
                     if ($botClass->getError()) {
@@ -299,8 +307,8 @@ class Bot
      * @param bool $isShowTime Отображать время выполнения запроса.
      * @param TemplateTypeModel|null $userBotClass Пользовательский класс для обработки команд.
      * @param string|null $userBotConfig Шаблон с пользовательским типом приложения
-     * @api
      * @throws Exception
+     * @api
      */
     public function test(bool $isShowResult = false,
                          bool $isShowStorage = false,

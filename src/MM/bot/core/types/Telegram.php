@@ -3,6 +3,7 @@
 namespace MM\bot\core\types;
 
 
+use Exception;
 use MM\bot\api\TelegramRequest;
 use MM\bot\components\button\Buttons;
 use MM\bot\controller\BotController;
@@ -91,8 +92,9 @@ class Telegram extends TemplateTypeModel
      * Получение ответа, который отправится пользователю. В случае с Алисой, Марусей и Сбер, возвращается json. С остальными типами, ответ отправляется непосредственно на сервер.
      *
      * @return string
-     * @see TemplateTypeModel::getContext() Смотри тут
+     * @throws Exception
      * @api
+     * @see TemplateTypeModel::getContext() Смотри тут
      */
     public function getContext(): string
     {

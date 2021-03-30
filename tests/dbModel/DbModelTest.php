@@ -13,7 +13,7 @@ class DbModelTest extends TestCase
      */
     protected $userData;
 
-    protected function assertPreConditions()
+    protected function assertPreConditions(): void
     {
         $this->userData = new UsersData();
         \MM\bot\core\mmApp::$params['utm_text'] = '';
@@ -54,7 +54,7 @@ class DbModelTest extends TestCase
     /**
      * Вызывается после прохождения последнего теста
      */
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         unlink(__DIR__ . '/UsersData.json');
     }
@@ -162,6 +162,7 @@ class DbModelTest extends TestCase
         $this->assertFalse($this->userData->whereOne($query));
         $this->userData->userId = 'userId1';
         $this->userData->meta = 'meta';
+        $this->userData->data = [];
         $this->assertTrue($this->userData->update());
 
         $this->assertTrue($this->userData->whereOne($query));

@@ -154,7 +154,7 @@ class DbController extends DbControllerModel
                     foreach ($update as $index => $val) {
                         $tmp[$index] = $val;
                     }
-                    $data[$idName] = $tmp;
+                    $data[$idName] = mmApp::arrayMerge($data[$idName], $tmp);
                     mmApp::saveJson("{$this->tableName}.json", $data);
                 }
                 return true;

@@ -11,9 +11,8 @@ class ControllerTest extends TestCase
      * @var MyController
      */
     protected $uController;
-    protected $elements;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->uController = new MyController();
     }

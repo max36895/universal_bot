@@ -113,4 +113,14 @@ abstract class TemplateTypeModel
     {
         return null;
     }
+
+    /**
+     * Сохранение данных в хранилище.
+     *
+     * @param array|null $data сохраняемые данные
+     * @api
+     */
+    public function setLocalStorage(?array $data): void
+    {
+    }
 }

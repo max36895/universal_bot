@@ -2,6 +2,8 @@
 
 namespace MM\bot\core\types;
 
+use Exception;
+use MM\bot\api\request\Request;
 use MM\bot\components\button\Buttons;
 use MM\bot\components\standard\Text;
 use MM\bot\controller\BotController;
@@ -29,6 +31,7 @@ class SmartApp extends TemplateTypeModel
      * Получение данных, необходимых для построения ответа пользователю.
      *
      * @return array
+     * @throws Exception
      */
     protected function getPayload(): array
     {
@@ -38,6 +41,7 @@ class SmartApp extends TemplateTypeModel
             'device' => $this->session['device'],
             'intent' => $this->controller->thisIntentName,
             'projectName' => $this->session['projectName'],
+            'auto_listening' => !$this->controller->isEnd,
             'finished' => $this->controller->isEnd,
         ];
 
@@ -93,6 +97,7 @@ class SmartApp extends TemplateTypeModel
             $this->controller = &$controller;
             $this->controller->requestObject = $content;
 
+            $this->controller->messageId = $content['messageId'] ?? 0;
             switch ($content['messageName']) {
                 case 'MESSAGE_TO_SKILL':
                 case 'CLOSE_APP':
@@ -105,6 +110,11 @@ class SmartApp extends TemplateTypeModel
                     $this->controller->payload = $content['payload']['server_action']['parameters'];
                     if (!is_array($this->controller->payload)) {
                         $this->controller->userCommand = $this->controller->originalUserCommand = $this->controller->payload;
+                    }
+                    if ($content['messageName'] === 'RUN_APP') {
+                        $this->controller->messageId = 0;
+                        $this->controller->originalUserCommand = $this->controller->userCommand;
+                        $this->controller->userCommand = '';
                     }
                     break;
             }
@@ -133,10 +143,13 @@ class SmartApp extends TemplateTypeModel
             $this->controller->nlu->setNlu($nlu);
 
             $this->controller->userMeta = $content['payload']['meta'] ?? [];
-            $this->controller->messageId = $content['messageId'];
 
             mmApp::$params['app_id'] = $content['payload']['app_info']['applicationId'];
-            $this->controller->isScreen = $content['payload']['device']['capabilities']['screen']['available'];
+            if (isset($content['payload']['device']['capabilities'], $content['payload']['device']['capabilities']['screen'])) {
+                $this->controller->isScreen = $content['payload']['device']['capabilities']['screen']['available'] ?? true;
+            } else {
+                $this->controller->isScreen = true;
+            }
             return true;
         } else {
             $this->error = 'SmartApp:init(): Отправлен пустой запрос!';
@@ -148,8 +161,9 @@ class SmartApp extends TemplateTypeModel
      * Получение ответа, который отправится пользователю. В случае с Алисой, Марусей и Сбер, возвращается json. С остальными типами, ответ отправляется непосредственно на сервер.
      *
      * @return string
-     * @see TemplateTypeModel::getContext() Смотри тут
+     * @throws Exception
      * @api
+     * @see TemplateTypeModel::getContext() Смотри тут
      */
     public function getContext(): string
     {
@@ -172,5 +186,50 @@ class SmartApp extends TemplateTypeModel
             $this->error = "SmartApp:getContext(): Превышено ограничение на отправку ответа. Время ответа составило: {$timeEnd} сек.";
         }
         return json_encode($result);
+    }
+
+
+    protected function getUserData()
+    {
+        $request = new Request();
+        $request->url = "https://smartapp-code.sberdevices.ru/tools/api/data/{$this->controller->userId}";
+        return $request->send();
+    }
+
+    protected function setUserData(?array $data)
+    {
+        $request = new Request();
+        $request->url = "https://smartapp-code.sberdevices.ru/tools/api/data/{$this->controller->userId}";
+        $request->post = $data;
+        return $request->send();
+    }
+
+    /**
+     * Сохранение данных в хранилище.
+     * @param array|null
+     * @return void
+     * @api
+     */
+    public function setLocalStorage(?array $data): void
+    {
+        $this->setUserData($data);
+    }
+
+    /**
+     * Получение данные из локального хранилища
+     * @return array|null
+     */
+    public function getLocalStorage(): ?array
+    {
+        return $this->getUserData();
+    }
+
+    /**
+     * Проверка на использование локального хранилища
+     * @return bool
+     */
+    public function isLocalStorage(): bool
+    {
+        return true;
     }
 }

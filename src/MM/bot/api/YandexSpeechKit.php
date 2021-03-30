@@ -3,6 +3,7 @@
 namespace MM\bot\api;
 
 
+use Exception;
 use MM\bot\core\mmApp;
 
 /**
@@ -163,8 +164,9 @@ class YandexSpeechKit extends YandexRequest
      *
      * @param string|null $text Текст для преобразования
      * @return mixed
-     * @see (https://cloud.yandex.ru/docs/speechkit/tts/request) Смотри тут
+     * @throws Exception
      * @api
+     * @see (https://cloud.yandex.ru/docs/speechkit/tts/request) Смотри тут
      */
     public function getTts(?string $text = null)
     {

@@ -162,6 +162,7 @@ class TelegramRequest
      *  - 'description' => string
      * ]
      * @api
+     * @throws Exception
      */
     public function sendMessage($chatId, string $message, array $params = []): ?array
     {
