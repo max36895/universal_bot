@@ -7,7 +7,7 @@ use MM\bot\models\db\QueryData;
 class DbConnect extends \MM\bot\models\db\DbControllerModel
 {
     /**
-     * Переменная, отвечающая за отправке curl запросов
+     * Переменная, отвечающая за отправку curl запросов
      * @var Request
      */
     private $query;
@@ -23,7 +23,7 @@ class DbConnect extends \MM\bot\models\db\DbControllerModel
     }
 
     /**
-     * Приводим полученный результат из-запроса к требуемому виду.
+     * Приводим полученный результат из запроса к требуемому виду.
      * В данном случае, ожидаем что полученные данные будут вида:
      * [
      *  'key' => 'value'
@@ -104,7 +104,7 @@ class DbConnect extends \MM\bot\models\db\DbControllerModel
 
     /**
      * Выполняем запрос на сохранение данных.
-     * Тут сть в том, что если данных для обновления нет, то будет добавлена новая запись.
+     * Тут суть в том, что если данных для обновления нет, то будет добавлена новая запись.
      *
      * @param QueryData $insertData
      * @param bool $isNew
