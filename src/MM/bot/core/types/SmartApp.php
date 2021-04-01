@@ -193,14 +193,20 @@ class SmartApp extends TemplateTypeModel
     {
         $request = new Request();
         $request->url = "https://smartapp-code.sberdevices.ru/tools/api/data/{$this->controller->userId}";
-        return $request->send();
+        $result = $request->send();
+        if ($result['status'] && $result['data']) {
+            return $result['data'];
+        }
+        return [];
     }
 
     protected function setUserData(?array $data)
     {
         $request = new Request();
+        $request->header = Request::HEADER_AP_JSON;
         $request->url = "https://smartapp-code.sberdevices.ru/tools/api/data/{$this->controller->userId}";
         $request->post = $data;
+        $request->isPostEncode = true;
         return $request->send();
     }
 

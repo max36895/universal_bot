@@ -274,7 +274,7 @@ class Bot
                             $userData->update();
                         }
                     } else {
-                        $botClass->setLocalStorage($userData->data);
+                        $botClass->setLocalStorage($this->botController->userData);
                     }
 
                     if ($botClass->getError()) {

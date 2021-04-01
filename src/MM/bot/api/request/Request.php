@@ -74,6 +74,13 @@ class Request
     public $isConvertJson;
 
     /**
+     * Нужно ли декодировать post запрос.
+     * По умолчанию false
+     * @var bool $isPostEncode
+     */
+    public $isPostEncode;
+
+    /**
      * Ошибки при выполнении запроса.
      * @var string $error
      */
@@ -94,6 +101,7 @@ class Request
         $this->customRequest = null;
         $this->maxTimeQuery = null;
         $this->isConvertJson = true;
+        $this->isPostEncode = false;
         $this->error = '';
     }
 
@@ -147,7 +155,9 @@ class Request
                 $post = array_merge($post, $this->post);
             }
             if (!empty($post)) {
-                //$post = json_encode($post);
+                if ($this->isPostEncode) {
+                    $post = json_encode($post);
+                }
                 curl_setopt($curl, CURLOPT_POST, 1);
                 curl_setopt($curl, CURLOPT_POSTFIELDS, $post);
             }
