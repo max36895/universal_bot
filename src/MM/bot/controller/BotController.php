@@ -242,7 +242,10 @@ abstract class BotController
      */
     public function run(): void
     {
-        $intent = $this->getIntent($this->userCommand);
+        $intent = $this->getIntent(strtolower($this->userCommand));
+        if ($intent === null && $this->originalUserCommand && $this->userCommand !== $this->originalUserCommand) {
+            $intent = $this->getIntent(strtolower($this->originalUserCommand));
+        }
         if ($intent === null && $this->messageId === 0) {
             $intent = WELCOME_INTENT_NAME;
         }
