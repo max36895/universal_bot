@@ -1,13 +1,9 @@
 <?php
-/**
- * Универсальное приложение по созданию навыков и ботов.
- * @version 1.0
- * @author Maxim-M maximco36895@yandex.ru
- */
 
 namespace MM\bot\components\card\types;
 
 
+use Exception;
 use MM\bot\components\button\Buttons;
 use MM\bot\models\ImageTokens;
 
@@ -23,6 +19,7 @@ class VkCard extends TemplateCardTypes
      *
      * @param bool $isOne True, если в любом случае отобразить 1 элемент карточки
      * @return array
+     * @throws Exception
      * @api
      */
     public function getCard(bool $isOne): array
@@ -52,24 +49,29 @@ class VkCard extends TemplateCardTypes
                         }
                     }
                     if ($image->imageToken) {
-                        $element = [
-                            'title' => $image->title,
-                            'description' => $image->desc,
-                            'photo_id' => str_replace('photo', '', $image->imageToken)
-                        ];
-                        $button = $image->button->getButtons(Buttons::T_VK_BUTTONS);
-                        /**
-                         * У карточки в любом случае должна быть хоть одна кнопка.
-                         * Максимальное количество кнопок 3
-                         */
-                        if ($button['one_time'] ?? false) {
-                            $element['buttons'] = array_splice($button['buttons'], 0, 3);
-                            $element['action'] = ['type' => 'open_photo'];
-                            $elements[] = $element;
+                        if ($this->isUsedGallery) {
+                            $object[] = $image->imageToken;
+
+                        } else {
+                            $element = [
+                                'title' => $image->title,
+                                'description' => $image->desc,
+                                'photo_id' => str_replace('photo', '', $image->imageToken)
+                            ];
+                            $button = $image->button->getButtons(Buttons::T_VK_BUTTONS);
+                            /**
+                             * У карточки в любом случае должна быть хоть одна кнопка.
+                             * Максимальное количество кнопок 3
+                             */
+                            if ($button['one_time'] ?? false) {
+                                $element['buttons'] = array_splice($button['buttons'], 0, 3);
+                                $element['action'] = ['type' => 'open_photo'];
+                                $elements[] = $element;
+                            }
                         }
                     }
                 }
-                if (count($elements)) {
+                if (!empty($elements)) {
                     $object = [
                         'type' => 'carousel',
                         'elements' => $elements

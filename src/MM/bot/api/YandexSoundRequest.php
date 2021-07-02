@@ -1,13 +1,9 @@
 <?php
-/**
- * Универсальное приложение по созданию навыков и ботов.
- * @version 1.0
- * @author Maxim-M maximco36895@yandex.ru
- */
 
 namespace MM\bot\api;
 
 
+use Exception;
 use MM\bot\api\request\Request;
 use MM\bot\core\mmApp;
 
@@ -41,10 +37,7 @@ class YandexSoundRequest extends YandexRequest
      */
     public function __construct(?string $oauth = null, ?string $skillId = null)
     {
-        if ($oauth == null) {
-            $oauth = mmApp::$params['yandex_token'] ?? null;
-        }
-        if ($skillId == null) {
+        if ($skillId === null) {
             $skillId = mmApp::$params['app_id'] ?? null;
         }
         $this->skillId = $skillId;
@@ -74,6 +67,7 @@ class YandexSoundRequest extends YandexRequest
      * - int used: Занятое место.
      * ]
      * @api
+     * @throws Exception
      */
     public function checkOutPlace(): ?array
     {
@@ -103,6 +97,7 @@ class YandexSoundRequest extends YandexRequest
      *  - string|null error: Текст ошибки.
      * ]
      * @api
+     * @throws Exception
      */
     public function downloadSoundFile(string $soundDir): ?array
     {
@@ -138,6 +133,7 @@ class YandexSoundRequest extends YandexRequest
      *  ]
      * ]
      * @api
+     * @throws Exception
      */
     public function getLoadedSounds(): ?array
     {
@@ -159,6 +155,7 @@ class YandexSoundRequest extends YandexRequest
      *
      * @return string|null
      * @api
+     * @throws Exception
      */
     public function deleteSound(string $soundId): ?string
     {
@@ -188,6 +185,7 @@ class YandexSoundRequest extends YandexRequest
      *
      * @return bool
      * @api
+     * @throws Exception
      */
     public function deleteSounds(): bool
     {

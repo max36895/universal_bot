@@ -1,9 +1,4 @@
 <?php
-/**
- * Универсальное приложение по созданию навыков и ботов.
- * @version 1.0
- * @author Maxim-M maximco36895@yandex.ru
- */
 
 namespace MM\bot\components\nlu;
 
@@ -73,7 +68,7 @@ class Nlu
      * @param array|null $nlu
      * @return array|null
      */
-    protected function serializeNlu(?array $nlu):?array
+    protected function serializeNlu(?array $nlu): ?array
     {
         // todo добавить обработку
         return $nlu;
@@ -101,7 +96,7 @@ class Nlu
     {
         $data = null;
         foreach ($this->nlu['entities'] as $entity) {
-            if (($entity['type'] ?? null) && $entity['type'] == $type) {
+            if (($entity['type'] ?? null) && $entity['type'] === $type) {
                 if ($data === null) {
                     $data = [];
                 }
@@ -374,7 +369,7 @@ class Nlu
      * ]
      * @api
      */
-    public function getIntent($intentName): ?array
+    public function getIntent(string $intentName): ?array
     {
         $intents = $this->getIntents();
         if ($intents) {

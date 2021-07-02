@@ -1,16 +1,12 @@
 <?php
-/**
- * Универсальное приложение по созданию навыков и ботов.
- * @version 1.0
- * @author Maxim-M maximco36895@yandex.ru
- */
 
 namespace MM\bot\models;
 
-use MM\bot\components\standard\Text;
+use Exception;
 use MM\bot\api\TelegramRequest;
 use MM\bot\api\VkRequest;
 use MM\bot\api\YandexSoundRequest;
+use MM\bot\components\standard\Text;
 use MM\bot\core\mmApp;
 use MM\bot\models\db\Model;
 use mysqli_result;
@@ -140,13 +136,18 @@ class SoundTokens extends Model
      * Получение идентификатора/токена мелодии.
      *
      * @return string|null
+     * @throws Exception
      * @api
      */
     public function getToken(): ?string
     {
+        $query = [
+            'path' => $this->path,
+            'type' => $this->type
+        ];
         switch ($this->type) {
             case self::T_ALISA:
-                if ($this->whereOne("`path`=\"{$this->path}\" AND `type`=" . self::T_ALISA)) {
+                if ($this->whereOne($query)) {
                     return $this->soundToken;
                 } else {
                     $yImage = new YandexSoundRequest(mmApp::$params['yandex_token'] ?? null, mmApp::$params['app_id'] ?? null);
@@ -166,7 +167,7 @@ class SoundTokens extends Model
                 break;
 
             case self::T_VK:
-                if ($this->whereOne("`path`=\"{$this->path}\" AND `type`=" . self::T_VK)) {
+                if ($this->whereOne($query)) {
                     return $this->soundToken;
                 } else {
                     $vkApi = new VkRequest();
@@ -188,7 +189,7 @@ class SoundTokens extends Model
 
             case self::T_TELEGRAM:
                 $telegramApi = new TelegramRequest();
-                if ($this->whereOne("`path`=\"{$this->path}\" AND `type`=" . self::T_TELEGRAM)) {
+                if ($this->whereOne($query)) {
                     $telegramApi->sendAudio(mmApp::$params['user_id'], $this->soundToken);
                     return $this->soundToken;
                 } else {
@@ -206,7 +207,6 @@ class SoundTokens extends Model
 
             case self::T_MARUSIA:
                 return null;
-                break;
         }
         return null;
     }

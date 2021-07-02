@@ -1,9 +1,4 @@
 <?php
-/**
- * Универсальное приложение по созданию навыков и ботов.
- * @version 1.0
- * @author Maxim-M maximco36895@yandex.ru
- */
 
 namespace MM\bot\components\button\types;
 
@@ -48,7 +43,7 @@ class ViberButton extends TemplateButtonTypes
             $buttons[] = $btn;
         }
 
-        if (count($buttons)) {
+        if (!empty($buttons)) {
             $object = [
                 'DefaultHeight' => true,
                 'BgColor' => '#FFFFFF',

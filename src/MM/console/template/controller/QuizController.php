@@ -34,15 +34,15 @@ class __className__Controller extends MM\bot\controller\BotController
      *
      * @param int $id Идентификатор записи
      */
-    protected function setQuestionText($id)
+    protected function setQuestionText(int $id)
     {
         if (!isset($this->question[$id])) {
             $id = 0;
         }
         $this->userData['question_id'] = $id;
         $this->text .= $this->question[$id]['text'];
-        $this->buttons->btn = $this->question[$id]['variants'];
-        array_shift($this->buttons->btn); // Для интереса перемешиваем кнопки
+        $this->buttons->btns = $this->question[$id]['variants'];
+        array_shift($this->buttons->btns); // Для интереса перемешиваем кнопки
     }
 
     /**
@@ -51,21 +51,21 @@ class __className__Controller extends MM\bot\controller\BotController
      * @param string $text пользовательский ответ
      * @param int $questionId номер вопроса
      */
-    protected function isSuccess($text, $questionId)
+    protected function isSuccess(string $text, int $questionId)
     {
         if (Text::isSayText($this->question[$questionId]['success'], $text)) {
             $successTexts = [
                 "Совершенно верно!\n"
             ];
             $this->text = Text::getText($successTexts);
-            $this->tts = $text . MM\bot\components\sound\types\AlisaSound::S_AUDIO_GAME_WIN;
+            $this->tts = $this->text . MM\bot\components\sound\types\AlisaSound::S_AUDIO_GAME_WIN;
             $questionId++;
         } else {
             $failTexts = [
                 "Ты ошибся... Попробуй ещё раз!\n"
             ];
-            $this->tts = $text . MM\bot\components\sound\types\AlisaSound::S_AUDIO_GAME_LOSS;
             $this->text = Text::getText($failTexts);
+            $this->tts = $this->text . MM\bot\components\sound\types\AlisaSound::S_AUDIO_GAME_LOSS;
         }
         $this->setQuestionText($questionId);
     }
@@ -87,7 +87,7 @@ class __className__Controller extends MM\bot\controller\BotController
      */
     protected function help()
     {
-        $this->text = MM\bot\core\mmApp::$params['help_text'];
+        $this->text = Text::getText(MM\bot\core\mmApp::$params['help_text']);
     }
 
     /**
@@ -101,12 +101,12 @@ class __className__Controller extends MM\bot\controller\BotController
      *
      * @param string|null $intentName Название действия.
      */
-    public function action($intentName): void
+    public function action(?string $intentName): void
     {
         switch ($intentName) {
             case WELCOME_INTENT_NAME:
                 $this->userData['prevCommand'] = self::START_QUESTION;
-                $this->buttons->btn = ['Да', 'Нет'];
+                $this->buttons->btns = ['Да', 'Нет'];
                 break;
 
             case 'replay':
@@ -126,7 +126,7 @@ class __className__Controller extends MM\bot\controller\BotController
                             $this->isEnd = true;
                         } else {
                             $this->text = 'Скажи, ты готов начать игру?';
-                            $this->buttons->btn = ['Да', 'Нет'];
+                            $this->buttons->btns = ['Да', 'Нет'];
                         }
                         break;
 

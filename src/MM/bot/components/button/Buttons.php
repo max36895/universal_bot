@@ -1,9 +1,4 @@
 <?php
-/**
- * Универсальное приложение по созданию навыков и ботов.
- * @version 1.0
- * @author Maxim-M maximco36895@yandex.ru
- */
 
 namespace MM\bot\components\button;
 
@@ -119,11 +114,11 @@ class Buttons
      * @param string|array|null $payload Произвольные данные, отправляемые при нажатии кнопки.
      * @param bool|null $hide True, если отображать кнопку как сайджест.
      * @param array $options Дополнительные параметры для кнопки
+     * @return bool
      * @see Button::options Описание опции options
      *
-     * @return bool
      */
-    protected function add($title, ?string $url, $payload, ?bool $hide, array $options = []): bool
+    protected function add(string $title, ?string $url, $payload, ?bool $hide, array $options = []): bool
     {
         $button = new Button();
         if ($hide === Button::B_LINK) {
@@ -149,11 +144,11 @@ class Buttons
      * @param string|null $url Ссылка для перехода при нажатии на кнопку.
      * @param string|array|null $payload Произвольные данные, отправляемые при нажатии кнопки.
      * @param array $options Дополнительные параметры для кнопки
-     * @see Button::options Описание опции options
      * @return bool
+     * @see Button::options Описание опции options
      * @api
      */
-    public function addBtn($title, ?string $url = '', $payload = '', array $options = []): bool
+    public function addBtn(string $title, ?string $url = '', $payload = '', array $options = []): bool
     {
         return $this->add($title, $url, $payload, Button::B_BTN, $options);
     }
@@ -165,11 +160,11 @@ class Buttons
      * @param string|null $url Ссылка для перехода при нажатии на кнопку.
      * @param array|string|null $payload Произвольные данные, отправляемые при нажатии кнопки.
      * @param array $options Дополнительные параметры для кнопки
-     * @see Button::options Описание опции options
      * @return bool
+     * @see Button::options Описание опции options
      * @api
      */
-    public function addLink($title, ?string $url = '', $payload = '', array $options = []): bool
+    public function addLink(string $title, ?string $url = '', $payload = '', array $options = []): bool
     {
         return $this->add($title, $url, $payload, Button::B_LINK, $options);
     }
@@ -180,7 +175,7 @@ class Buttons
      */
     protected function processing(): void
     {
-        if (count($this->btns)) {
+        if (!empty($this->btns)) {
             if (is_array($this->btns)) {
                 foreach ($this->btns as $btn) {
                     if (is_array($btn)) {
@@ -194,7 +189,7 @@ class Buttons
                 $this->addBtn((string)$this->btns);
             }
         }
-        if (count($this->links)) {
+        if (!empty($this->links)) {
             if (is_array($this->links)) {
                 foreach ($this->links as $link) {
                     if (is_array($link)) {
@@ -280,10 +275,10 @@ class Buttons
      * @return string|null
      * @api
      */
-    public function getButtonJson(?string $type = null, ?TemplateButtonTypes $userButton): ?string
+    public function getButtonJson(?string $type = null, ?TemplateButtonTypes $userButton = null): ?string
     {
         $btn = $this->getButtons($type, $userButton);
-        if (count($btn)) {
+        if (!empty($btn)) {
             return json_encode($btn, JSON_UNESCAPED_UNICODE);
         }
         return null;

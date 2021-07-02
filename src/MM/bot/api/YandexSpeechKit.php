@@ -1,13 +1,9 @@
 <?php
-/**
- * Универсальное приложение по созданию навыков и ботов.
- * @version 1.0
- * @author Maxim-M maximco36895@yandex.ru
- */
 
 namespace MM\bot\api;
 
 
+use Exception;
 use MM\bot\core\mmApp;
 
 /**
@@ -153,7 +149,7 @@ class YandexSpeechKit extends YandexRequest
             }
             $this->request->post['speed'] = (string)$this->speed;
         }
-        if ($this->format == self::F_LPCM && $this->sampleRateHertz) {
+        if ($this->format === self::F_LPCM && $this->sampleRateHertz) {
             $this->request->post['sampleRateHertz'] = $this->sampleRateHertz;
         }
         if ($this->folderId) {
@@ -168,8 +164,9 @@ class YandexSpeechKit extends YandexRequest
      *
      * @param string|null $text Текст для преобразования
      * @return mixed
-     * @see (https://cloud.yandex.ru/docs/speechkit/tts/request) Смотри тут
+     * @throws Exception
      * @api
+     * @see (https://cloud.yandex.ru/docs/speechkit/tts/request) Смотри тут
      */
     public function getTts(?string $text = null)
     {

@@ -1,13 +1,9 @@
 <?php
-/**
- * Универсальное приложение по созданию навыков и ботов.
- * @version 1.0
- * @author Maxim-M maximco36895@yandex.ru
- */
 
 namespace MM\bot\api;
 
 
+use Exception;
 use MM\bot\api\request\Request;
 use MM\bot\core\mmApp;
 
@@ -74,6 +70,7 @@ class YandexRequest
      * @param string|null $url Адрес запроса.
      * @return mixed
      * @api
+     * @throws Exception
      */
     public function call(?string $url = null)
     {
@@ -92,6 +89,7 @@ class YandexRequest
      * Сохранение логов
      *
      * @param string $error Текст ошибки
+     * @throws Exception
      * @api
      */
     protected function log(string $error): void

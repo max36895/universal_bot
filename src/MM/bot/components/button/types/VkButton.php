@@ -1,9 +1,4 @@
 <?php
-/**
- * Универсальное приложение по созданию навыков и ботов.
- * @version 1.0
- * @author Maxim-M maximco36895@yandex.ru
- */
 
 namespace MM\bot\components\button\types;
 
@@ -60,13 +55,15 @@ class VkButton extends TemplateButtonTypes
             if (isset($button->payload['color']) && !$button->url) {
                 $object['color'] = $button->payload['color'];
             }
-            if ($button->type == Button::VK_TYPE_PAY) {
+            if ($button->type === Button::VK_TYPE_PAY) {
                 $object['hash'] = $button->payload['hash'] ?? null;
             }
             $object = mmApp::arrayMerge($object, $button->options);
             if (isset($button->options[self::GROUP_NAME])) {
                 unset($object[self::GROUP_NAME]);
-                $object['payload'] = json_encode($object['payload']);
+                if(isset($object['payload'])) {
+                    $object['payload'] = json_encode($object['payload']);
+                }
                 if (isset($groups[$button->options[self::GROUP_NAME]])) {
                     $buttons[$groups[$button->options[self::GROUP_NAME]]][] = $object;
                 } else {
@@ -78,13 +75,13 @@ class VkButton extends TemplateButtonTypes
                 if (isset($object['payload'])) {
                     $object['payload'] = json_encode($object['payload']);
                 }
-                $buttons[$index] = [$object];
+                $buttons[$index] = $object;
                 $index++;
             }
         }
 
         return [
-            'one_time' => count($buttons) ? true : false,
+            'one_time' => !empty($buttons),
             'buttons' => $buttons
         ];
     }

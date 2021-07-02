@@ -1,13 +1,9 @@
 <?php
-/**
- * Универсальное приложение по созданию навыков и ботов.
- * @version 1.0
- * @author Maxim-M maximco36895@yandex.ru
- */
 
 namespace MM\bot\components\sound;
 
 
+use Exception;
 use MM\bot\components\sound\types\AlisaSound;
 use MM\bot\components\sound\types\TelegramSound;
 use MM\bot\components\sound\types\TemplateSoundTypes;
@@ -49,6 +45,7 @@ class Sound
      * @param string $text Исходный текст.
      * @param TemplateSoundTypes|null $userSound Пользовательский класс для обработки звуков.
      * @return string|array
+     * @throws Exception
      * @api
      */
     public function getSounds(string $text, ?TemplateSoundTypes $userSound = null)
@@ -73,9 +70,6 @@ class Sound
                 break;
 
             case T_MARUSIA:
-                $sound = null;
-                break;
-
             case T_SMARTAPP:
                 $sound = null;
                 break;

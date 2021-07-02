@@ -1,9 +1,4 @@
 <?php
-/**
- * Универсальное приложение по созданию навыков и ботов.
- * @version 1.0
- * @author Maxim-M maximco36895@yandex.ru
- */
 
 namespace MM\bot\components\standard;
 
@@ -60,11 +55,14 @@ class Text
      * @return bool
      * @api
      */
-    public static function isSayTrue(string $text)
+    public static function isSayTrue(string $text): bool
     {
-        $pattern = '/(\bда\b)|(\bконечно\b)|(\bсоглас[^s]+\b)|(\bподтвер[^s]+\b)/umi';
-        preg_match_all($pattern, $text, $data);
-        return (($data[0][0] ?? null) ? true : false);
+        if ($text) {
+            $pattern = '/(\bда\b)|(\bконечно\b)|(\bсоглас[^s]+\b)|(\bподтвер[^s]+\b)/umi';
+            preg_match_all($pattern, $text, $data);
+            return (($data[0][0] ?? null) ? true : false);
+        }
+        return false;
     }
 
     /**
@@ -74,11 +72,14 @@ class Text
      * @return bool
      * @api
      */
-    public static function isSayFalse(string $text)
+    public static function isSayFalse(string $text): bool
     {
-        $pattern = '/(\bнет\b)|(\bнеа\b)|(\bне\b)/umi';
-        preg_match_all($pattern, $text, $data);
-        return (($data[0][0] ?? null) ? true : false);
+        if ($text) {
+            $pattern = '/(\bнет\b)|(\bнеа\b)|(\bне\b)/umi';
+            preg_match_all($pattern, $text, $data);
+            return (($data[0][0] ?? null) ? true : false);
+        }
+        return false;
     }
 
     /**
@@ -92,28 +93,38 @@ class Text
      */
     public static function isSayText($find, string $text, bool $isPattern = false): bool
     {
-        $pattern = '';
-        if (is_array($find)) {
-            foreach ($find as $value) {
-                if ($pattern) {
-                    $pattern .= '|';
+        if ($text) {
+            $pattern = '';
+            if (is_array($find)) {
+                foreach ($find as $value) {
+                    if ($isPattern) {
+                        if ($pattern) {
+                            $pattern .= '|';
+                        }
+                        $pattern .= "({$value})";
+                    } else {
+                        if (strpos($text, $value) !== false) {
+                            return true;
+                        }
+                        //$pattern .= "(\\b{$value}(|[^\\s]+)\\b)";
+                    }
                 }
-                if (!$isPattern) {
-                    $pattern .= "(\\b{$value}(|[^\\s]+)\\b)";
-                } else {
-                    $pattern .= "({$value})";
-                }
-
-            }
-        } else {
-            if (!$isPattern) {
-                $pattern = "(\\b{$find}(|[^\\s]+)\\b)";
             } else {
-                $pattern = $find;
+                if ($isPattern) {
+                    $pattern = $find;
+                } else {
+                    if (strpos($text, $find) !== false) {
+                        return true;
+                    }
+                    //$pattern = "(\\b{$find}(|[^\\s]+)\\b)";
+                }
+            }
+            if ($isPattern && $pattern) {
+                @preg_match_all('/' . $pattern . '/umi', $text, $data);
+                return (($data[0][0] ?? null) ? true : false);
             }
         }
-        @preg_match_all('/' . $pattern . '/umi', $text, $data);
-        return (($data[0][0] ?? null) ? true : false);
+        return false;
     }
 
     /**
@@ -197,7 +208,7 @@ class Text
         $origText = mb_strtolower($origText);
         foreach ($text as $index => $res) {
             $res = mb_strtolower($res);
-            if ($res == $origText) {
+            if ($res === $origText) {
                 return ['status' => true, 'index' => $index, 'text' => $res, 'percent' => 100];
             }
             $per = 0;

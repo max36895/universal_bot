@@ -1,13 +1,9 @@
 <?php
-/**
- * Универсальное приложение по созданию навыков и ботов.
- * @version 1.0
- * @author Maxim-M maximco36895@yandex.ru
- */
 
 namespace MM\bot\components\card\types;
 
 
+use Exception;
 use MM\bot\components\button\Buttons;
 use MM\bot\components\standard\Text;
 use MM\bot\models\ImageTokens;
@@ -28,6 +24,7 @@ class MarusiaCard extends TemplateCardTypes
      *
      * @param bool $isOne True, если в любом случае отобразить 1 элемент карточки
      * @return array
+     * @throws Exception
      * @api
      */
     public function getCard(bool $isOne): array

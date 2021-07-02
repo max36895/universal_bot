@@ -1,12 +1,8 @@
 <?php
-/**
- * Универсальное приложение по созданию навыков и ботов.
- * @version 1.0
- * @author Maxim-M maximco36895@yandex.ru
- */
 
 namespace MM\bot\components\sound\types;
 
+use Exception;
 use MM\bot\components\standard\Text;
 use MM\bot\models\SoundTokens;
 
@@ -343,6 +339,7 @@ class AlisaSound extends TemplateSoundTypes
      * @param string $text Исходный текст.
      * @return string
      * @api
+     * @throws Exception
      */
     public function getSounds(?array $sounds, string $text): string
     {
@@ -399,6 +396,6 @@ class AlisaSound extends TemplateSoundTypes
      */
     public static function removeSound(string $text): string
     {
-        return preg_replace("/(<speaker audio=\"([^\"]+)\">)|(<speaker effect=\"([^\"]+)\">)|(sil <\\\[\\d{0,}\\\]>)/ium", '', $text);
+        return preg_replace("/(<speaker audio=\"([^\"]+)\">)|(<speaker effect=\"([^\"]+)\">)|(sil <\\[\\d{0,}\\]>)/ium", '', $text);
     }
 }

@@ -1,9 +1,4 @@
 <?php
-/**
- * Универсальное приложение по созданию навыков и ботов.
- * @version 1.0
- * @author Maxim-M maximco36895@yandex.ru
- */
 
 namespace MM\bot\api\request;
 
@@ -79,6 +74,13 @@ class Request
     public $isConvertJson;
 
     /**
+     * Нужно ли декодировать post запрос.
+     * По умолчанию false
+     * @var bool $isPostEncode
+     */
+    public $isPostEncode;
+
+    /**
      * Ошибки при выполнении запроса.
      * @var string $error
      */
@@ -99,6 +101,7 @@ class Request
         $this->customRequest = null;
         $this->maxTimeQuery = null;
         $this->isConvertJson = true;
+        $this->isPostEncode = false;
         $this->error = '';
     }
 
@@ -151,8 +154,10 @@ class Request
                 }
                 $post = array_merge($post, $this->post);
             }
-            if (count($post)) {
-                //$post = json_encode($post);
+            if (!empty($post)) {
+                if ($this->isPostEncode) {
+                    $post = json_encode($post);
+                }
                 curl_setopt($curl, CURLOPT_POST, 1);
                 curl_setopt($curl, CURLOPT_POSTFIELDS, $post);
             }

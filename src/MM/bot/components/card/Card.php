@@ -1,13 +1,9 @@
 <?php
-/**
- * Универсальное приложение по созданию навыков и ботов.
- * @version 1.0
- * @author Maxim-M maximco36895@yandex.ru
- */
 
 namespace MM\bot\components\card;
 
 
+use Exception;
 use MM\bot\components\button\Buttons;
 use MM\bot\components\card\types\AlisaCard;
 use MM\bot\components\card\types\SmartAppCard;
@@ -61,6 +57,14 @@ class Card
     public $isUsedGallery = false;
 
     /**
+     * Произвольных шаблон, который отобразится вместо стандартного.
+     * Рекомендуется использовать для smartApp, так как для него существует множество вариация для отображения карточек + есть списки
+     * При использовании переменной, Вы сами отвечаете за корректное отображение карточки.
+     * @var null $template
+     */
+    public $template = null;
+
+    /**
      * Card constructor.
      */
     public function __construct()
@@ -80,7 +84,7 @@ class Card
     }
 
     /**
-     * Вставляем элемент в каточку|список. В сучае успеха вернет true.
+     * Вставляем элемент в каточку|список. В случае успеха вернет true.
      *
      * @param string|null $image Идентификатор или расположение изображения.
      * @param string $title Заголовок для изображения.
@@ -104,10 +108,14 @@ class Card
      *
      * @param TemplateCardTypes|null $userCard Пользовательский класс для отображения каточки.
      * @return array
+     * @throws Exception
      * @api
      */
     public function getCards(?TemplateCardTypes $userCard = null): array
     {
+        if ($this->template) {
+            return $this->template;
+        }
         $card = null;
         switch (mmApp::$appType) {
             case T_ALISA:
@@ -153,6 +161,7 @@ class Card
      *
      * @param TemplateCardTypes|null $userCard Пользовательский класс для отображения каточки.
      * @return string
+     * @throws Exception
      * @api
      */
     public function getCardsJson(?TemplateCardTypes $userCard): string

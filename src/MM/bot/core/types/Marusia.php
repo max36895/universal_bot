@@ -1,13 +1,9 @@
 <?php
-/**
- * Универсальное приложение по созданию навыков и ботов.
- * @version 1.0
- * @author Maxim-M maximco36895@yandex.ru
- */
 
 namespace MM\bot\core\types;
 
 
+use Exception;
 use MM\bot\components\button\Buttons;
 use MM\bot\components\sound\types\AlisaSound;
 use MM\bot\components\standard\Text;
@@ -15,7 +11,7 @@ use MM\bot\controller\BotController;
 use MM\bot\core\mmApp;
 
 /**
- * Класс, отвечающий за корректную инициализацию и отправку ответа для Макруси.
+ * Класс, отвечающий за корректную инициализацию и отправку ответа для Маруси.
  * Class Marusia
  * @package bot\core\types
  * @see TemplateTypeModel Смотри тут
@@ -40,6 +36,7 @@ class Marusia extends TemplateTypeModel
      * Получение данных, необходимых для построения ответа пользователю.
      *
      * @return array
+     * @throws Exception
      */
     protected function getResponse(): array
     {
@@ -48,7 +45,7 @@ class Marusia extends TemplateTypeModel
         $response['tts'] = Text::resize($this->controller->tts, 1024);
 
         if ($this->controller->isScreen) {
-            if (count($this->controller->card->images)) {
+            if (!empty($this->controller->card->images)) {
                 $response['card'] = $this->controller->card->getCards();
             }
             $response['buttons'] = $this->controller->buttons->getButtons(Buttons::T_ALISA_BUTTONS);
@@ -96,7 +93,7 @@ class Marusia extends TemplateTypeModel
             $this->controller = &$controller;
             $this->controller->requestObject = $content;
 
-            if ($content['request']['type'] == 'SimpleUtterance') {
+            if ($content['request']['type'] === 'SimpleUtterance') {
                 $this->controller->userCommand = trim($content['request']['command'] ?? '');
                 $this->controller->originalUserCommand = trim($content['request']['original_utterance'] ?? '');
             } else {
@@ -132,8 +129,9 @@ class Marusia extends TemplateTypeModel
      * Получение ответа, который отправится пользователю. В случае с Алисой, Марусей и Сбер, возвращается json. С остальными типами, ответ отправляется непосредственно на сервер.
      *
      * @return string
-     * @see TemplateTypeModel::getContext() Смотри тут
+     * @throws Exception
      * @api
+     * @see TemplateTypeModel::getContext() Смотри тут
      */
     public function getContext(): string
     {

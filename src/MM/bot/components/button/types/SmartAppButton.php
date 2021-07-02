@@ -1,9 +1,4 @@
 <?php
-/**
- * Универсальное приложение по созданию навыков и ботов.
- * @version 1.0
- * @author Maxim-M maximco36895@yandex.ru
- */
 
 namespace MM\bot\components\button\types;
 
@@ -52,7 +47,7 @@ class SmartAppButton extends TemplateButtonTypes
     {
         $objects = [];
         if ($this->isCard) {
-            if (count($this->buttons)) {
+            if (!empty($this->buttons)) {
                 if ($this->buttons[0]->url) {
                     return [
                         'deep_link' => $this->buttons[0]->url,
@@ -63,7 +58,7 @@ class SmartAppButton extends TemplateButtonTypes
                     if ($text) {
                         return [
                             'text' => $text,
-                            'type' => 'deep_link'
+                            'type' => 'text'
                         ];
                     }
                 }

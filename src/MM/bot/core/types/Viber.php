@@ -1,16 +1,12 @@
 <?php
-/**
- * Универсальное приложение по созданию навыков и ботов.
- * @version 1.0
- * @author Maxim-M maximco36895@yandex.ru
- */
 
 namespace MM\bot\core\types;
 
 
+use Exception;
+use MM\bot\api\ViberRequest;
 use MM\bot\components\button\Buttons;
 use MM\bot\controller\BotController;
-use MM\bot\api\ViberRequest;
 use MM\bot\core\mmApp;
 
 /**
@@ -78,7 +74,6 @@ class Viber extends TemplateTypeModel
                         mmApp::$params['viber_api_version'] = $content['user']['api_version'] ?? 2;
                         $this->setNlu($content['sender']['name'] ?? '');
                         return true;
-                        break;
 
                     case 'message':
                         $this->controller->userId = $content['sender']['id'];
@@ -91,7 +86,6 @@ class Viber extends TemplateTypeModel
 
                         $this->setNlu($content['sender']['name'] ?? '');
                         return true;
-                        break;
                 }
             }
         } else {
@@ -122,8 +116,9 @@ class Viber extends TemplateTypeModel
      * Получение ответа, который отправится пользователю. В случае с Алисой, Марусей и Сбер, возвращается json. С остальными типами, ответ отправляется непосредственно на сервер.
      *
      * @return string
-     * @see TemplateTypeModel::getContext() Смотри тут
+     * @throws Exception
      * @api
+     * @see TemplateTypeModel::getContext() Смотри тут
      */
     public function getContext(): string
     {
@@ -138,14 +133,14 @@ class Viber extends TemplateTypeModel
 
             $viberApi->sendMessage($this->controller->userId, mmApp::$params['viber_sender'], $this->controller->text, $params);
 
-            if (count($this->controller->card->images)) {
+            if (!empty($this->controller->card->images)) {
                 $res = $this->controller->card->getCards();
-                if (count($res)) {
+                if (!empty($res)) {
                     $viberApi->richMedia($this->controller->userId, $res);
                 }
             }
 
-            if (count($this->controller->sound->sounds)) {
+            if (!empty($this->controller->sound->sounds)) {
                 $this->controller->sound->getSounds($this->controller->tts);
             }
         }

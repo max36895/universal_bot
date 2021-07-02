@@ -1,13 +1,9 @@
 <?php
-/**
- * Универсальное приложение по созданию навыков и ботов.
- * @version 1.0
- * @author Maxim-M maximco36895@yandex.ru
- */
 
 namespace MM\bot\core\types;
 
 
+use Exception;
 use MM\bot\components\button\Buttons;
 use MM\bot\components\sound\types\AlisaSound;
 use MM\bot\components\standard\Text;
@@ -50,6 +46,7 @@ class Alisa extends TemplateTypeModel
      * Получение данных, необходимых для построения ответа пользователю.
      *
      * @return array
+     * @throws Exception
      */
     protected function getResponse(): array
     {
@@ -58,7 +55,7 @@ class Alisa extends TemplateTypeModel
         $response['tts'] = Text::resize($this->controller->tts, 1024);
 
         if ($this->controller->isScreen) {
-            if (count($this->controller->card->images)) {
+            if (!empty($this->controller->card->images)) {
                 $response['card'] = $this->controller->card->getCards();
             }
             $response['buttons'] = $this->controller->buttons->getButtons(Buttons::T_ALISA_BUTTONS);
@@ -73,8 +70,9 @@ class Alisa extends TemplateTypeModel
      * @param string|null $content Запрос пользователя.
      * @param BotController $controller Ссылка на класс с логикой навык/бота.
      * @return bool
-     * @see TemplateTypeModel::init() Смотри тут
+     * @throws Exception
      * @api
+     * @see TemplateTypeModel::init() Смотри тут
      */
     public function init(?string $content, BotController &$controller): bool
     {
@@ -92,7 +90,7 @@ class Alisa extends TemplateTypeModel
             $this->controller = &$controller;
             $this->controller->requestObject = $content;
 
-            if ($content['request']['type'] == 'SimpleUtterance') {
+            if ($content['request']['type'] === 'SimpleUtterance') {
                 $this->controller->userCommand = trim($content['request']['command'] ?? '');
                 $this->controller->originalUserCommand = trim($content['request']['original_utterance'] ?? '');
             } else {
@@ -118,7 +116,7 @@ class Alisa extends TemplateTypeModel
                 }
             }
 
-            if ($userId == null) {
+            if ($userId === null) {
                 if (isset($this->session['application'], $this->session['application']['application_id'])) {
                     $userId = $this->session['application']['application_id'];
                 } else {
@@ -151,7 +149,7 @@ class Alisa extends TemplateTypeModel
              * Раз в какое-то время Яндекс отправляет запрос ping, для проверки корректности работы навыка.
              * @see (https://yandex.ru/dev/dialogs/alice/doc/health-check-docpage/) Смотри тут
              */
-            if ($this->controller->originalUserCommand == 'ping') {
+            if ($this->controller->originalUserCommand === 'ping') {
                 $this->controller->text = 'pong';
                 echo $this->getContext();
                 die();
@@ -167,8 +165,9 @@ class Alisa extends TemplateTypeModel
      * Получение ответа, который отправится пользователю. В случае с Алисой, Марусей и Сбер, возвращается json. С остальными типами, ответ отправляется непосредственно на сервер.
      *
      * @return string
-     * @see TemplateTypeModel::getContext() Смотри тут
+     * @throws Exception
      * @api
+     * @see TemplateTypeModel::getContext() Смотри тут
      */
     public function getContext(): string
     {
@@ -177,7 +176,7 @@ class Alisa extends TemplateTypeModel
             $result['start_account_linking'] = function () {
             };
         } else {
-            if (count($this->controller->sound->sounds) || $this->controller->sound->isUsedStandardSound) {
+            if (!empty($this->controller->sound->sounds) || $this->controller->sound->isUsedStandardSound) {
                 if (!$this->controller->tts) {
                     $this->controller->tts = $this->controller->text;
                 }

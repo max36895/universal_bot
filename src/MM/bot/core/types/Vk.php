@@ -1,16 +1,12 @@
 <?php
-/**
- * Универсальное приложение по созданию навыков и ботов.
- * @version 1.0
- * @author Maxim-M maximco36895@yandex.ru
- */
 
 namespace MM\bot\core\types;
 
 
+use Exception;
+use MM\bot\api\VkRequest;
 use MM\bot\components\button\Buttons;
 use MM\bot\controller\BotController;
-use MM\bot\api\VkRequest;
 use MM\bot\core\mmApp;
 
 /**
@@ -27,8 +23,9 @@ class Vk extends TemplateTypeModel
      * @param string|null $content Запрос пользователя.
      * @param BotController $controller Ссылка на класс с логикой навык/бота.
      * @return bool
-     * @see TemplateTypeModel::init() Смотри тут
+     * @throws Exception
      * @api
+     * @see TemplateTypeModel::init() Смотри тут
      */
     public function init(?string $content, BotController &$controller): bool
     {
@@ -67,7 +64,6 @@ class Vk extends TemplateTypeModel
                 case 'confirmation':
                     echo mmApp::$params['vk_confirmation_token'];
                     die();
-                    break;
 
                 case 'message_new':
                     if (isset($content['object'])) {
@@ -92,7 +88,6 @@ class Vk extends TemplateTypeModel
                         return true;
                     }
                     return false;
-                    break;
                 default:
                     $this->error = 'Vk:init(): Некорректный тип данных!';
                     break;
@@ -108,8 +103,9 @@ class Vk extends TemplateTypeModel
      * Получение ответа, который отправится пользователю. В случае с Алисой, Марусей и Сбер, возвращается json. С остальными типами, ответ отправляется непосредственно на сервер.
      *
      * @return string
-     * @see TemplateTypeModel::getContext() Смотри тут
+     * @throws Exception
      * @api
+     * @see TemplateTypeModel::getContext() Смотри тут
      */
     public function getContext(): string
     {
@@ -119,7 +115,7 @@ class Vk extends TemplateTypeModel
             if ($keyboard) {
                 $params['keyboard'] = $keyboard;
             }
-            if (count($this->controller->card->images)) {
+            if (!empty($this->controller->card->images)) {
                 $attach = $this->controller->card->getCards();
                 if (isset($attach['type'])) {
                     $params['template'] = $attach;
@@ -127,7 +123,7 @@ class Vk extends TemplateTypeModel
                     $params['attachments'] = $attach;
                 }
             }
-            if (count($this->controller->sound->sounds)) {
+            if (!empty($this->controller->sound->sounds)) {
                 $attach = $this->controller->sound->getSounds($this->controller->tts);
                 $params['attachments'] = array_merge($attach, $params['attachments']);
             }

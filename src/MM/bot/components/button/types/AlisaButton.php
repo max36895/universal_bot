@@ -1,9 +1,4 @@
 <?php
-/**
- * Универсальное приложение по созданию навыков и ботов.
- * @version 1.0
- * @author Maxim-M maximco36895@yandex.ru
- */
 
 namespace MM\bot\components\button\types;
 
@@ -79,7 +74,7 @@ class AlisaButton extends TemplateButtonTypes
     {
         $objects = [];
         if ($this->isCard) {
-            if (count($this->buttons)) {
+            if (!empty($this->buttons)) {
                 return $this->getButton($this->buttons[0]);
             }
         } else {

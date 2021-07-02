@@ -1,9 +1,4 @@
 <?php
-/**
- * Универсальное приложение по созданию навыков и ботов.
- * @version 1.0
- * @author Maxim-M maximco36895@yandex.ru
- */
 
 namespace MM\bot\components\button;
 
@@ -62,7 +57,7 @@ class Button
     /**
      * Дополнительные параметры для кнопки.
      * [
-     *  string _group: Задается в том случае, если нужно объеденить кнопку в группу.
+     *  string _group: Задается в том случае, если нужно объединить кнопку в группу.
      *  Дополнительные опции для кнопки.
      * ]
      * @var array $options
@@ -90,12 +85,12 @@ class Button
      * @param string|array|null $payload Произвольные данные, отправляемые при нажатии кнопки.
      * @param bool|null $hide True, чтобы отображать кнопку как сайджест.
      * @param array $options Дополнительные параметры для кнопки.
-     * @see Button::options Описание опции options
      * @return bool
+     * @see Button::options Описание опции options
      */
-    private function init(string $title, ?string $url, $payload, $hide, array $options = []): bool
+    private function init(string $title, ?string $url, $payload, bool $hide, array $options = []): bool
     {
-        if ($title || $title == '') {
+        if ($title || $title === '') {
             $this->title = (string)$title;
             if ($url && Text::isSayText('((http|s:\/\/)[^( |\n)]+)', $url, true)) {
                 if (mmApp::$params['utm_text'] === null) {
@@ -134,11 +129,11 @@ class Button
      * @param string|null $url Ссылка для перехода, при нажатии кнопки.
      * @param string|array|null $payload Произвольные данные, отправляемые при нажатии кнопки.
      * @param array $options Дополнительные параметры для кнопки
-     * @see Button::options Описание опции options
      * @return bool
+     * @see Button::options Описание опции options
      * @api
      */
-    public function initLink($title, ?string $url = '', $payload = null, array $options = []): bool
+    public function initLink(string $title, ?string $url = '', $payload = null, array $options = []): bool
     {
         return $this->init($title, $url, $payload, self::B_LINK, $options);
     }
@@ -150,11 +145,11 @@ class Button
      * @param string|null $url Ссылка для перехода, при нажатии кнопки.
      * @param string|array|null $payload Произвольные данные, отправляемые при нажатии кнопки.
      * @param array $options Дополнительные параметры для кнопки
-     * @see Button::options Описание опции options
      * @return bool
+     * @see Button::options Описание опции options
      * @api
      */
-    public function initBtn($title, ?string $url = '', $payload = null, array $options = []): bool
+    public function initBtn(string $title, ?string $url = '', $payload = null, array $options = []): bool
     {
         return $this->init($title, $url, $payload, self::B_BTN, $options);
     }

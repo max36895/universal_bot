@@ -1,9 +1,4 @@
 <?php
-/**
- * Универсальное приложение по созданию навыков и ботов.
- * @version 1.0
- * @author Maxim-M maximco36895@yandex.ru
- */
 
 namespace MM\bot\models\db;
 
@@ -64,6 +59,7 @@ class Sql
      *
      * @return bool
      * @api
+     * @throws Exception
      */
     public function standardInit(): bool
     {
@@ -113,9 +109,13 @@ class Sql
      *
      * @return bool
      * @api
+     * @throws Exception
      */
     public function connect(): bool
     {
+        /**
+         * @var DB|null $vDB
+         */
         global $vDB;
         if ($vDB->connect() === false) {
             $this->saveLog(sprintf("Ошибка при подключении к БД.\n%s" . $vDB->errors[0]));
@@ -168,6 +168,7 @@ class Sql
      *
      * @param string $errorMsg Текст ошибки.
      * @return bool
+     * @throws Exception
      */
     private function saveLog(string $errorMsg): bool
     {

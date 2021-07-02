@@ -1,16 +1,12 @@
 <?php
-/**
- * Универсальное приложение по созданию навыков и ботов.
- * @version 1.0
- * @author Maxim-M maximco36895@yandex.ru
- */
 
 namespace MM\bot\models;
 
-use MM\bot\components\standard\Text;
+use Exception;
 use MM\bot\api\TelegramRequest;
 use MM\bot\api\VkRequest;
 use MM\bot\api\YandexImageRequest;
+use MM\bot\components\standard\Text;
 use MM\bot\core\mmApp;
 use MM\bot\models\db\Model;
 use mysqli_result;
@@ -140,13 +136,18 @@ class ImageTokens extends Model
      * Получение идентификатора/токена изображения.
      *
      * @return string|null
+     * @throws Exception
      * @api
      */
     public function getToken(): ?string
     {
+        $query = [
+            'path' => $this->path,
+            'type' => $this->type
+        ];
         switch ($this->type) {
             case self::T_ALISA:
-                if ($this->whereOne("`path`=\"{$this->path}\" AND `type`=" . self::T_ALISA)) {
+                if ($this->whereOne($query)) {
                     return $this->imageToken;
                 } else {
                     $yImage = new YandexImageRequest(mmApp::$params['yandex_token'] ?? null, mmApp::$params['app_id'] ?? null);
@@ -166,7 +167,8 @@ class ImageTokens extends Model
 
             case self::T_VK:
             case self::T_MARUSIA: // TODO не понятно как получить токен, возможно также и в вк
-                if ($this->whereOne("`path`=\"{$this->path}\" AND `type`=" . self::T_VK)) {
+                $query['type'] = self::T_VK;
+                if ($this->whereOne($query)) {
                     return $this->imageToken;
                 } else {
                     $vkApi = new VkRequest();
@@ -188,7 +190,7 @@ class ImageTokens extends Model
 
             case self::T_TELEGRAM:
                 $telegramApi = new TelegramRequest();
-                if ($this->whereOne("`path`=\"{$this->path}\" AND `type`=" . self::T_TELEGRAM)) {
+                if ($this->whereOne($query)) {
                     $telegramApi->sendPhoto(mmApp::$params['user_id'], $this->imageToken, $this->caption);
                     return $this->imageToken;
                 } else {

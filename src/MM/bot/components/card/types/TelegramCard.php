@@ -1,13 +1,9 @@
 <?php
-/**
- * Универсальное приложение по созданию навыков и ботов.
- * @version 1.0
- * @author Maxim-M maximco36895@yandex.ru
- */
 
 namespace MM\bot\components\card\types;
 
 
+use Exception;
 use MM\bot\api\TelegramRequest;
 use MM\bot\core\mmApp;
 use MM\bot\models\ImageTokens;
@@ -25,6 +21,7 @@ class TelegramCard extends TemplateCardTypes
      * todo подумать над корректным отображением.
      * @param bool $isOne True, если нужно отобразить только 1 элемент. Не используется.
      * @return array
+     * @throws Exception
      * @api
      */
     public function getCard(bool $isOne): array

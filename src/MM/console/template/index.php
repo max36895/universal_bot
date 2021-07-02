@@ -5,7 +5,7 @@
  * Time: {{time}}
  */
 
-require_once '{{__BotDir__}}/init.php';
+require_once '{{__BotDir__}}';
 require_once __DIR__ . '/controller/__className__Controller.php';
 
 $bot = new MM\bot\core\Bot();

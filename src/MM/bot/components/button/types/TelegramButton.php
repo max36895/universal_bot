@@ -1,9 +1,4 @@
 <?php
-/**
- * Универсальное приложение по созданию навыков и ботов.
- * @version 1.0
- * @author Maxim-M maximco36895@yandex.ru
- */
 
 namespace MM\bot\components\button\types;
 
@@ -36,7 +31,7 @@ class TelegramButton extends TemplateButtonTypes
                     $inlines[] = $inline;
                 }
             } else {
-                $reply[] = [$button->title];
+                $reply[] = $button->title;
             }
         }
         $rCount = count($reply);

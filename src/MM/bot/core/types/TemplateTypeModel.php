@@ -1,9 +1,4 @@
 <?php
-/**
- * Универсальное приложение по созданию навыков и ботов.
- * @version 1.0
- * @author Maxim-M maximco36895@yandex.ru
- */
 
 namespace MM\bot\core\types;
 
@@ -117,5 +112,15 @@ abstract class TemplateTypeModel
     public function getLocalStorage(): ?array
     {
         return null;
+    }
+
+    /**
+     * Сохранение данных в хранилище.
+     *
+     * @param array|null $data сохраняемые данные
+     * @api
+     */
+    public function setLocalStorage(?array $data): void
+    {
     }
 }
