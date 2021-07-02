@@ -35,7 +35,7 @@ class VkSound extends TemplateSoundTypes
                 if (is_array($sound)) {
                     if (isset($sound['sounds'], $sound['key'])) {
                         $sText = Text::getText($sound['sounds']);
-                        if (is_file($sText) || Text::isSayText(['http\:\/\/', 'https\:\/\/'], $sText)) {
+                        if (is_file($sText) || Text::isUrl($sText)) {
                             $sModel = new SoundTokens();
                             $sModel->type = SoundTokens::T_VK;
                             $sModel->path = $sText;

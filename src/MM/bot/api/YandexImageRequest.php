@@ -217,6 +217,7 @@ class YandexImageRequest extends YandexRequest
                     $this->deleteImage($image['id'] ?? null);
                     sleep(3);
                 }
+                return true;
             } else {
                 $this->log('YandexImageRequest::deleteImages() Error: Не удалось получить загруженные звуки!');
             }

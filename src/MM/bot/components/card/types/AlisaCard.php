@@ -31,9 +31,9 @@ class AlisaCard extends TemplateCardTypes
     protected function getItem(): array
     {
         $items = [];
-        foreach ($this->images as $image) {
-            $maxCount = $this->isUsedGallery ? self::ALISA_MAX_GALLERY_IMAGES : self::ALISA_MAX_IMAGES;
-            if (count($items) <= $maxCount) {
+        $maxCount = $this->isUsedGallery ? self::ALISA_MAX_GALLERY_IMAGES : self::ALISA_MAX_IMAGES;
+        $images = array_slice($this->images, 0, $maxCount);
+        foreach ($images as $image) {
                 $button = null;
                 if (!$this->isUsedGallery) {
                     $button = $image->button->getButtons(Buttons::T_ALISA_CARD_BUTTON);
@@ -61,7 +61,6 @@ class AlisaCard extends TemplateCardTypes
                     $item['button'] = $button[0];
                 }
                 $items[] = $item;
-            }
         }
         return $items;
     }

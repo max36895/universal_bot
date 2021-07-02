@@ -1,9 +1,4 @@
 <?php
-/**
- * Универсальное приложение по созданию навыков и ботов.
- * @version 1.0
- * @author Maxim-M maximco36895@yandex.ru
- */
 
 namespace MM\bot\components\standard;
 
@@ -98,6 +93,24 @@ class Navigation
     }
 
     /**
+     * Валидация введенной страницы
+     *
+     * @param int $maxPage
+     * @private
+     */
+    protected function validatePage(int $maxPage = null): void {
+        if ($maxPage === null) {
+            $maxPage = $this->getMaxPage();
+        }
+        if ($this->thisPage >= $maxPage) {
+            $this->thisPage = $maxPage - 1;
+        }
+        if ($this->thisPage < 0) {
+            $this->thisPage = 0;
+        }
+    }
+
+    /**
      * Пользователь переходит на определенную страницу.
      * В случае успешного перехода вернет true.
      *
@@ -109,14 +122,8 @@ class Navigation
     {
         @preg_match_all('/((-|)\d) страни/umi', $text, $data);
         if (isset($data[0][0])) {
-            $this->thisPage = $data[0][0] - 1;
-            $maxPage = $this->getMaxPage();
-            if ($this->thisPage >= $maxPage) {
-                $this->thisPage = $maxPage - 1;
-            }
-            if ($this->thisPage < 0) {
-                $this->thisPage = 0;
-            }
+            $this->thisPage = ((int)$data[0][0]) - 1;
+            $this->validatePage();
             return true;
         }
         return false;
@@ -133,10 +140,7 @@ class Navigation
     {
         if ($this->isNext($text)) {
             $this->thisPage++;
-            $maxPage = $this->getMaxPage();
-            if ($this->thisPage >= $maxPage) {
-                $this->thisPage = $maxPage - 1;
-            }
+            $this->validatePage();
             return true;
         }
         return false;
@@ -153,9 +157,7 @@ class Navigation
     {
         if ($this->isOld($text)) {
             $this->thisPage--;
-            if ($this->thisPage < 0) {
-                $this->thisPage = 0;
-            }
+            $this->validatePage();
             return true;
         }
         return false;
@@ -178,9 +180,12 @@ class Navigation
         $this->nextPage($text);
         $this->oldPage($text);
         $start = $this->thisPage * $this->maxVisibleElements;
-        for ($i = $start; $i < ($start + $this->maxVisibleElements); $i++) {
-            if (isset($this->elements[$i])) {
-                $showElements[] = $this->elements[$i];
+        $end = $start + $this->maxVisibleElements;
+        if (count($this->elements) >= $start) {
+            for ($i = $start; $i < $end; $i++) {
+                if (isset($this->elements[$i])) {
+                    $showElements[] = $this->elements[$i];
+                }
             }
         }
         return $showElements;
@@ -213,21 +218,24 @@ class Navigation
         $index = 1;
         $selectElement = null;
         $maxPercent = 0;
-        for ($i = $start; $i < ($start + $this->maxVisibleElements); $i++) {
+        $end = $start + $this->maxVisibleElements;
+        for ($i = $start; $i < $end; $i++) {
             if (isset($this->elements[$i])) {
                 if ($index == $number) {
                     return $this->elements[$i];
                 }
-                if ($key == null) {
-                    $r = Text::textSimilarity($this->elements[$i], $text, 75);
-                    if ($r['status'] && $r['percent'] > $maxPercent) {
-                        $selectElement = $this->elements[$i];
+                if ($key === null) {
+                    if(is_string($this->elements[$i])) {
+                        $r = Text::textSimilarity($this->elements[$i], $text, 75);
+                        if ($r['status'] && $r['percent'] > $maxPercent) {
+                            $selectElement = $this->elements[$i];
+                        }
                     }
                 } else {
                     if (is_array($key)) {
                         foreach ($key as $k) {
                             if (isset($this->elements[$i][$k])) {
-                                $r = Text::textSimilarity($this->elements[$i][$k], $text, 75);
+                                $r = Text::textSimilarity((string)$this->elements[$i][$k], $text, 75);
                                 if ($r['status'] && $r['percent'] > $maxPercent) {
                                     $selectElement = $this->elements[$i];
                                 }
@@ -235,7 +243,7 @@ class Navigation
                         }
                     } else {
                         if (isset($this->elements[$i][$key])) {
-                            $r = Text::textSimilarity($this->elements[$i][$key], $text, 75);
+                            $r = Text::textSimilarity((string)$this->elements[$i][$key], $text, 75);
                             if ($r['status'] && $r['percent'] > $maxPercent) {
                                 $selectElement = $this->elements[$i];
                             }
@@ -261,14 +269,9 @@ class Navigation
     public function getPageNav(bool $isNumber = false): array
     {
         $maxPage = $this->getMaxPage();
-        if ($this->thisPage < 0) {
-            $this->thisPage = 0;
-        }
-        if ($this->thisPage > $maxPage) {
-            $this->thisPage = $maxPage - 1;
-        }
+        $this->validatePage($maxPage);
         $buttons = [];
-        if ($isNumber == false) {
+        if ($isNumber === false) {
             if ($this->thisPage) {
                 $buttons[] = '👈 Назад';
             }
@@ -281,8 +284,13 @@ class Navigation
                 $index = 0;
             }
             $count = 0;
+            if ($index === 1) {
+                $buttons[] = '1';
+            } elseif ($index) {
+                $buttons[] = '1 ...';
+            }
             for ($i = $index; $i < $maxPage; $i++) {
-                if ($i == $this->thisPage) {
+                if ($i === $this->thisPage) {
                     $thisPage = $i + 1;
                     $buttons[] = "[{$thisPage}]";
                 } else {
@@ -290,6 +298,11 @@ class Navigation
                 }
                 $count++;
                 if ($count > 4) {
+                    if ($i === $maxPage - 2) {
+                        $buttons[] = "{$maxPage}";
+                    } elseif ($i < $maxPage - 2) {
+                        $buttons[] = "... {$maxPage}";
+                    }
                     break;
                 }
             }

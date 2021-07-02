@@ -198,6 +198,7 @@ class YandexSoundRequest extends YandexRequest
                     $this->deleteSound($sound['id'] ?? null);
                     sleep(3);
                 }
+                return true;
             } else {
                 $this->log('YandexSoundRequest::deleteSounds() Error: Не удалось получить загруженные звуки!');
             }

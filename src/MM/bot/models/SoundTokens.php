@@ -150,7 +150,7 @@ class SoundTokens extends Model
                     return $this->soundToken;
                 } else {
                     $yImage = new YandexSoundRequest(mmApp::$params['yandex_token'] ?? null, mmApp::$params['app_id'] ?? null);
-                    if (Text::isSayText(['http\:\/\/', 'https\:\/\/'], $this->path)) {
+                    if (Text::isUrl($this->path)) {
                         mmApp::saveLog('mSoundTokens.log', 'Нельзя отправить звук в навык для Алисы через url!');
                         return null;
                     } else {

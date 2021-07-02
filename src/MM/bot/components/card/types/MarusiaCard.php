@@ -60,8 +60,8 @@ class MarusiaCard extends TemplateCardTypes
                     ]
                 ];
                 $items = [];
-                foreach ($this->images as $image) {
-                    if (count($items) <= self::MARUSIA_MAX_IMAGES) {
+                $images = array_slice($this->images, 0, self::MARUSIA_MAX_IMAGES);
+                foreach ($images as $image) {
                         if (!$image->imageToken) {
                             if ($image->imageDir) {
                                 $mImage = new ImageTokens();
@@ -77,7 +77,6 @@ class MarusiaCard extends TemplateCardTypes
                             $item['image_id'] = $image->imageToken;
                         }
                         $items[] = $item;
-                    }
                 }
                 $tmp['items'] = $items;
                 $items = null;
