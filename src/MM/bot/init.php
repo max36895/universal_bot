@@ -1,7 +1,7 @@
 <?php
 /**
  * Универсальное приложение по созданию навыков и ботов.
- * @version 1.1.1
+ * @version 1.1.3
  * @author Maxim-M maximco36895@yandex.ru
  */
 

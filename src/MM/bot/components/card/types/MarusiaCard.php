@@ -59,21 +59,21 @@ class MarusiaCard extends TemplateCardTypes
                 $items = [];
                 $images = array_slice($this->images, 0, self::MARUSIA_MAX_IMAGES);
                 foreach ($images as $image) {
-                        if (!$image->imageToken) {
-                            if ($image->imageDir) {
-                                $mImage = new ImageTokens();
-                                $mImage->type = ImageTokens::T_ALISA;
-                                $image->imageToken = $mImage->getToken();
-                            }
+                    if (!$image->imageToken) {
+                        if ($image->imageDir) {
+                            $mImage = new ImageTokens();
+                            $mImage->type = ImageTokens::T_ALISA;
+                            $image->imageToken = $mImage->getToken();
                         }
-                        $item = [
-                            'title' => Text::resize($image->title, 128),
-                            'description' => Text::resize($image->desc, 256),
-                        ];
-                        if ($image->imageToken) {
-                            $item['image_id'] = $image->imageToken;
-                        }
-                        $items[] = $item;
+                    }
+                    $item = [
+                        'title' => Text::resize($image->title, 128),
+                        'description' => Text::resize($image->desc, 256),
+                    ];
+                    if ($image->imageToken) {
+                        $item['image_id'] = $image->imageToken;
+                    }
+                    $items[] = $item;
                 }
                 $tmp['items'] = $items;
                 $items = null;
