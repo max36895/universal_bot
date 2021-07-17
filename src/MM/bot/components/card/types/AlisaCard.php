@@ -76,10 +76,6 @@ class AlisaCard extends TemplateCardTypes
         $countImage = count($this->images);
         if ($countImage) {
             if ($isOne) {
-                $button = $this->images[0]->button->getButtons(Buttons::T_ALISA_CARD_BUTTON);
-                if (empty($button)) {
-                    $button = $this->button->getButtons();
-                }
                 if (!$this->images[0]->imageToken) {
                     if ($this->images[0]->imageDir) {
                         $mImage = new ImageTokens();
@@ -89,6 +85,10 @@ class AlisaCard extends TemplateCardTypes
                     }
                 }
                 if ($this->images[0]->imageToken) {
+                    $button = $this->images[0]->button->getButtons(Buttons::T_ALISA_CARD_BUTTON);
+                    if (empty($button)) {
+                        $button = $this->button->getButtons();
+                    }
                     $object = [
                         'type' => self::ALISA_CARD_BIG_IMAGE,
                         'image_id' => $this->images[0]->imageToken,

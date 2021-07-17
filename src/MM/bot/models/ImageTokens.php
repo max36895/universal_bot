@@ -3,6 +3,7 @@
 namespace MM\bot\models;
 
 use Exception;
+use MM\bot\api\MarusiaRequest;
 use MM\bot\api\TelegramRequest;
 use MM\bot\api\VkRequest;
 use MM\bot\api\YandexImageRequest;
@@ -168,8 +169,29 @@ class ImageTokens extends Model
                 }
                 break;
 
+            case self::T_MARUSIA:
+                $query['type'] = self::T_MARUSIA;
+                if ($this->whereOne($query)) {
+                    return $this->imageToken;
+                } elseif ($this->path) {
+                    $marusiaApi = new MarusiaRequest();
+                    $uploadServerResponse = $marusiaApi->marusiaGetPictureUploadLink();
+                    if ($uploadServerResponse) {
+                        $uploadResponse = $marusiaApi->upload($uploadServerResponse['picture_upload_link'], $this->path);
+                        if ($uploadResponse) {
+                            $photo = $marusiaApi->marusiaSavePicture($uploadResponse['photo'], $uploadResponse['server'], $uploadResponse['hash']);
+                            if ($photo) {
+                                $this->imageToken = $photo['photo_id'];
+                                if ($this->save(true)) {
+                                    return $this->imageToken;
+                                }
+                            }
+                        }
+                    }
+                }
+                break;
+
             case self::T_VK:
-            case self::T_MARUSIA: // TODO не понятно как получить токен, возможно также и в вк
                 $query['type'] = self::T_VK;
                 if ($this->whereOne($query)) {
                     return $this->imageToken;

@@ -3,6 +3,7 @@
 namespace MM\bot\models;
 
 use Exception;
+use MM\bot\api\MarusiaRequest;
 use MM\bot\api\TelegramRequest;
 use MM\bot\api\VkRequest;
 use MM\bot\api\YandexSoundRequest;
@@ -209,7 +210,26 @@ class SoundTokens extends Model
                 break;
 
             case self::T_MARUSIA:
+                if ($this->whereOne($query)) {
+                    return $this->soundToken;
+                } elseif ($this->path) {
+                    $marusiaApi = new MarusiaRequest();
+                    $uploadServerResponse = $marusiaApi->marusiaGetAudioUploadLink();
+                    if ($uploadServerResponse) {
+                        $uploadResponse = $marusiaApi->upload($uploadServerResponse['audio_upload_link'], $this->path);
+                        if ($uploadResponse) {
+                            $doc = $marusiaApi->marusiaCreateAudio($uploadResponse);
+                            if ($doc) {
+                                $this->soundToken = $doc['id'];
+                                if ($this->save(true)) {
+                                    return $this->soundToken;
+                                }
+                            }
+                        }
+                    }
+                }
                 return null;
+                break;
         }
         return null;
     }

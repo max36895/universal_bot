@@ -75,6 +75,7 @@ class mmApp
      * - string|null vk_api_version Версия Vk api. По умолчанию используется v5.103.
      * - string|null vk_confirmation_token Код для проверки корректности Vk бота. Необходим для подтверждения бота.
      * - string|null vk_token Vk Токен для отправки сообщений, загрузки изображений и звуков.
+     * - string|null marusia_token Маруся Токен для загрузки изображений и звуков в навыке.
      * - string|null yandex_token Яндекс Токен для загрузки изображений и звуков в навыке.
      * - string|null yandex_speech_kit_token Токен для отправки запросов в Yandex speesh kit.
      * - bool y_isAuthUser Актуально для Алисы!
@@ -116,6 +117,7 @@ class mmApp
         'vk_api_version' => null,
         'vk_confirmation_token' => null,
         'vk_token' => null,
+        'marusia_token' => null,
         'yandex_token' => null,
         'yandex_speech_kit_token' => null,
         'y_isAuthUser' => false,

@@ -299,13 +299,11 @@ class MarusiaSound extends TemplateSoundTypes
                     if (isset($sound['sounds'], $sound['key'])) {
                         $sText = Text::getText($sound['sounds']);
                         /**
-                         * Не стоит так делать, так как нужно время, пока Yandex обработает звуковую дорожку.
+                         * Не стоит так делать, так как нужно время, пока Vk обработает звуковую дорожку.
                          * Лучше загружать звуки через консоль администратора!
                          * @see (https://vk.com/dev/marusia_skill_docs10) Смотри тут
                          */
                         if (is_file($sText) || Text::isUrl($sText)) {
-                            // todo потом добавить
-                            continue;
                             $sModel = new SoundTokens();
                             $sModel->type = SoundTokens::T_MARUSIA;
                             $sModel->path = $sText;
