@@ -57,6 +57,9 @@ class Alisa extends TemplateTypeModel
         if ($this->controller->isScreen) {
             if (!empty($this->controller->card->images)) {
                 $response['card'] = $this->controller->card->getCards();
+                if (!count($response['card'])) {
+                    unset($response['card']);
+                }
             }
             $response['buttons'] = $this->controller->buttons->getButtons(Buttons::T_ALISA_BUTTONS);
         }
