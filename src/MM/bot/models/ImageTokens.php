@@ -151,7 +151,7 @@ class ImageTokens extends Model
                     return $this->imageToken;
                 } else {
                     $yImage = new YandexImageRequest(mmApp::$params['yandex_token'] ?? null, mmApp::$params['app_id'] ?? null);
-                    if (Text::isSayText(['http\:\/\/', 'https\:\/\/'], $this->path)) {
+                    if (Text::isUrl($this->path)) {
                         $res = $yImage->downloadImageUrl($this->path);
                     } else {
                         $res = $yImage->downloadImageFile($this->path);

@@ -27,37 +27,36 @@ class AlisaCard extends TemplateCardTypes
     protected function getItem(): array
     {
         $items = [];
-        foreach ($this->images as $image) {
-            $maxCount = $this->isUsedGallery ? self::ALISA_MAX_GALLERY_IMAGES : self::ALISA_MAX_IMAGES;
-            if (count($items) <= $maxCount) {
-                $button = null;
-                if (!$this->isUsedGallery) {
-                    $button = $image->button->getButtons(Buttons::T_ALISA_CARD_BUTTON);
-                    if (empty($button)) {
-                        $button = null;
-                    }
+        $maxCount = $this->isUsedGallery ? self::ALISA_MAX_GALLERY_IMAGES : self::ALISA_MAX_IMAGES;
+        $images = array_slice($this->images, 0, $maxCount);
+        foreach ($images as $image) {
+            $button = null;
+            if (!$this->isUsedGallery) {
+                $button = $image->button->getButtons(Buttons::T_ALISA_CARD_BUTTON);
+                if (empty($button)) {
+                    $button = null;
                 }
-                if (!$image->imageToken) {
-                    if ($image->imageDir) {
-                        $mImage = new ImageTokens();
-                        $mImage->type = ImageTokens::T_ALISA;
-                        $image->imageToken = $mImage->getToken();
-                    }
-                }
-                $item = [
-                    'title' => Text::resize($image->title, 128),
-                ];
-                if (!$this->isUsedGallery) {
-                    $item['description'] = Text::resize($image->desc, 256);
-                }
-                if ($image->imageToken) {
-                    $item['image_id'] = $image->imageToken;
-                }
-                if ($button && !$this->isUsedGallery) {
-                    $item['button'] = $button;
-                }
-                $items[] = $item;
             }
+            if (!$image->imageToken) {
+                if ($image->imageDir) {
+                    $mImage = new ImageTokens();
+                    $mImage->type = ImageTokens::T_ALISA;
+                    $image->imageToken = $mImage->getToken();
+                }
+            }
+            $item = [
+                'title' => Text::resize($image->title, 128),
+            ];
+            if (!$this->isUsedGallery) {
+                $item['description'] = Text::resize($image->desc, 256);
+            }
+            if ($image->imageToken) {
+                $item['image_id'] = $image->imageToken;
+            }
+            if ($button && !$this->isUsedGallery) {
+                $item['button'] = $button;
+            }
+            $items[] = $item;
         }
         return $items;
     }

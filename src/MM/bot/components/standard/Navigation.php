@@ -93,6 +93,25 @@ class Navigation
     }
 
     /**
+     * Валидация введенной страницы
+     *
+     * @param int $maxPage
+     * @private
+     */
+    protected function validatePage(int $maxPage = null): void
+    {
+        if ($maxPage === null) {
+            $maxPage = $this->getMaxPage();
+        }
+        if ($this->thisPage >= $maxPage) {
+            $this->thisPage = $maxPage - 1;
+        }
+        if ($this->thisPage < 0) {
+            $this->thisPage = 0;
+        }
+    }
+
+    /**
      * Пользователь переходит на определенную страницу.
      * В случае успешного перехода вернет true.
      *
@@ -105,13 +124,7 @@ class Navigation
         @preg_match_all('/((-|)\d) страни/umi', $text, $data);
         if (isset($data[0][0])) {
             $this->thisPage = ((int)$data[0][0]) - 1;
-            $maxPage = $this->getMaxPage();
-            if ($this->thisPage >= $maxPage) {
-                $this->thisPage = $maxPage - 1;
-            }
-            if ($this->thisPage < 0) {
-                $this->thisPage = 0;
-            }
+            $this->validatePage();
             return true;
         }
         return false;
@@ -128,10 +141,7 @@ class Navigation
     {
         if ($this->isNext($text)) {
             $this->thisPage++;
-            $maxPage = $this->getMaxPage();
-            if ($this->thisPage >= $maxPage) {
-                $this->thisPage = $maxPage - 1;
-            }
+            $this->validatePage();
             return true;
         }
         return false;
@@ -148,9 +158,7 @@ class Navigation
     {
         if ($this->isOld($text)) {
             $this->thisPage--;
-            if ($this->thisPage < 0) {
-                $this->thisPage = 0;
-            }
+            $this->validatePage();
             return true;
         }
         return false;
@@ -174,9 +182,11 @@ class Navigation
         $this->oldPage($text);
         $start = $this->thisPage * $this->maxVisibleElements;
         $end = $start + $this->maxVisibleElements;
-        for ($i = $start; $i < $end; $i++) {
-            if (isset($this->elements[$i])) {
-                $showElements[] = $this->elements[$i];
+        if (count($this->elements) >= $start) {
+            for ($i = $start; $i < $end; $i++) {
+                if (isset($this->elements[$i])) {
+                    $showElements[] = $this->elements[$i];
+                }
             }
         }
         return $showElements;
@@ -216,7 +226,7 @@ class Navigation
                     return $this->elements[$i];
                 }
                 if ($key === null) {
-                    if(is_string($this->elements[$i])) {
+                    if (is_string($this->elements[$i])) {
                         $r = Text::textSimilarity($this->elements[$i], $text, 75);
                         if ($r['status'] && $r['percent'] > $maxPercent) {
                             $selectElement = $this->elements[$i];
@@ -260,12 +270,7 @@ class Navigation
     public function getPageNav(bool $isNumber = false): array
     {
         $maxPage = $this->getMaxPage();
-        if ($this->thisPage < 0) {
-            $this->thisPage = 0;
-        }
-        if ($this->thisPage > $maxPage) {
-            $this->thisPage = $maxPage - 1;
-        }
+        $this->validatePage($maxPage);
         $buttons = [];
         if ($isNumber === false) {
             if ($this->thisPage) {

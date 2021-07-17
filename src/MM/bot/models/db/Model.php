@@ -131,7 +131,8 @@ abstract class Model
     /**
      * Инициализация параметров для запроса
      */
-    private function initData():void{
+    private function initData(): void
+    {
         $this->validate();
         $idName = $this->dbController->getPrimaryKeyName();
         $this->queryData->setQuery([$idName => $this->$idName]);

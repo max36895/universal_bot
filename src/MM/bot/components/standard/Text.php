@@ -37,6 +37,19 @@ class Text
     }
 
     /**
+     * Возвращает true в том случае, если передана ссылка
+     *
+     * @param string $link Проверяемая строка
+     * @return bool
+     * @api
+     */
+    public static function isUrl(string $link): bool
+    {
+        preg_match_all('/((http|s:\/\/)[^( |\n)]+)/umi', $link, $data);
+        return (($data[0][0] ?? null) ? true : false);
+    }
+
+    /**
      * Возвращаем true в том случае, если пользователь выражает согласие.
      *
      * @param string $text Пользовательский текст.

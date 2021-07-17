@@ -48,11 +48,7 @@ class Bot
         $this->initAuth();
 
         $this->botController = null;
-        if ($type === null) {
-            mmApp::$appType = T_ALISA;
-        } else {
-            mmApp::$appType = $type;
-        }
+        mmApp::$appType = $type === null ? T_ALISA : $type;
     }
 
     /**

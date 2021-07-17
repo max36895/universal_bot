@@ -280,7 +280,7 @@ class ViberRequest
         $this->request->post = [
             'receiver' => $receiver
         ];
-        if (Text::isSayText(['http:\/\/', 'https:\/\/'], $file)) {
+        if (Text::isUrl($file)) {
             $this->request->post['type'] = 'file';
             $this->request->post['media'] = $file;
             $this->request->post['size'] = 10e4;

@@ -28,7 +28,7 @@ return [
         'new' => ($count === 0)
     ],
     'request' => [
-        'command' => strtolower($query),
+        'command' => mb_strtolower($query),
         'original_utterance' => $query,
         'nlu' => [],
         'type' => 'SimpleUtterance'
