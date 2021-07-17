@@ -154,6 +154,12 @@ class Marusia extends TemplateTypeModel
     public function getContext(): string
     {
         $result = [];
+        if (!empty($this->controller->sound->sounds) || $this->controller->sound->isUsedStandardSound) {
+            if (!$this->controller->tts) {
+                $this->controller->tts = $this->controller->text;
+            }
+            $this->controller->tts = $this->controller->sound->getSounds($this->controller->tts);
+        }
         $result['response'] = $this->getResponse();
         $result['session'] = $this->getSession();
         if ($this->isUsedLocalStorage && $this->controller->userData) {
