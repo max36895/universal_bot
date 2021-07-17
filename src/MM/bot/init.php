@@ -41,6 +41,7 @@ require_once __DIR__ . '/components/sound/types/TemplateSoundTypes.php';
 require_once __DIR__ . '/components/sound/types/TelegramSound.php';
 require_once __DIR__ . '/components/sound/types/ViberSound.php';
 require_once __DIR__ . '/components/sound/types/AlisaSound.php';
+require_once __DIR__ . '/components/sound/types/MarusiaSound.php';
 require_once __DIR__ . '/components/sound/types/VkSound.php';
 require_once __DIR__ . '/components/sound/Sound.php';
 

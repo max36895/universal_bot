@@ -5,6 +5,7 @@ namespace MM\bot\components\sound;
 
 use Exception;
 use MM\bot\components\sound\types\AlisaSound;
+use MM\bot\components\sound\types\MarusiaSound;
 use MM\bot\components\sound\types\TelegramSound;
 use MM\bot\components\sound\types\TemplateSoundTypes;
 use MM\bot\components\sound\types\ViberSound;
@@ -25,7 +26,7 @@ class Sound
     public $sounds;
     /**
      * Использование стандартных звуков.
-     * Если true - используются стандартные звуки. Актуально для Алисы. По умолчанию true.
+     * Если true - используются стандартные звуки. Актуально для Алисы и Маруси. По умолчанию true.
      * @var bool $isUsedStandardSound
      */
     public $isUsedStandardSound;
@@ -57,6 +58,11 @@ class Sound
                 $sound->isUsedStandardSound = $this->isUsedStandardSound;
                 break;
 
+            case T_MARUSIA:
+                $sound = new MarusiaSound();
+                $sound->isUsedStandardSound = $this->isUsedStandardSound;
+                break;
+
             case T_VK:
                 $sound = new VkSound();
                 break;
@@ -69,7 +75,6 @@ class Sound
                 $sound = new ViberSound();
                 break;
 
-            case T_MARUSIA:
             case T_SMARTAPP:
                 $sound = null;
                 break;
