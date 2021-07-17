@@ -151,10 +151,13 @@ class ImageTokens extends Model
                     return $this->imageToken;
                 } else {
                     $yImage = new YandexImageRequest(mmApp::$params['yandex_token'] ?? null, mmApp::$params['app_id'] ?? null);
-                    if (Text::isUrl($this->path)) {
-                        $res = $yImage->downloadImageUrl($this->path);
-                    } else {
-                        $res = $yImage->downloadImageFile($this->path);
+                    $res = null;
+                    if ($this->path) {
+                        if (Text::isUrl($this->path)) {
+                            $res = $yImage->downloadImageUrl($this->path);
+                        } else {
+                            $res = $yImage->downloadImageFile($this->path);
+                        }
                     }
                     if ($res) {
                         $this->imageToken = $res['id'];
@@ -170,7 +173,7 @@ class ImageTokens extends Model
                 $query['type'] = self::T_VK;
                 if ($this->whereOne($query)) {
                     return $this->imageToken;
-                } else {
+                } elseif ($this->path) {
                     $vkApi = new VkRequest();
                     $uploadServerResponse = $vkApi->photosGetMessagesUploadServer(mmApp::$params['user_id']);
                     if ($uploadServerResponse) {
@@ -193,7 +196,7 @@ class ImageTokens extends Model
                 if ($this->whereOne($query)) {
                     $telegramApi->sendPhoto(mmApp::$params['user_id'], $this->imageToken, $this->caption);
                     return $this->imageToken;
-                } else {
+                } elseif ($this->path) {
                     $photo = $telegramApi->sendPhoto(mmApp::$params['user_id'], $this->path, $this->caption);
                     if ($photo && $photo['ok']) {
                         if (isset($photo['result']['photo']['file_id'])) {

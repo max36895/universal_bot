@@ -34,6 +34,7 @@ class TelegramCard extends TemplateCardTypes
                     $mImage = new ImageTokens();
                     $mImage->type = ImageTokens::T_TELEGRAM;
                     $mImage->caption = $image->desc;
+                    $mImage->path = $image->imageDir;
                     $image->imageToken = $mImage->getToken();
                 }
             } else {

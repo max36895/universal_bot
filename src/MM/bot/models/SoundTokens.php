@@ -151,11 +151,14 @@ class SoundTokens extends Model
                     return $this->soundToken;
                 } else {
                     $yImage = new YandexSoundRequest(mmApp::$params['yandex_token'] ?? null, mmApp::$params['app_id'] ?? null);
-                    if (Text::isUrl($this->path)) {
-                        mmApp::saveLog('mSoundTokens.log', 'Нельзя отправить звук в навык для Алисы через url!');
-                        return null;
-                    } else {
-                        $res = $yImage->downloadSoundFile($this->path);
+                    $res = null;
+                    if ($this->path) {
+                        if (Text::isUrl($this->path)) {
+                            mmApp::saveLog('mSoundTokens.log', 'Нельзя отправить звук в навык для Алисы через url!');
+                            return null;
+                        } else {
+                            $res = $yImage->downloadSoundFile($this->path);
+                        }
                     }
                     if ($res) {
                         $this->soundToken = $res['id'];
@@ -169,7 +172,7 @@ class SoundTokens extends Model
             case self::T_VK:
                 if ($this->whereOne($query)) {
                     return $this->soundToken;
-                } else {
+                } elseif ($this->path) {
                     $vkApi = new VkRequest();
                     $uploadServerResponse = $vkApi->docsGetMessagesUploadServer(mmApp::$params['user_id'], 'audio_message');
                     if ($uploadServerResponse) {
@@ -192,7 +195,7 @@ class SoundTokens extends Model
                 if ($this->whereOne($query)) {
                     $telegramApi->sendAudio(mmApp::$params['user_id'], $this->soundToken);
                     return $this->soundToken;
-                } else {
+                } elseif ($this->path) {
                     $sound = $telegramApi->sendAudio(mmApp::$params['user_id'], $this->path);
                     if ($sound && $sound['ok']) {
                         if (isset($sound['result']['audio']['file_id'])) {

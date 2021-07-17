@@ -38,6 +38,7 @@ class MarusiaCard extends TemplateCardTypes
                     if ($this->images[0]->imageDir) {
                         $mImage = new ImageTokens();
                         $mImage->type = ImageTokens::T_ALISA;
+                        $mImage->path = $this->images[0]->imageDir;
                         $this->images[0]->imageToken = $mImage->getToken();
                     }
                 }
@@ -63,6 +64,7 @@ class MarusiaCard extends TemplateCardTypes
                         if ($image->imageDir) {
                             $mImage = new ImageTokens();
                             $mImage->type = ImageTokens::T_ALISA;
+                            $mImage->path = $image->imageDir;
                             $image->imageToken = $mImage->getToken();
                         }
                     }
