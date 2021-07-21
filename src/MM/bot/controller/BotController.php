@@ -108,7 +108,7 @@ abstract class BotController
     public $isAuthSuccess;
 
     /**
-     * Пользовательское локальное хранилище (Актуально для Алисы).
+     * Пользовательское локальное хранилище (Актуально для Алисы и Маруси).
      * @var array|null $state
      */
     public $state;
@@ -142,7 +142,7 @@ abstract class BotController
     public $oldIntentName;
 
     /**
-     * Идентификатор текущего действия пользователя.
+     * Идентификатор текущего действия пользователя. Чтобы не сохранять идентификатор предыдущей команды, стоит передавать null.
      * @var string|null $thisIntentName
      */
     public $thisIntentName;

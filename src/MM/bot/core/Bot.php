@@ -255,7 +255,7 @@ class Bot
                     }
 
                     $this->botController->run();
-                    if ($this->botController->thisIntentName) {
+                    if ($this->botController->thisIntentName !== null) {
                         $this->botController->userData['oldIntentName'] = $this->botController->thisIntentName;
                     } else {
                         unset($this->botController->userData['oldIntentName']);

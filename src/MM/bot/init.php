@@ -11,6 +11,7 @@ require_once __DIR__ . '/components/standard/Navigation.php';
 require_once __DIR__ . '/api/request/Request.php';
 require_once __DIR__ . '/api/TelegramRequest.php';
 require_once __DIR__ . '/api/VkRequest.php';
+require_once __DIR__ . '/api/MarusiaRequest.php';
 require_once __DIR__ . '/api/ViberRequest.php';
 require_once __DIR__ . '/api/YandexRequest.php';
 require_once __DIR__ . '/api/YandexImageRequest.php';

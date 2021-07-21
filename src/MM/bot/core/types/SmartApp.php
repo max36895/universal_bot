@@ -212,7 +212,7 @@ class SmartApp extends TemplateTypeModel
 
     /**
      * Сохранение данных в хранилище.
-     * @param array|null
+     * @param array|null $data
      * @return void
      * @api
      */
