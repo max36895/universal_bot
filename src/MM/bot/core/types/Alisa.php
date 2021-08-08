@@ -100,6 +100,9 @@ class Alisa extends TemplateTypeModel
                 if (!is_array($content['request']['payload'])) {
                     $this->controller->userCommand = $content['request']['payload'];
                     $this->controller->originalUserCommand = $content['request']['payload'];
+                } else {
+                    $this->controller->userCommand = trim($content['request']['command'] ?? '');
+                    $this->controller->originalUserCommand = trim($content['request']['original_utterance'] ?? '');
                 }
                 $this->controller->payload = $content['request']['payload'];
             }
