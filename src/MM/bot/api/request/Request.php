@@ -128,7 +128,7 @@ class Request
             $curl = curl_init();
             $url = $this->url;
             if ($this->get) {
-                $url .= '?' . http_build_query($this->get);
+                $url .= '?' . httpBuildQuery($this->get);
             }
             curl_setopt($curl, CURLOPT_URL, $url);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);

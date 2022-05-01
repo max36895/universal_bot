@@ -162,7 +162,6 @@ class Sql
         return null;
     }
 
-
     /**
      * Сохранение логов.
      *

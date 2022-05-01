@@ -46,7 +46,7 @@ abstract class DbControllerModel
     }
 
     /**
-     * Установить имя уникального ключа
+     * Устанавливает имя уникального ключа
      * @param mixed $primaryKeyName
      */
     public function setPrimaryKeyName($primaryKeyName)
@@ -64,7 +64,7 @@ abstract class DbControllerModel
     }
 
     /**
-     * Установить правила для полей
+     * Устанавливает правила для полей
      * @param $rules
      */
     public function setRules($rules)
@@ -73,7 +73,7 @@ abstract class DbControllerModel
     }
 
     /**
-     * Приводим полученный результат к требуемому типу.
+     * Приводит полученный результат к требуемому типу.
      * В качестве результата должен вернуться массив вида:
      * [
      *    key => value
@@ -87,7 +87,7 @@ abstract class DbControllerModel
     public abstract function getValue(?IModelRes $res);
 
     /**
-     * Выполнение запроса на поиск записей в таблице
+     * Выполнение запроса на поиск записей в источнике данных
      * Возвращает массив вида:
      * [
      *      'status': bool,
@@ -106,7 +106,7 @@ abstract class DbControllerModel
     public abstract function select(array $select, bool $isOne = false): IModelRes;
 
     /**
-     * Выполнение запроса на добавление записи в таблицу
+     * Выполнение запроса на добавление записи в источник данных
      *
      * @param QueryData $insertData Данные для добавления записи
      * @return mixed
@@ -114,7 +114,7 @@ abstract class DbControllerModel
     public abstract function insert(QueryData $insertData);
 
     /**
-     * Выполнение запроса на обновление записи в таблице
+     * Выполнение запроса на обновление записи в источнике данных
      *
      * @param QueryData $updateData Данные для обновления записи
      * @return mixed
@@ -123,17 +123,17 @@ abstract class DbControllerModel
 
     /**
      * Выполнение запроса на сохранения записи.
-     * Обновление записи происходит в том случае, если запись присутствует в таблице.
+     * Обновление записи происходит в том случае, если запись присутствует в источнике данных.
      * Иначе будет добавлена новая запись.
      *
      * @param QueryData $insertData Данные для сохранения записи
-     * @param bool $isNew В любом случае выполнить добавление записи
+     * @param bool $isNew Определяет необходимость добавления новой записси
      * @return mixed
      */
     public abstract function save(QueryData $insertData, bool $isNew = false);
 
     /**
-     * Выполнение запроса на удаление записи в таблице
+     * Выполнение запроса на удаление записи в источнике данных
      *
      * @param QueryData $deleteData Данные для удаления записи
      * @return mixed
@@ -141,7 +141,7 @@ abstract class DbControllerModel
     public abstract function delete(QueryData $deleteData);
 
     /**
-     * Выполнение произвольного запроса к таблице
+     * Выполнение произвольного запроса к источнику данных
      *
      * @param string $sql Запрос, который необходимо выполнить
      * @return mixed

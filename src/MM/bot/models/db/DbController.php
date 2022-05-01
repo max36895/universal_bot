@@ -16,7 +16,6 @@ class DbController extends DbControllerModel
      */
     public $db;
 
-
     public function __construct()
     {
         parent::__construct();
@@ -28,7 +27,7 @@ class DbController extends DbControllerModel
     }
 
     /**
-     * Приводим полученный результат к требуемому типу.
+     * Приводит полученный результат к требуемому типу.
      * В качестве результата должен вернуться массив вида:
      * [
      *    key => value
@@ -69,7 +68,7 @@ class DbController extends DbControllerModel
     }
 
     /**
-     * Выполнение запроса на добавление записи в таблицу
+     * Выполнение запроса на добавление записи в источник данных
      *
      * @param QueryData $insertQuery Данные для добавления записи
      * @return bool|mysqli_result|null
@@ -115,7 +114,7 @@ class DbController extends DbControllerModel
     }
 
     /**
-     * Выполнение запроса на обновление записи в таблице
+     * Выполнение запроса на обновление записи в источнике данных
      *
      * @param QueryData $updateQuery Данные для обновления записи
      * @return bool|mysqli_result|null
@@ -165,11 +164,11 @@ class DbController extends DbControllerModel
 
     /**
      * Выполнение запроса на сохранения записи.
-     * Обновление записи происходит в том случае, если запись присутствует в таблице.
+     * Обновление записи происходит в том случае, если запись присутствует в источнике данных.
      * Иначе будет добавлена новая запись.
      *
      * @param QueryData $queryData Данные для сохранения записи
-     * @param bool $isNew В любом случае выполнить добавление записи
+     * @param bool $isNew Определяет необходимость добавления новой записси
      * @return bool|mysqli_result|null
      * @throws Exception
      */
@@ -212,7 +211,7 @@ class DbController extends DbControllerModel
     }
 
     /**
-     * Выполнение запроса на поиск записей в таблице
+     * Выполнение запроса на поиск записей в источнике данных
      * Возвращает массив вида:
      * [
      *      'status': bool,
@@ -279,7 +278,7 @@ class DbController extends DbControllerModel
     }
 
     /**
-     * Выполнение произвольного запроса к таблице
+     * Выполнение произвольного запроса к источнику данных
      *
      * @param string $sql Запрос, который необходимо выполнить
      * @return bool|mysqli_result|null
@@ -294,7 +293,7 @@ class DbController extends DbControllerModel
     }
 
     /**
-     * Выполнение запроса на удаление записи в таблице
+     * Выполнение запроса на удаление записи в источнике данных
      *
      * @param QueryData $queryDelete Данные для удаления записи
      * @return bool|mysqli_result|null

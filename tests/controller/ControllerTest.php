@@ -17,7 +17,6 @@ class ControllerTest extends TestCase
         $this->uController = new MyController();
     }
 
-
     public function testDefaultIntents()
     {
         $this->assertEquals($this->uController->testIntents(), mmApp::$params['intents']);

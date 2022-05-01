@@ -26,7 +26,6 @@ class CardTest extends TestCase
         }
     }
 
-
     public function testGetAlisaCard()
     {
         $alisaCard = [
@@ -82,7 +81,6 @@ class CardTest extends TestCase
         $this->defaultCard->button = new \MM\bot\components\button\Buttons();
         unset($alisaCardOne['button']);
         $this->assertEquals($this->defaultCard->getCards(), $alisaCardOne);
-
 
         $this->defaultCard->clear();
         $this->defaultCard->isOne = false;

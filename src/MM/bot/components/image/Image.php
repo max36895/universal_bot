@@ -25,7 +25,7 @@ class Image
      */
     public $title;
     /**
-     * Описание для изображения.
+     * Описание изображения.
      * @var string $desc
      */
     public $desc;
@@ -46,7 +46,7 @@ class Image
     public $isToken;
 
     /**
-     * Дополнительные параметры для изображения.
+     * Дополнительные параметры изображения.
      * [
      *  string topTypeface Стиль верхнего текста
      *  string topText_color Цвет верхнего текста
@@ -91,8 +91,8 @@ class Image
      * Инициализация изображения.
      *
      * @param string|null $image Путь до изображения в сети/папке. Либо идентификатор изображения.
-     * @param string $title Заголовок для изображения.
-     * @param string $desc Описание для изображения.
+     * @param string $title Заголовок изображения.
+     * @param string $desc Описание изображения.
      * @param array|string|null $button Возможные кнопки для изображения.
      * @return bool
      * @api
