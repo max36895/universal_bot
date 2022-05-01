@@ -6,6 +6,8 @@
  * @var string $query Запрос пользователя
  * Номер сообщения
  * @var int $count Номер сообщения
+ * Локальные данные пользователя
+ * @var array|string|null $state : Локальные данные пользователя
  */
 
 return [
@@ -26,10 +28,13 @@ return [
         'new' => ($count === 0)
     ],
     'request' => [
-        'command' => strtolower($query),
+        'command' => mb_strtolower($query),
         'original_utterance' => $query,
         'nlu' => [],
         'type' => 'SimpleUtterance'
+    ],
+    'state' => [
+        'session' => $state,
     ],
     'version' => '1.0'
 ];

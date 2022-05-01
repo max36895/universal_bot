@@ -98,7 +98,8 @@ class Navigation
      * @param int $maxPage
      * @private
      */
-    protected function validatePage(int $maxPage = null): void {
+    protected function validatePage(int $maxPage = null): void
+    {
         if ($maxPage === null) {
             $maxPage = $this->getMaxPage();
         }
@@ -225,7 +226,7 @@ class Navigation
                     return $this->elements[$i];
                 }
                 if ($key === null) {
-                    if(is_string($this->elements[$i])) {
+                    if (is_string($this->elements[$i])) {
                         $r = Text::textSimilarity($this->elements[$i], $text, 75);
                         if ($r['status'] && $r['percent'] > $maxPercent) {
                             $selectElement = $this->elements[$i];

@@ -30,33 +30,34 @@ class AlisaCard extends TemplateCardTypes
         $maxCount = $this->isUsedGallery ? self::ALISA_MAX_GALLERY_IMAGES : self::ALISA_MAX_IMAGES;
         $images = array_slice($this->images, 0, $maxCount);
         foreach ($images as $image) {
-                $button = null;
-                if (!$this->isUsedGallery) {
-                    $button = $image->button->getButtons(Buttons::T_ALISA_CARD_BUTTON);
-                    if (empty($button)) {
-                        $button = null;
-                    }
+            $button = null;
+            if (!$this->isUsedGallery) {
+                $button = $image->button->getButtons(Buttons::T_ALISA_CARD_BUTTON);
+                if (empty($button)) {
+                    $button = null;
                 }
-                if (!$image->imageToken) {
-                    if ($image->imageDir) {
-                        $mImage = new ImageTokens();
-                        $mImage->type = ImageTokens::T_ALISA;
-                        $image->imageToken = $mImage->getToken();
-                    }
+            }
+            if (!$image->imageToken) {
+                if ($image->imageDir) {
+                    $mImage = new ImageTokens();
+                    $mImage->type = ImageTokens::T_ALISA;
+                    $mImage->path = $image->imageDir;
+                    $image->imageToken = $mImage->getToken();
                 }
-                $item = [
-                    'title' => Text::resize($image->title, 128),
-                ];
-                if (!$this->isUsedGallery) {
-                    $item['description'] = Text::resize($image->desc, 256);
-                }
-                if ($image->imageToken) {
-                    $item['image_id'] = $image->imageToken;
-                }
-                if ($button && !$this->isUsedGallery) {
-                    $item['button'] = $button;
-                }
-                $items[] = $item;
+            }
+            $item = [
+                'title' => Text::resize($image->title, 128),
+            ];
+            if (!$this->isUsedGallery) {
+                $item['description'] = Text::resize($image->desc, 256);
+            }
+            if ($image->imageToken) {
+                $item['image_id'] = $image->imageToken;
+            }
+            if ($button && !$this->isUsedGallery) {
+                $item['button'] = $button;
+            }
+            $items[] = $item;
         }
         return $items;
     }
@@ -75,18 +76,19 @@ class AlisaCard extends TemplateCardTypes
         $countImage = count($this->images);
         if ($countImage) {
             if ($isOne) {
-                $button = $this->images[0]->button->getButtons(Buttons::T_ALISA_CARD_BUTTON);
-                if (empty($button)) {
-                    $button = $this->button->getButtons();
-                }
                 if (!$this->images[0]->imageToken) {
                     if ($this->images[0]->imageDir) {
                         $mImage = new ImageTokens();
                         $mImage->type = ImageTokens::T_ALISA;
+                        $mImage->path = $this->images[0]->imageDir;
                         $this->images[0]->imageToken = $mImage->getToken();
                     }
                 }
                 if ($this->images[0]->imageToken) {
+                    $button = $this->images[0]->button->getButtons(Buttons::T_ALISA_CARD_BUTTON);
+                    if (empty($button)) {
+                        $button = $this->button->getButtons();
+                    }
                     $object = [
                         'type' => self::ALISA_CARD_BIG_IMAGE,
                         'image_id' => $this->images[0]->imageToken,

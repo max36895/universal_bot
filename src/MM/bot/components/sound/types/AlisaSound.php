@@ -77,7 +77,7 @@ class AlisaSound extends TemplateSoundTypes
         [
             'key' => '#$game_gun$#',
             'sounds' => [
-                '<speaker audio="alice-sounds-game-8-bit-machine-gun-1.opus',
+                '<speaker audio="alice-sounds-game-8-bit-machine-gun-1.opus">',
             ]
         ],
         [
@@ -396,6 +396,6 @@ class AlisaSound extends TemplateSoundTypes
      */
     public static function removeSound(string $text): string
     {
-        return preg_replace("/(<speaker audio=\"([^\"]+)\">)|(<speaker effect=\"([^\"]+)\">)|(sil <\\[\\d{0,}\\]>)/ium", '', $text);
+        return preg_replace("/(<speaker audio=\"([^\"]+)\">)|(<speaker effect=\"([^\"]+)\">)|(sil <\\[\\d+\\]>)/im", '', $text);
     }
 }

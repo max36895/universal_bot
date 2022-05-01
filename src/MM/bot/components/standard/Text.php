@@ -43,7 +43,8 @@ class Text
      * @return bool
      * @api
      */
-    public static function isUrl(string $link): bool {
+    public static function isUrl(string $link): bool
+    {
         preg_match_all('/((http|s:\/\/)[^( |\n)]+)/umi', $link, $data);
         return (($data[0][0] ?? null) ? true : false);
     }

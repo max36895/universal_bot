@@ -1,7 +1,7 @@
 <?php
 /**
  * Универсальное приложение по созданию навыков и ботов.
- * @version 1.1.1
+ * @version 1.1.3
  * @author Maxim-M maximco36895@yandex.ru
  */
 
@@ -11,6 +11,7 @@ require_once __DIR__ . '/components/standard/Navigation.php';
 require_once __DIR__ . '/api/request/Request.php';
 require_once __DIR__ . '/api/TelegramRequest.php';
 require_once __DIR__ . '/api/VkRequest.php';
+require_once __DIR__ . '/api/MarusiaRequest.php';
 require_once __DIR__ . '/api/ViberRequest.php';
 require_once __DIR__ . '/api/YandexRequest.php';
 require_once __DIR__ . '/api/YandexImageRequest.php';
@@ -41,6 +42,7 @@ require_once __DIR__ . '/components/sound/types/TemplateSoundTypes.php';
 require_once __DIR__ . '/components/sound/types/TelegramSound.php';
 require_once __DIR__ . '/components/sound/types/ViberSound.php';
 require_once __DIR__ . '/components/sound/types/AlisaSound.php';
+require_once __DIR__ . '/components/sound/types/MarusiaSound.php';
 require_once __DIR__ . '/components/sound/types/VkSound.php';
 require_once __DIR__ . '/components/sound/Sound.php';
 

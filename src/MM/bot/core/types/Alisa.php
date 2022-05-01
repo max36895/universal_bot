@@ -57,6 +57,9 @@ class Alisa extends TemplateTypeModel
         if ($this->controller->isScreen) {
             if (!empty($this->controller->card->images)) {
                 $response['card'] = $this->controller->card->getCards();
+                if (!count($response['card'])) {
+                    unset($response['card']);
+                }
             }
             $response['buttons'] = $this->controller->buttons->getButtons(Buttons::T_ALISA_BUTTONS);
         }
@@ -97,6 +100,9 @@ class Alisa extends TemplateTypeModel
                 if (!is_array($content['request']['payload'])) {
                     $this->controller->userCommand = $content['request']['payload'];
                     $this->controller->originalUserCommand = $content['request']['payload'];
+                } else {
+                    $this->controller->userCommand = trim($content['request']['command'] ?? '');
+                    $this->controller->originalUserCommand = trim($content['request']['original_utterance'] ?? '');
                 }
                 $this->controller->payload = $content['request']['payload'];
             }

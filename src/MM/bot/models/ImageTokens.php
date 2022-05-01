@@ -3,6 +3,7 @@
 namespace MM\bot\models;
 
 use Exception;
+use MM\bot\api\MarusiaRequest;
 use MM\bot\api\TelegramRequest;
 use MM\bot\api\VkRequest;
 use MM\bot\api\YandexImageRequest;
@@ -151,10 +152,13 @@ class ImageTokens extends Model
                     return $this->imageToken;
                 } else {
                     $yImage = new YandexImageRequest(mmApp::$params['yandex_token'] ?? null, mmApp::$params['app_id'] ?? null);
-                    if (Text::isUrl($this->path)) {
-                        $res = $yImage->downloadImageUrl($this->path);
-                    } else {
-                        $res = $yImage->downloadImageFile($this->path);
+                    $res = null;
+                    if ($this->path) {
+                        if (Text::isUrl($this->path)) {
+                            $res = $yImage->downloadImageUrl($this->path);
+                        } else {
+                            $res = $yImage->downloadImageFile($this->path);
+                        }
                     }
                     if ($res) {
                         $this->imageToken = $res['id'];
@@ -165,12 +169,33 @@ class ImageTokens extends Model
                 }
                 break;
 
+            case self::T_MARUSIA:
+                $query['type'] = self::T_MARUSIA;
+                if ($this->whereOne($query)) {
+                    return $this->imageToken;
+                } elseif ($this->path) {
+                    $marusiaApi = new MarusiaRequest();
+                    $uploadServerResponse = $marusiaApi->marusiaGetPictureUploadLink();
+                    if ($uploadServerResponse) {
+                        $uploadResponse = $marusiaApi->upload($uploadServerResponse['picture_upload_link'], $this->path);
+                        if ($uploadResponse) {
+                            $photo = $marusiaApi->marusiaSavePicture($uploadResponse['photo'], $uploadResponse['server'], $uploadResponse['hash']);
+                            if ($photo) {
+                                $this->imageToken = $photo['photo_id'];
+                                if ($this->save(true)) {
+                                    return $this->imageToken;
+                                }
+                            }
+                        }
+                    }
+                }
+                break;
+
             case self::T_VK:
-            case self::T_MARUSIA: // TODO не понятно как получить токен, возможно также и в вк
                 $query['type'] = self::T_VK;
                 if ($this->whereOne($query)) {
                     return $this->imageToken;
-                } else {
+                } elseif ($this->path) {
                     $vkApi = new VkRequest();
                     $uploadServerResponse = $vkApi->photosGetMessagesUploadServer(mmApp::$params['user_id']);
                     if ($uploadServerResponse) {
@@ -193,7 +218,7 @@ class ImageTokens extends Model
                 if ($this->whereOne($query)) {
                     $telegramApi->sendPhoto(mmApp::$params['user_id'], $this->imageToken, $this->caption);
                     return $this->imageToken;
-                } else {
+                } elseif ($this->path) {
                     $photo = $telegramApi->sendPhoto(mmApp::$params['user_id'], $this->path, $this->caption);
                     if ($photo && $photo['ok']) {
                         if (isset($photo['result']['photo']['file_id'])) {

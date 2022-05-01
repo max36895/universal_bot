@@ -108,7 +108,7 @@ abstract class BotController
     public $isAuthSuccess;
 
     /**
-     * Пользовательское локальное хранилище (Актуально для Алисы).
+     * Пользовательское локальное хранилище (Актуально для Алисы и Маруси).
      * @var array|null $state
      */
     public $state;
@@ -142,7 +142,7 @@ abstract class BotController
     public $oldIntentName;
 
     /**
-     * Идентификатор текущего действия пользователя.
+     * Идентификатор текущего действия пользователя. Чтобы не сохранять идентификатор предыдущей команды, стоит передавать null.
      * @var string|null $thisIntentName
      */
     public $thisIntentName;
@@ -242,9 +242,9 @@ abstract class BotController
      */
     public function run(): void
     {
-        $intent = $this->getIntent(strtolower($this->userCommand));
+        $intent = $this->getIntent(mb_strtolower($this->userCommand));
         if ($intent === null && $this->originalUserCommand && $this->userCommand !== $this->originalUserCommand) {
-            $intent = $this->getIntent(strtolower($this->originalUserCommand));
+            $intent = $this->getIntent(mb_strtolower($this->originalUserCommand));
         }
         if ($intent === null && $this->messageId === 0) {
             $intent = WELCOME_INTENT_NAME;

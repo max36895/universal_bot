@@ -31,6 +31,11 @@ class Marusia extends TemplateTypeModel
      * @var array|null $session
      */
     protected $session;
+    /**
+     * Название хранилища. Зависит от того, от куда берутся данные (локально, глобально).
+     * @var string|null $stateName
+     */
+    protected $stateName;
 
     /**
      * Получение данных, необходимых для построения ответа пользователю.
@@ -47,6 +52,9 @@ class Marusia extends TemplateTypeModel
         if ($this->controller->isScreen) {
             if (!empty($this->controller->card->images)) {
                 $response['card'] = $this->controller->card->getCards();
+                if (!count($response['card'])) {
+                    unset($response['card']);
+                }
             }
             $response['buttons'] = $this->controller->buttons->getButtons(Buttons::T_ALISA_BUTTONS);
         }
@@ -100,6 +108,9 @@ class Marusia extends TemplateTypeModel
                 if (!is_array($content['request']['payload'])) {
                     $this->controller->userCommand = $content['request']['payload'];
                     $this->controller->originalUserCommand = $content['request']['payload'];
+                } else {
+                    $this->controller->userCommand = trim($content['request']['command'] ?? '');
+                    $this->controller->originalUserCommand = trim($content['request']['original_utterance'] ?? '');
                 }
                 $this->controller->payload = $content['request']['payload'];
             }
@@ -108,6 +119,16 @@ class Marusia extends TemplateTypeModel
             }
 
             $this->session = $content['session'];
+
+            if (isset($content['state'])) {
+                if (isset($content['state']['user'])) {
+                    $this->controller->state = $content['state']['user'];
+                    $this->stateName = 'user_state_update';
+                } elseif (isset($content['state']['session'])) {
+                    $this->controller->state = $content['state']['session'];
+                    $this->stateName = 'session_state';
+                }
+            }
 
             $this->controller->userId = $this->session['user_id'];
             mmApp::$params['user_id'] = $this->controller->userId;
@@ -136,13 +157,38 @@ class Marusia extends TemplateTypeModel
     public function getContext(): string
     {
         $result = [];
+        if (!empty($this->controller->sound->sounds) || $this->controller->sound->isUsedStandardSound) {
+            if (!$this->controller->tts) {
+                $this->controller->tts = $this->controller->text;
+            }
+            $this->controller->tts = $this->controller->sound->getSounds($this->controller->tts);
+        }
         $result['response'] = $this->getResponse();
         $result['session'] = $this->getSession();
+        if ($this->isUsedLocalStorage && $this->controller->userData) {
+            $result[$this->stateName] = $this->controller->userData;
+        }
         $result['version'] = self::VERSION;
         $timeEnd = $this->getProcessingTime();
         if ($timeEnd >= self::MAX_TIME_REQUEST) {
             $this->error = "Marusia:getContext(): Превышено ограничение на отправку ответа. Время ответа составило: {$timeEnd} сек.";
         }
         return json_encode($result);
+    }
+
+    /**
+     * Получение данные из локального хранилища Алисы
+     */
+    public function getLocalStorage(): ?array
+    {
+        return $this->controller->state;
+    }
+
+    /**
+     * Проверка на использование локального хранилища
+     */
+    public function isLocalStorage(): bool
+    {
+        return $this->controller->state !== null;
     }
 }
