@@ -1,6 +1,4 @@
 <?php
-
-
 namespace MM\bot\models\db;
 
 
@@ -65,7 +63,7 @@ class DB
             }
             $this->errors[] = $this->sql->connect_errno;
         } else {
-            $this->errors[] = 'Отсутствуют данные для подключения в БД!';
+            $this->errors[] = 'Отсутствуют данные для подключения к источнику данных!';
         }
         return false;
     }

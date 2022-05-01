@@ -130,7 +130,6 @@ class NluTest extends TestCase
         $this->assertEquals($this->nlu->getFio()['result'], [['first_name' => 'fn']]);
     }
 
-
     public function testGetGeo()
     {
         $this->assertTrue($this->nlu->getGeo()['status']);

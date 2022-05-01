@@ -65,7 +65,7 @@ class Buttons
      *      - string title    Текст, отображаемый на кнопке.
      *      - string url      Ссылка, по которой перейдет пользователь после нажатия на кнопку.
      *      - string payload  Дополнительные параметры, передаваемые при нажатие на кнопку.
-     *      - array options   Дополнительные параметры для кнопки.
+     *      - array options   Дополнительные параметры кнопки.
      */
     public $btns;
     /**
@@ -77,7 +77,7 @@ class Buttons
      *      - string title    Текст, отображаемый на кнопке.
      *      - string url      Ссылка, по которой перейдет пользователь после нажатия на кнопку.
      *      - string payload  Дополнительные параметры, передаваемые при нажатие на кнопку.
-     *      - array options   Дополнительные параметры для кнопки.
+     *      - array options   Дополнительные параметры кнопки.
      */
     public $links;
     /**
@@ -109,11 +109,11 @@ class Buttons
     /**
      * Добавить кнопку.
      *
-     * @param string $title Текст на кнопке.
+     * @param string $title Текст в кнопке.
      * @param string|null $url Ссылка для перехода при нажатии на кнопку.
-     * @param string|array|null $payload Произвольные данные, отправляемые при нажатии кнопки.
+     * @param string|array|null $payload Произвольные данные, отправляемые при нажатии на кнопку.
      * @param bool|null $hide True, если отображать кнопку как сайджест.
-     * @param array $options Дополнительные параметры для кнопки
+     * @param array $options Дополнительные параметры кнопки
      * @return bool
      * @see Button::options Описание опции options
      *
@@ -140,10 +140,10 @@ class Buttons
     /**
      * Добавить кнопку типа кнопка.
      *
-     * @param string $title Текст на кнопке.
+     * @param string $title Текст в кнопке.
      * @param string|null $url Ссылка для перехода при нажатии на кнопку.
-     * @param string|array|null $payload Произвольные данные, отправляемые при нажатии кнопки.
-     * @param array $options Дополнительные параметры для кнопки
+     * @param string|array|null $payload Произвольные данные, отправляемые при нажатии на кнопку.
+     * @param array $options Дополнительные параметры кнопки
      * @return bool
      * @see Button::options Описание опции options
      * @api
@@ -156,10 +156,10 @@ class Buttons
     /**
      * Добавить кнопку типа сайджест.
      *
-     * @param string $title Текст на кнопке.
+     * @param string $title Текст в кнопке.
      * @param string|null $url Ссылка для перехода при нажатии на кнопку.
-     * @param array|string|null $payload Произвольные данные, отправляемые при нажатии кнопки.
-     * @param array $options Дополнительные параметры для кнопки
+     * @param array|string|null $payload Произвольные данные, отправляемые при нажатии на кнопку.
+     * @param array $options Дополнительные параметры кнопки
      * @return bool
      * @see Button::options Описание опции options
      * @api

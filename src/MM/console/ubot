@@ -59,7 +59,6 @@ if ($argv[1] ?? null) {
 }
 \MM\console\controllers\ConsoleController::main($param);
 
-
 /**
  * Консольный скрипт
  * =================

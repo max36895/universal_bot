@@ -64,7 +64,7 @@ class AlisaButton extends TemplateButtonTypes
      *
      * @return array
      * [
-     *  - string text: Текст на кнопке.
+     *  - string text: Текст в кнопке.
      *  - string payload: Произвольные данные, которые будут отправлены при нажатии на кнопку.
      *  - string url: Ссылка по которой будет произведен переход после нажатия на кнопку.
      * ]

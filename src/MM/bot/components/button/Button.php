@@ -35,7 +35,7 @@ class Button
      */
     public $type;
     /**
-     * Текст на кнопке.
+     * Текст в кнопке.
      * @var string|null $title
      */
     public $title;
@@ -45,17 +45,17 @@ class Button
      */
     public $url;
     /**
-     * Произвольные данные, отправляемые при нажатии кнопки.
+     * Произвольные данные, отправляемые при нажатии на кнопку.
      * @var string|array $payload
      */
     public $payload;
     /**
-     * True, чтобы отображать кнопку как сайджест.
+     * Определяет отображение кнопки как сайджеста.
      * @var bool $hide
      */
     public $hide;
     /**
-     * Дополнительные параметры для кнопки.
+     * Дополнительные параметры кнопки.
      * [
      *  string _group: Задается в том случае, если нужно объединить кнопку в группу.
      *  Дополнительные опции для кнопки.
@@ -80,11 +80,11 @@ class Button
     /**
      * Инициализация кнопки.
      *
-     * @param string $title Текст на кнопке.
-     * @param string|null $url Ссылка для перехода, при нажатии кнопки.
-     * @param string|array|null $payload Произвольные данные, отправляемые при нажатии кнопки.
-     * @param bool|null $hide True, чтобы отображать кнопку как сайджест.
-     * @param array $options Дополнительные параметры для кнопки.
+     * @param string $title Текст в кнопке.
+     * @param string|null $url Ссылка для перехода, при нажатии на кнопку.
+     * @param string|array|null $payload Произвольные данные, отправляемые при нажатии на кнопку.
+     * @param bool|null $hide Определяет отображение кнопки как сайджеста.
+     * @param array $options Дополнительные параметры кнопки.
      * @return bool
      * @see Button::options Описание опции options
      */
@@ -125,10 +125,10 @@ class Button
     /**
      * Инициализация кнопки в виде сайджеста(ссылки под текстом).
      *
-     * @param string $title Текст на кнопке.
-     * @param string|null $url Ссылка для перехода, при нажатии кнопки.
-     * @param string|array|null $payload Произвольные данные, отправляемые при нажатии кнопки.
-     * @param array $options Дополнительные параметры для кнопки
+     * @param string $title Текст в кнопке.
+     * @param string|null $url Ссылка для перехода, при нажатии на кнопку.
+     * @param string|array|null $payload Произвольные данные, отправляемые при нажатии на кнопку.
+     * @param array $options Дополнительные параметры кнопки
      * @return bool
      * @see Button::options Описание опции options
      * @api
@@ -141,10 +141,10 @@ class Button
     /**
      * Инициализация кнопки в виде кнопки.
      *
-     * @param string $title Текст на кнопке.
-     * @param string|null $url Ссылка для перехода, при нажатии кнопки.
-     * @param string|array|null $payload Произвольные данные, отправляемые при нажатии кнопки.
-     * @param array $options Дополнительные параметры для кнопки
+     * @param string $title Текст в кнопке.
+     * @param string|null $url Ссылка для перехода, при нажатии на кнопку.
+     * @param string|array|null $payload Произвольные данные, отправляемые при нажатии на кнопку.
+     * @param array $options Дополнительные параметры кнопки
      * @return bool
      * @see Button::options Описание опции options
      * @api
