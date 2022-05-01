@@ -168,7 +168,7 @@ class DbController extends DbControllerModel
      * Иначе будет добавлена новая запись.
      *
      * @param QueryData $queryData Данные для сохранения записи
-     * @param bool $isNew Определяет необходимость добавления новой записси
+     * @param bool $isNew Определяет необходимость добавления новой записи
      * @return bool|mysqli_result|null
      * @throws Exception
      */

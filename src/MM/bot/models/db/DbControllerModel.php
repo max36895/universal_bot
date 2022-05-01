@@ -127,7 +127,7 @@ abstract class DbControllerModel
      * Иначе будет добавлена новая запись.
      *
      * @param QueryData $insertData Данные для сохранения записи
-     * @param bool $isNew Определяет необходимость добавления новой записси
+     * @param bool $isNew Определяет необходимость добавления новой записи
      * @return mixed
      */
     public abstract function save(QueryData $insertData, bool $isNew = false);
