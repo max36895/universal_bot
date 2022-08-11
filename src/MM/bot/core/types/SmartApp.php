@@ -121,7 +121,7 @@ class SmartApp extends TemplateTypeModel
                     $this->controller->payload = $content['payload'];
                     $this->controller->messageId = 1;
                     $this->controller->originalUserCommand = '$rating_info$';
-                    $this->controller->userCommand = '';
+                    $this->controller->userCommand = '$rating_info$';
                     break;
             }
 
