@@ -117,6 +117,12 @@ class SmartApp extends TemplateTypeModel
                         $this->controller->userCommand = '';
                     }
                     break;
+                case 'RATING_RESULT':
+                    $this->controller->payload = $content['payload'];
+                    $this->controller->messageId = 1;
+                    $this->controller->originalUserCommand = '$rating_info$';
+                    $this->controller->userCommand = '';
+                    break;
             }
 
             if (!$this->controller->userCommand) {
@@ -155,6 +161,15 @@ class SmartApp extends TemplateTypeModel
             $this->error = 'SmartApp:init(): Отправлен пустой запрос!';
         }
         return false;
+    }
+
+    public function getRatingContext(): string {
+        return json_encode([
+            'messageName' => 'CALL_RATING',
+            'sessionId' => $this->session['sessionId'],
+            'messageId' => $this->session['messageId'],
+            'uuid' => $this->session['uuid']
+        ]);
     }
 
     /**

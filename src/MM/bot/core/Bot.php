@@ -260,7 +260,11 @@ class Bot
                     } else {
                         unset($this->botController->userData['oldIntentName']);
                     }
-                    $content = $botClass->getContext();
+                    if ($this->botController->isSendRating){
+                        $content = $botClass->getRatingContext();
+                    } else {
+                        $content = $botClass->getContext();
+                    }
                     if (!$isLocalStorage) {
                         $userData->data = $this->botController->userData;
 

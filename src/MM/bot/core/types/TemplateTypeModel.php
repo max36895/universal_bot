@@ -91,6 +91,15 @@ abstract class TemplateTypeModel
     public abstract function getContext(): string;
 
     /**
+     * Отправка ответа для выставления оценки приложеня. Актуально для Сбер. Для остальных приложений вызовется getContext()
+     *
+     * @return string
+     */
+    public function getRatingContext(): string {
+        return $this->getContext();
+    }
+
+    /**
      * Доступно ли использование локального хранилища.
      * Если доступно, и используется опция для сохранения данных в хранилище,
      * тогда пользовательские данные не будут сохраняться в БД.

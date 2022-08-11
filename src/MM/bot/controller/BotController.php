@@ -166,6 +166,12 @@ abstract class BotController
     public $appeal;
 
     /**
+     * Отправляет запрос на оценку приложения
+     * @var string $isSendRating
+     */
+    public $isSendRating;
+
+    /**
      * BotController constructor.
      */
     public function __construct()
@@ -195,6 +201,7 @@ abstract class BotController
         $this->thisIntentName = null;
         $this->emotion = null;
         $this->appeal = null;
+        $this->isSendRating = false;
     }
 
     /**
