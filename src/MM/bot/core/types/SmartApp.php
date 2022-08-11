@@ -163,13 +163,20 @@ class SmartApp extends TemplateTypeModel
         return false;
     }
 
-    public function getRatingContext(): string {
+    /**
+     * Отправка ответа для выставления оценки приложеня. Актуально для Сбер. Для остальных приложений вызовется getContext()
+     *
+     * @return string
+     */
+    public function getRatingContext(): string
+    {
         return json_encode([
             'messageName' => 'CALL_RATING',
             'sessionId' => $this->session['sessionId'],
             'messageId' => $this->session['messageId'],
             'uuid' => $this->session['uuid'],
-            'payload' => function(){}
+            'payload' => function () {
+            }
         ]);
     }
 
