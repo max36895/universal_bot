@@ -168,9 +168,7 @@ class SmartApp extends TemplateTypeModel
             'messageName' => 'CALL_RATING',
             'sessionId' => $this->session['sessionId'],
             'messageId' => $this->session['messageId'],
-            'uuid' => [
-                'userId' => $this->session['uuid']['userId']
-            ],
+            'uuid' => $this->session['uuid'],
             'payload' => function(){}
         ]);
     }
