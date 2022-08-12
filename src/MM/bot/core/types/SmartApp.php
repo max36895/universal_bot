@@ -117,6 +117,16 @@ class SmartApp extends TemplateTypeModel
                         $this->controller->userCommand = '';
                     }
                     break;
+                case 'RATING_RESULT':
+                    $this->controller->payload = $content['payload'];
+                    $this->controller->messageId = 0;
+                    $this->controller->userEvents = [
+                        'rating' => [
+                            'status' => $content['payload']['status_code']['code'] == 1,
+                            'value' => $content['payload']['rating']['estimation'] ?? 0
+                        ]
+                    ];
+                    break;
             }
 
             if (!$this->controller->userCommand) {
@@ -155,6 +165,23 @@ class SmartApp extends TemplateTypeModel
             $this->error = 'SmartApp:init(): Отправлен пустой запрос!';
         }
         return false;
+    }
+
+    /**
+     * Отправка ответа для выставления оценки приложеня. Актуально для Сбер. Для остальных приложений вызовется getContext()
+     *
+     * @return string
+     */
+    public function getRatingContext(): string
+    {
+        return json_encode([
+            'messageName' => 'CALL_RATING',
+            'sessionId' => $this->session['sessionId'],
+            'messageId' => $this->session['messageId'],
+            'uuid' => $this->session['uuid'],
+            'payload' => function () {
+            }
+        ]);
     }
 
     /**

@@ -101,11 +101,22 @@ abstract class BotController
      * @var bool $isAuth
      */
     public $isAuth;
+
     /**
-     * Проверка что авторизация пользователя прошла успешно (Актуально для Алисы).
-     * @var bool|null $isAuthSuccess
+     * Определяет статус пользовательских собатий, таких как успешная авторизация, либо оценка приложения.
+     *
+     * @var array $userEvents
+     * [
+     *      auth: [
+     *          status: bool|null
+     *      ],
+     *      rating: [
+     *          status: bool|null,
+     *          value: number,
+     *      ]
+     * ]
      */
-    public $isAuthSuccess;
+    public $userEvents;
 
     /**
      * Пользовательское локальное хранилище (Актуально для Алисы и Маруси).
@@ -166,6 +177,12 @@ abstract class BotController
     public $appeal;
 
     /**
+     * Отправляет запрос на оценку приложения
+     * @var string $isSendRating
+     */
+    public $isSendRating;
+
+    /**
      * BotController constructor.
      */
     public function __construct()
@@ -188,13 +205,14 @@ abstract class BotController
         $this->userData = null;
         $this->state = null;
         $this->isAuth = false;
-        $this->isAuthSuccess = null;
+        $this->userEvents = null;
         $this->isSend = true;
         $this->requestObject = null;
         $this->oldIntentName = null;
         $this->thisIntentName = null;
         $this->emotion = null;
         $this->appeal = null;
+        $this->isSendRating = false;
     }
 
     /**
