@@ -77,6 +77,15 @@ class SmartApp extends TemplateTypeModel
                 'buttons' => $this->controller->buttons->getButtons(Buttons::T_SMARTAPP_BUTTONS)
             ];
         }
+        if ($this->controller->isEnd) {
+            if (isset($payload['items'])) {
+                $payload['items'] = [];
+            }
+            $payload['items'][] = [
+                'command' => ['type' => 'close_app']
+            ];
+
+        }
         return $payload;
     }
 
