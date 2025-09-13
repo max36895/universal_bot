@@ -11,7 +11,7 @@ use MM\bot\core\mmApp;
  * Класс отвечающий за отправку запросов на Vk сервер.
  *
  * Документация по ВК api.
- * @see (https://vk.com/dev/bots_docs) Смотри тут
+ * @see (https://vk.ru/dev/bots_docs) Смотри тут
  *
  * Class VkRequest
  * @package bot\api
@@ -25,7 +25,7 @@ class VkRequest
     /**
      * @const string Адрес, на который будут отправляться запросы.
      */
-    const VK_API_ENDPOINT = 'https://api.vk.com/method/';
+    const VK_API_ENDPOINT = 'https://api.vk.ru/method/';
 
     /**
      * Используемая версия Api.
@@ -384,7 +384,7 @@ class VkRequest
      *      - 'type' => int Тип документа. (1 - текстовый документ; 2 - архивы; 3 - gif; 4 - изображения; 5 - аудио; 6 - видео; 7 - электронные книги; 8 - неизвестно)
      *      - 'preview' => [ Информация для предварительного просмотра документа.
      *          - 'photo' => [Изображения для предпросмотра.
-     *              - 'sizes' => array Массив копий изображения в разных размерах. Подробное описание структуры (https://vk.com/dev/objects/photo_sizes)
+     *              - 'sizes' => array Массив копий изображения в разных размерах. Подробное описание структуры (https://vk.ru/dev/objects/photo_sizes)
      *          ]
      *          or
      *          - 'graffiti' => [ Данные о граффити

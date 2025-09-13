@@ -10,7 +10,7 @@ use MM\bot\core\mmApp;
  * Класс отвечающий за отправку запросов на сервер Маруси.
  *
  * Документация по api.
- * @see (https://vk.com/dev/marusia_skill_docs10) Смотри тут
+ * @see (https://vk.ru/dev/marusia_skill_docs10) Смотри тут
  *
  * Class MarusiaRequest
  * @package bot\api
